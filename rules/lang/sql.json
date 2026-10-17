@@ -1,0 +1,79 @@
+{
+  "family": "lang-sql",
+  "title": "SQL and databases",
+  "version": "1.0",
+  "rules": [
+    {
+      "id": "NR-LANG-SQL-001",
+      "title": "Explicit column lists",
+      "what": "SELECT names its columns; INSERT names its columns; never SELECT * or column-less INSERT on tables that can grow or evolve.",
+      "why": "SELECT * transfers every column including the ones added later that the code never wanted; a column-less INSERT breaks the day the schema gains a column.",
+      "how": "List the columns the code reads in SELECT and INSERT statements; keep the list in sync at schema reviews.",
+      "detect": {"automation": "full", "patterns": [{"re": "\\bSELECT\\s+\\*", "scope": ["sql"], "note": "SELECT * in SQL."}, {"re": "INSERT\\s+INTO\\s+\\w+\\s+VALUES", "scope": ["sql"], "note": "Column-less INSERT; breaks on schema change."}]},
+      "verify": {"method": "static", "how": "No unmasked SELECT * / column-less INSERT in reviewed statements."},
+      "limits": ["EXISTS probes and interactive exploration are the documented exceptions."],
+      "priority": "high",
+      "applies": ["sql"],
+      "origin": ["green-claude:sql.json", "green-codex:DB-EFF-001", "green-codex:LANG-SQL-001"],
+      "rgesn": null,
+      "see": ["NR-DATA-001"]
+    },
+    {
+      "id": "NR-LANG-SQL-002",
+      "title": "JOINs over correlated subqueries on growing data",
+      "what": "Prefer joins and derived tables over correlated subqueries inside SELECT/WHERE on large tables; verify with the query plan.",
+      "why": "A correlated subquery can execute once per outer row: O(outer x inner) where a join is a single pass. The plan, not intuition, decides.",
+      "how": "Rewrite as joins/CTEs, check EXPLAIN for row estimates and access types, keep the plan output with the change.",
+      "detect": {"automation": "partial", "patterns": [{"re": "WHERE\\s+[\\w.]+\\s*=\\s*\\(\\s*SELECT", "scope": ["sql"], "note": "Correlated subquery in WHERE; verify row counts and plan."}]},
+      "verify": {"method": "measure", "how": "EXPLAIN before/after: execution time and rows examined on a realistic dataset."},
+      "limits": ["Small lookup tables make correlated subqueries perfectly fine; the plan decides."],
+      "priority": "medium",
+      "applies": ["sql"],
+      "origin": ["green-claude:sql.json", "green-codex:LANG-SQL-002"],
+      "rgesn": null
+    },
+    {
+      "id": "NR-LANG-SQL-003",
+      "title": "Batch inserts, not row-by-row loops",
+      "what": "Bulk loads use multi-row INSERT / COPY / batch APIs, not one INSERT per row in a loop.",
+      "why": "Each single-row INSERT pays a round trip, a parse and a transaction; a batched one amortises all three across thousands of rows.",
+      "how": "Multi-row VALUES, executemany with a real batch, COPY on Postgres, keep the batch size bounded.",
+      "detect": {"automation": "partial", "patterns": [{"re": "INSERT INTO", "scope": ["sql"], "note": "Single-row INSERT; candidate if emitted from a loop by the calling code - see language rules."}]},
+      "verify": {"method": "measure", "how": "Load time per N rows within budget; round trips counted."},
+      "limits": [],
+      "priority": "medium",
+      "applies": ["sql"],
+      "origin": ["green-claude:sql.json", "green-codex:DB-EFF-004"],
+      "rgesn": null
+    },
+    {
+      "id": "NR-LANG-SQL-004",
+      "title": "No function on the indexed column in predicates",
+      "what": "WHERE clauses do not wrap the indexed column in a function (WHERE lower(email) = ?, WHERE DATE(created_at) = ?); use expression indexes or range predicates instead.",
+      "why": "Wrapping the column in a function defeats the index: the database falls back to a scan that grows with the table on every execution.",
+      "how": "Normalise at write time, create an expression index for the exact function, or rewrite as a range (created_at >= ? AND < ?+1d); verify with EXPLAIN.",
+      "detect": {"automation": "partial", "patterns": [{"re": "WHERE\\s+(LOWER|UPPER|DATE|YEAR|SUBSTR|TRIM)\\s*\\(", "scope": ["sql"], "note": "Function on a column in a predicate; candidate for index-defeating predicate - check the plan."}]},
+      "verify": {"method": "measure", "how": "EXPLAIN shows index usage on the rewritten predicate."},
+      "limits": ["Expression indexes exist precisely for this; their cost is recorded like any index (NR-DATA-003)."],
+      "priority": "medium",
+      "applies": ["sql"],
+      "origin": ["green-claude:sql.json"],
+      "rgesn": null,
+      "see": ["NR-DATA-003"]
+    },
+    {
+      "id": "NR-LANG-SQL-005",
+      "title": "Transactions short and bounded",
+      "what": "Transactions contain the database work and nothing else: no external calls inside a transaction, no user-wait inside one, and their scope is explicit.",
+      "why": "A transaction holding locks across an HTTP call or a user think-time blocks every concurrent writer on the same rows: the service's write throughput collapses on one slow dependency.",
+      "how": "Open late, commit early, keep external calls outside the transaction boundary; use explicit BEGIN/COMMIT rather than implicit autocommit chains.",
+      "detect": {"automation": "none"},
+      "verify": {"method": "measure", "how": "Lock-wait metrics under load within budget; transaction duration p99 within the stated bound."},
+      "limits": [],
+      "priority": "high",
+      "applies": ["sql", "backend"],
+      "origin": ["green-claude:sql.json", "green-codex:CODE-EFF-002"],
+      "rgesn": null
+    }
+  ]
+}

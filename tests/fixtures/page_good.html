@@ -1,0 +1,21 @@
+<!-- Fixture: conforming page -->
+<!doctype html>
+<html lang="fr">
+<head>
+  <meta charset="utf-8">
+  <title>Demo</title>
+  <link rel="stylesheet" href="/css/site.css">
+</head>
+<body>
+  <video poster="hero.jpg" controls preload="none">
+    <source src="hero.mp4" type="video/mp4">
+  </video>
+  <img src="logo-256.webp" alt="Logo de l'entreprise"
+       srcset="logo-256.webp 256w, logo-512.webp 512w"
+       sizes="128px" width="128" height="64" loading="lazy">
+  <button type="button" id="start">Start</button>
+  <label for="q">Rechercher</label>
+  <input type="search" id="q" name="q" autocomplete="on">
+  <script src="/js/app.js" defer></script>
+</body>
+</html>

@@ -1,0 +1,2754 @@
+{
+ "version": "1.0",
+ "rules": [
+  {
+   "id": "NR-AI-001",
+   "title": "Challenge the model behind the request",
+   "family": "ai",
+   "priority": "high",
+   "applies": [
+    "ai",
+    "any"
+   ],
+   "automation": "none",
+   "scopes": [],
+   "rgesn": "9.x",
+   "origin": [
+    "green-claude:ECO-ALGO-08",
+    "green-claude:ECO-ALGO-19",
+    "green-codex:AI-EFF-002"
+   ]
+  },
+  {
+   "id": "NR-AI-002",
+   "title": "Size the model to the task",
+   "family": "ai",
+   "priority": "high",
+   "applies": [
+    "ai"
+   ],
+   "automation": "none",
+   "scopes": [],
+   "rgesn": "9.x",
+   "origin": [
+    "green-claude:ECO-ALGO-02",
+    "green-claude:ECO-ALGO-17",
+    "green-claude:ECO-ALGO-04"
+   ]
+  },
+  {
+   "id": "NR-AI-003",
+   "title": "Trim the input before trimming anything else",
+   "family": "ai",
+   "priority": "high",
+   "applies": [
+    "ai",
+    "any"
+   ],
+   "automation": "none",
+   "scopes": [],
+   "rgesn": "9.x",
+   "origin": [
+    "green-claude:ECO-ALGO-06",
+    "green-claude:ECO-ALGO-16",
+    "green-codex:AI-EFF-003"
+   ]
+  },
+  {
+   "id": "NR-AI-004",
+   "title": "Cache AI results where stable",
+   "family": "ai",
+   "priority": "high",
+   "applies": [
+    "ai"
+   ],
+   "automation": "none",
+   "scopes": [],
+   "rgesn": "9.x",
+   "origin": [
+    "green-claude:ECO-ALGO-15",
+    "green-codex:AI-EFF-004"
+   ]
+  },
+  {
+   "id": "NR-AI-005",
+   "title": "Batch requests",
+   "family": "ai",
+   "priority": "medium",
+   "applies": [
+    "ai"
+   ],
+   "automation": "partial",
+   "scopes": [
+    "js",
+    "py",
+    "ts"
+   ],
+   "rgesn": "9.x",
+   "origin": [
+    "green-claude:ECO-ALGO-13",
+    "green-codex:AI-EFF-005"
+   ]
+  },
+  {
+   "id": "NR-AI-006",
+   "title": "Enforce the AI budget at runtime",
+   "family": "ai",
+   "priority": "high",
+   "applies": [
+    "ai",
+    "backend"
+   ],
+   "automation": "partial",
+   "scopes": [
+    "js",
+    "py",
+    "ts"
+   ],
+   "rgesn": "9.x",
+   "origin": [
+    "green-claude:ECO-ALGO-07",
+    "green-claude:ECO-ALGO-05"
+   ]
+  },
+  {
+   "id": "NR-AI-007",
+   "title": "Count the whole cost of a successful task",
+   "family": "ai",
+   "priority": "medium",
+   "applies": [
+    "ai",
+    "measure"
+   ],
+   "automation": "none",
+   "scopes": [],
+   "rgesn": "9.x",
+   "origin": [
+    "green-claude:ECO-ALGO-05",
+    "green-codex:AI-EFF-001"
+   ]
+  },
+  {
+   "id": "NR-AI-008",
+   "title": "Prefer RAG over fine-tuning for knowledge",
+   "family": "ai",
+   "priority": "medium",
+   "applies": [
+    "ai"
+   ],
+   "automation": "none",
+   "scopes": [],
+   "rgesn": "9.x, 3.1",
+   "origin": [
+    "green-claude:ECO-ALGO-25",
+    "green-claude:ECO-ALGO-27"
+   ]
+  },
+  {
+   "id": "NR-AI-009",
+   "title": "Responsible AI is part of the scope",
+   "family": "ai",
+   "priority": "high",
+   "applies": [
+    "ai"
+   ],
+   "automation": "none",
+   "scopes": [],
+   "rgesn": null,
+   "origin": [
+    "green-codex:responsible-ai-charter.md",
+    "green-codex:AI-EFF-006"
+   ]
+  },
+  {
+   "id": "NR-ALGO-001",
+   "title": "No premature optimisation",
+   "family": "algo",
+   "priority": "high",
+   "applies": [
+    "any"
+   ],
+   "automation": "none",
+   "scopes": [],
+   "rgesn": "1.4, 1.5",
+   "origin": [
+    "green-claude:ECO-STRAT-01 area",
+    "green-codex:LANG-PYTHON-002"
+   ]
+  },
+  {
+   "id": "NR-ALGO-002",
+   "title": "Complexity under control on growing inputs",
+   "family": "algo",
+   "priority": "high",
+   "applies": [
+    "any",
+    "backend",
+    "frontend",
+    "algo"
+   ],
+   "automation": "special",
+   "scopes": [
+    "js",
+    "ts"
+   ],
+   "rgesn": "7.x, 9.1",
+   "origin": [
+    "green-claude:ECO-BACK-03",
+    "green-codex:CODE-EFF-009"
+   ]
+  },
+  {
+   "id": "NR-ALGO-003",
+   "title": "Stream and chunk large data",
+   "family": "algo",
+   "priority": "high",
+   "applies": [
+    "any",
+    "backend",
+    "data"
+   ],
+   "automation": "partial",
+   "scopes": [
+    "js",
+    "py",
+    "ts"
+   ],
+   "rgesn": "7.x, 9.1",
+   "origin": [
+    "green-codex:LANG-PYTHON-001",
+    "green-claude:ECO-BACK-04 area"
+   ]
+  },
+  {
+   "id": "NR-ALGO-004",
+   "title": "Beware catastrophic regex",
+   "family": "algo",
+   "priority": "medium",
+   "applies": [
+    "any",
+    "backend",
+    "security"
+   ],
+   "automation": "partial",
+   "scopes": [
+    "any"
+   ],
+   "rgesn": "7.x",
+   "origin": [
+    "green-codex:CODE-EFF-004"
+   ]
+  },
+  {
+   "id": "NR-ALGO-005",
+   "title": "Memoise or precompute repeated work",
+   "family": "algo",
+   "priority": "medium",
+   "applies": [
+    "any",
+    "backend"
+   ],
+   "automation": "none",
+   "scopes": [],
+   "rgesn": "7.x",
+   "origin": [
+    "green-codex:CODE-EFF-003",
+    "green-claude:ECO-BACK-04"
+   ]
+  },
+  {
+   "id": "NR-ALGO-006",
+   "title": "Bound concurrent work",
+   "family": "algo",
+   "priority": "high",
+   "applies": [
+    "backend",
+    "algo",
+    "architecture"
+   ],
+   "automation": "partial",
+   "scopes": [
+    "js",
+    "py",
+    "ts"
+   ],
+   "rgesn": "3.2, 9.1",
+   "origin": [
+    "green-claude:ECO-ARCH-11",
+    "green-codex:CODE-EFF-006"
+   ]
+  },
+  {
+   "id": "NR-ALGO-007",
+   "title": "Fail fast, avoid zombie work",
+   "family": "algo",
+   "priority": "medium",
+   "applies": [
+    "backend",
+    "any",
+    "ai"
+   ],
+   "automation": "none",
+   "scopes": [],
+   "rgesn": "9.1",
+   "origin": [
+    "green-codex:CODE-EFF-007",
+    "green-claude:ECO-BACK-07 area"
+   ]
+  },
+  {
+   "id": "NR-ALGO-008",
+   "title": "Use the platform's async/blocking model correctly",
+   "family": "algo",
+   "priority": "high",
+   "applies": [
+    "backend",
+    "frontend"
+   ],
+   "automation": "partial",
+   "scopes": [
+    "js",
+    "jsx",
+    "py",
+    "ts",
+    "tsx"
+   ],
+   "rgesn": "7.x",
+   "origin": [
+    "green-claude:ECO-FRONT-07 area",
+    "green-codex:CODE-EFF-008"
+   ]
+  },
+  {
+   "id": "NR-ALGO-009",
+   "title": "Memory bounded, swap avoided",
+   "family": "algo",
+   "priority": "medium",
+   "applies": [
+    "backend",
+    "algo",
+    "ai"
+   ],
+   "automation": "partial",
+   "scopes": [
+    "js",
+    "py",
+    "ts"
+   ],
+   "rgesn": "8.x, 9.x",
+   "origin": [
+    "green-claude:ECO-ALGO-22",
+    "green-claude:ECO-ALGO-24",
+    "green-codex:CODE-EFF-010"
+   ]
+  },
+  {
+   "id": "NR-API-001",
+   "title": "Return only the fields the client uses",
+   "family": "api",
+   "priority": "high",
+   "applies": [
+    "api",
+    "backend"
+   ],
+   "automation": "none",
+   "scopes": [],
+   "rgesn": "7.1",
+   "origin": [
+    "green-claude:ECO-BACK-09 area",
+    "green-codex:API-EFF-001"
+   ]
+  },
+  {
+   "id": "NR-API-002",
+   "title": "Compression and caching headers on responses",
+   "family": "api",
+   "priority": "high",
+   "applies": [
+    "api",
+    "infra"
+   ],
+   "automation": "none",
+   "scopes": [],
+   "rgesn": "8.x",
+   "origin": [
+    "green-claude:ECO-HEB-03",
+    "green-claude:ECO-HEB-02",
+    "green-codex:API-EFF-003"
+   ]
+  },
+  {
+   "id": "NR-API-003",
+   "title": "Batch over chatty exchanges",
+   "family": "api",
+   "priority": "medium",
+   "applies": [
+    "api",
+    "backend",
+    "integration"
+   ],
+   "automation": "partial",
+   "scopes": [
+    "js",
+    "jsx",
+    "py",
+    "ts",
+    "tsx"
+   ],
+   "rgesn": "7.x",
+   "origin": [
+    "green-claude:ECO-ALGO area",
+    "green-codex:API-EFF-001"
+   ]
+  },
+  {
+   "id": "NR-API-004",
+   "title": "Rate limiting protects everyone's resources",
+   "family": "api",
+   "priority": "medium",
+   "applies": [
+    "api",
+    "infra",
+    "security"
+   ],
+   "automation": "none",
+   "scopes": [],
+   "rgesn": "8.x",
+   "origin": [
+    "green-codex:API-EFF-002 area",
+    "green-claude:ECO-HEB area"
+   ]
+  },
+  {
+   "id": "NR-API-005",
+   "title": "Version consciously",
+   "family": "api",
+   "priority": "low",
+   "applies": [
+    "api",
+    "service"
+   ],
+   "automation": "none",
+   "scopes": [],
+   "rgesn": "3.4",
+   "origin": [
+    "green-claude:ECO-ARCH-03 area",
+    "green-codex:SERVICE-EFF-005"
+   ]
+  },
+  {
+   "id": "NR-API-006",
+   "title": "Errors that are lightweight and useful",
+   "family": "api",
+   "priority": "medium",
+   "applies": [
+    "api",
+    "backend"
+   ],
+   "automation": "none",
+   "scopes": [],
+   "rgesn": "4.4, 7.x",
+   "origin": [
+    "green-codex criteria: Opquast",
+    "NR-UX-006"
+   ]
+  },
+  {
+   "id": "NR-ARCH-001",
+   "title": "The least code that solves the problem",
+   "family": "architecture",
+   "priority": "high",
+   "applies": [
+    "any"
+   ],
+   "automation": "none",
+   "scopes": [],
+   "rgesn": "3.1",
+   "origin": [
+    "green-claude:ECO-ARCH-07",
+    "green-codex universal rules"
+   ]
+  },
+  {
+   "id": "NR-ARCH-002",
+   "title": "Prefer the simplest solution",
+   "family": "architecture",
+   "priority": "high",
+   "applies": [
+    "architecture"
+   ],
+   "automation": "none",
+   "scopes": [],
+   "rgesn": "3.1",
+   "origin": [
+    "green-claude:ECO-ARCH-01",
+    "green-codex:ARCH-DIST-001"
+   ]
+  },
+  {
+   "id": "NR-ARCH-003",
+   "title": "Size resources to the real load",
+   "family": "architecture",
+   "priority": "high",
+   "applies": [
+    "architecture",
+    "infra"
+   ],
+   "automation": "none",
+   "scopes": [],
+   "rgesn": "3.2",
+   "origin": [
+    "green-claude:ECO-ARCH-02",
+    "green-codex:INFRA-EFF-001"
+   ]
+  },
+  {
+   "id": "NR-ARCH-004",
+   "title": "Bound a function before you scale it",
+   "family": "architecture",
+   "priority": "high",
+   "applies": [
+    "architecture",
+    "backend",
+    "ai"
+   ],
+   "automation": "none",
+   "scopes": [],
+   "rgesn": "3.2, 9.1",
+   "origin": [
+    "green-claude:ECO-ARCH-08",
+    "green-codex:CODE-EFF-001"
+   ]
+  },
+  {
+   "id": "NR-ARCH-005",
+   "title": "Do not chain functions where one would do",
+   "family": "architecture",
+   "priority": "medium",
+   "applies": [
+    "architecture",
+    "backend"
+   ],
+   "automation": "none",
+   "scopes": [],
+   "rgesn": "3.1",
+   "origin": [
+    "green-claude:ECO-ARCH-09",
+    "green-codex:ARCH-SERVERLESS-001"
+   ]
+  },
+  {
+   "id": "NR-ARCH-006",
+   "title": "Cache with explicit keys, TTLs and purge limits",
+   "family": "architecture",
+   "priority": "high",
+   "applies": [
+    "architecture",
+    "backend",
+    "frontend",
+    "api"
+   ],
+   "automation": "partial",
+   "scopes": [
+    "java",
+    "js",
+    "py",
+    "ts"
+   ],
+   "rgesn": "8.x, 3.2",
+   "origin": [
+    "green-claude:ECO-ARCH-10",
+    "green-codex:CODE-EFF-003"
+   ]
+  },
+  {
+   "id": "NR-ARCH-007",
+   "title": "Sober environments and CI",
+   "family": "architecture",
+   "priority": "medium",
+   "applies": [
+    "infra",
+    "strategy"
+   ],
+   "automation": "none",
+   "scopes": [],
+   "rgesn": "3.7",
+   "origin": [
+    "green-claude:ECO-ARCH-04",
+    "green-claude:ECO-ARCH-06"
+   ]
+  },
+  {
+   "id": "NR-ARCH-008",
+   "title": "Minimise and justify dependencies",
+   "family": "architecture",
+   "priority": "high",
+   "applies": [
+    "any",
+    "frontend",
+    "backend"
+   ],
+   "automation": "partial",
+   "scopes": [
+    "package.json"
+   ],
+   "rgesn": "6.x",
+   "origin": [
+    "green-claude:ECO-FRONT-01",
+    "green-claude:ECO-FRONT-04",
+    "green-codex universal rules"
+   ]
+  },
+  {
+   "id": "NR-ARCH-009",
+   "title": "Design to last",
+   "family": "architecture",
+   "priority": "medium",
+   "applies": [
+    "architecture",
+    "any"
+   ],
+   "automation": "none",
+   "scopes": [],
+   "rgesn": "3.4, 3.5, 3.6",
+   "origin": [
+    "green-claude:ECO-ARCH-03",
+    "green-claude:ECO-ARCH-05"
+   ]
+  },
+  {
+   "id": "NR-BACK-001",
+   "title": "Timeout and retry cap on every remote call",
+   "family": "backend",
+   "priority": "high",
+   "applies": [
+    "backend",
+    "api",
+    "ai"
+   ],
+   "automation": "partial",
+   "scopes": [
+    "any",
+    "js",
+    "py",
+    "ts"
+   ],
+   "rgesn": "7.2, 9.1",
+   "origin": [
+    "green-claude:ECO-BACK-06",
+    "green-codex:CODE-EFF-002"
+   ]
+  },
+  {
+   "id": "NR-BACK-002",
+   "title": "Bound every loop, queue and pool",
+   "family": "backend",
+   "priority": "high",
+   "applies": [
+    "backend",
+    "architecture"
+   ],
+   "automation": "partial",
+   "scopes": [
+    "go",
+    "java",
+    "js",
+    "py",
+    "ts"
+   ],
+   "rgesn": "9.1",
+   "origin": [
+    "green-claude:ECO-BACK-05",
+    "green-codex:CODE-EFF-001"
+   ]
+  },
+  {
+   "id": "NR-BACK-003",
+   "title": "Cache stable results with explicit invalidation",
+   "family": "backend",
+   "priority": "high",
+   "applies": [
+    "backend",
+    "api",
+    "data"
+   ],
+   "automation": "none",
+   "scopes": [],
+   "rgesn": "7.x",
+   "origin": [
+    "green-codex:CODE-EFF-003",
+    "green-claude:ECO-BACK-04"
+   ]
+  },
+  {
+   "id": "NR-BACK-004",
+   "title": "Paginate and stream, never return unbounded results",
+   "family": "backend",
+   "priority": "high",
+   "applies": [
+    "backend",
+    "api",
+    "data"
+   ],
+   "automation": "partial",
+   "scopes": [
+    "js",
+    "py",
+    "ts"
+   ],
+   "rgesn": "7.1",
+   "origin": [
+    "green-claude:ECO-BACK-09",
+    "green-codex:API-EFF-002"
+   ]
+  },
+  {
+   "id": "NR-BACK-005",
+   "title": "Sober logging, bounded retention",
+   "family": "backend",
+   "priority": "high",
+   "applies": [
+    "backend",
+    "infra",
+    "data"
+   ],
+   "automation": "partial",
+   "scopes": [
+    "java",
+    "js",
+    "py",
+    "ts"
+   ],
+   "rgesn": "7.x, 8.x",
+   "origin": [
+    "green-claude:ECO-BACK-08",
+    "green-claude:ECO-HEB-12"
+   ]
+  },
+  {
+   "id": "NR-BACK-006",
+   "title": "Release resources on every path",
+   "family": "backend",
+   "priority": "high",
+   "applies": [
+    "backend",
+    "data"
+   ],
+   "automation": "partial",
+   "scopes": [
+    "java",
+    "py"
+   ],
+   "rgesn": "9.1",
+   "origin": [
+    "green-claude:ECO-BACK-07",
+    "green-codex:CODE-EFF-005"
+   ]
+  },
+  {
+   "id": "NR-BACK-007",
+   "title": "Prefer events over polling",
+   "family": "backend",
+   "priority": "medium",
+   "applies": [
+    "backend",
+    "api"
+   ],
+   "automation": "partial",
+   "scopes": [
+    "js",
+    "py",
+    "ts"
+   ],
+   "rgesn": "7.x",
+   "origin": [
+    "green-codex universal rules",
+    "green-codex:NET-EFF-002"
+   ]
+  },
+  {
+   "id": "NR-BACK-008",
+   "title": "Compute derived data once",
+   "family": "backend",
+   "priority": "medium",
+   "applies": [
+    "backend",
+    "data"
+   ],
+   "automation": "none",
+   "scopes": [],
+   "rgesn": "7.x",
+   "origin": [
+    "green-claude:ECO-BACK-13"
+   ]
+  },
+  {
+   "id": "NR-BACK-009",
+   "title": "Connection pools sized and shared",
+   "family": "backend",
+   "priority": "high",
+   "applies": [
+    "backend",
+    "data"
+   ],
+   "automation": "partial",
+   "scopes": [
+    "java",
+    "py"
+   ],
+   "rgesn": "7.x",
+   "origin": [
+    "green-claude:ECO-BACK-02",
+    "green-codex:DB-EFF-006"
+   ]
+  },
+  {
+   "id": "NR-BACK-010",
+   "title": "Incremental, restartable pipelines",
+   "family": "backend",
+   "priority": "medium",
+   "applies": [
+    "backend",
+    "data"
+   ],
+   "automation": "none",
+   "scopes": [],
+   "rgesn": "3.1, 7.x",
+   "origin": [
+    "green-claude:ECO-BACK-12",
+    "green-codex:OPS-EFF-003"
+   ]
+  },
+  {
+   "id": "NR-CONTENT-001",
+   "title": "Optimise images",
+   "family": "content",
+   "priority": "high",
+   "applies": [
+    "content",
+    "frontend"
+   ],
+   "automation": "partial",
+   "scopes": [
+    "html"
+   ],
+   "rgesn": "5.x",
+   "origin": [
+    "green-claude:ECO-CONT-01",
+    "green-codex:WEB-EFF-001"
+   ]
+  },
+  {
+   "id": "NR-CONTENT-002",
+   "title": "Video sized to the need",
+   "family": "content",
+   "priority": "high",
+   "applies": [
+    "content",
+    "frontend",
+    "ux"
+   ],
+   "automation": "partial",
+   "scopes": [
+    "css",
+    "html",
+    "js",
+    "jsx",
+    "ts",
+    "tsx",
+    "vue"
+   ],
+   "rgesn": "5.x",
+   "origin": [
+    "green-claude:ECO-CONT-02",
+    "green-codex:WEB-EFF-004"
+   ]
+  },
+  {
+   "id": "NR-CONTENT-003",
+   "title": "Icons as SVG",
+   "family": "content",
+   "priority": "low",
+   "applies": [
+    "content",
+    "frontend"
+   ],
+   "automation": "partial",
+   "scopes": [
+    "css",
+    "html",
+    "package.json"
+   ],
+   "rgesn": "5.x",
+   "origin": [
+    "green-claude:ECO-CONT-03"
+   ]
+  },
+  {
+   "id": "NR-CONTENT-004",
+   "title": "Limit downloaded fonts",
+   "family": "content",
+   "priority": "medium",
+   "applies": [
+    "content",
+    "frontend"
+   ],
+   "automation": "partial",
+   "scopes": [
+    "css",
+    "html",
+    "scss"
+   ],
+   "rgesn": "4.5",
+   "origin": [
+    "green-claude:ECO-UX-05"
+   ]
+  },
+  {
+   "id": "NR-CONTENT-005",
+   "title": "No unused or orphaned content",
+   "family": "content",
+   "priority": "medium",
+   "applies": [
+    "content",
+    "service"
+   ],
+   "automation": "none",
+   "scopes": [],
+   "rgesn": "2.7",
+   "origin": [
+    "green-codex:SERVICE-EFF-005",
+    "green-claude:ECO-STRAT-07"
+   ]
+  },
+  {
+   "id": "NR-CONTENT-006",
+   "title": "Open and lightweight document formats",
+   "family": "content",
+   "priority": "low",
+   "applies": [
+    "content",
+    "docs"
+   ],
+   "automation": "partial",
+   "scopes": [
+    "html"
+   ],
+   "rgesn": "5.5",
+   "origin": [
+    "green-claude:ECO-STRAT-03",
+    "RGESN 5.5"
+   ]
+  },
+  {
+   "id": "NR-CONTENT-007",
+   "title": "Data minimisation at collection",
+   "family": "content",
+   "priority": "high",
+   "applies": [
+    "content",
+    "backend",
+    "data",
+    "api"
+   ],
+   "automation": "partial",
+   "scopes": [
+    "java",
+    "js",
+    "py",
+    "ts"
+   ],
+   "rgesn": "5.5, 8.x",
+   "origin": [
+    "green-codex universal rules",
+    "green-claude:ECO-HEB-12"
+   ]
+  },
+  {
+   "id": "NR-DATA-001",
+   "title": "Explicit columns, never SELECT *",
+   "family": "data",
+   "priority": "high",
+   "applies": [
+    "data",
+    "backend"
+   ],
+   "automation": "full",
+   "scopes": [
+    "java",
+    "js",
+    "py",
+    "sql",
+    "ts"
+   ],
+   "rgesn": "7.x",
+   "origin": [
+    "green-claude:ECO-BACK-01",
+    "green-codex:DB-EFF-001"
+   ]
+  },
+  {
+   "id": "NR-DATA-002",
+   "title": "No N+1 query",
+   "family": "data",
+   "priority": "high",
+   "applies": [
+    "data",
+    "backend"
+   ],
+   "automation": "partial",
+   "scopes": [
+    "js",
+    "py",
+    "ts"
+   ],
+   "rgesn": "7.x",
+   "origin": [
+    "green-claude:ECO-BACK-01",
+    "green-codex:DB-EFF-002"
+   ]
+  },
+  {
+   "id": "NR-DATA-003",
+   "title": "Indexes aligned with access paths",
+   "family": "data",
+   "priority": "high",
+   "applies": [
+    "data",
+    "backend"
+   ],
+   "automation": "none",
+   "scopes": [],
+   "rgesn": "7.x",
+   "origin": [
+    "green-claude:ECO-BACK-01",
+    "green-codex:DB-EFF-003"
+   ]
+  },
+  {
+   "id": "NR-DATA-004",
+   "title": "Pagination by cursor on large collections",
+   "family": "data",
+   "priority": "medium",
+   "applies": [
+    "data",
+    "api",
+    "backend"
+   ],
+   "automation": "partial",
+   "scopes": [
+    "js",
+    "py",
+    "sql",
+    "ts"
+   ],
+   "rgesn": "7.1",
+   "origin": [
+    "green-claude:ECO-BACK-09",
+    "green-codex:DB-EFF-004"
+   ]
+  },
+  {
+   "id": "NR-DATA-005",
+   "title": "Retention and deletion from day one",
+   "family": "data",
+   "priority": "high",
+   "applies": [
+    "data",
+    "content",
+    "backend"
+   ],
+   "automation": "none",
+   "scopes": [],
+   "rgesn": "8.x",
+   "origin": [
+    "green-claude:ECO-HEB-12",
+    "green-codex:DB-EFF-005"
+   ]
+  },
+  {
+   "id": "NR-DATA-006",
+   "title": "Right store for the data shape",
+   "family": "data",
+   "priority": "medium",
+   "applies": [
+    "data",
+    "architecture"
+   ],
+   "automation": "partial",
+   "scopes": [
+    "sql"
+   ],
+   "rgesn": "3.x",
+   "origin": [
+    "green-codex:ARCH-NOSQL-001",
+    "green-codex:ARCH-DATA-001"
+   ]
+  },
+  {
+   "id": "NR-DATA-007",
+   "title": "Parameterised queries, reused plans",
+   "family": "data",
+   "priority": "high",
+   "applies": [
+    "data",
+    "backend",
+    "security"
+   ],
+   "automation": "partial",
+   "scopes": [
+    "java",
+    "js",
+    "py",
+    "ts"
+   ],
+   "rgesn": "7.1",
+   "origin": [
+    "green-claude:ECO-BACK-10"
+   ]
+  },
+  {
+   "id": "NR-DATA-008",
+   "title": "Compact and archive at rest",
+   "family": "data",
+   "priority": "medium",
+   "applies": [
+    "data",
+    "infra"
+   ],
+   "automation": "none",
+   "scopes": [],
+   "rgesn": "8.x",
+   "origin": [
+    "green-claude:ECO-HEB-11"
+   ]
+  },
+  {
+   "id": "NR-FRONT-001",
+   "title": "No heavy library for a minor need",
+   "family": "frontend",
+   "priority": "high",
+   "applies": [
+    "frontend"
+   ],
+   "automation": "partial",
+   "scopes": [
+    "js",
+    "jsx",
+    "ts",
+    "tsx"
+   ],
+   "rgesn": "6.x",
+   "origin": [
+    "green-claude:ECO-FRONT-01"
+   ]
+  },
+  {
+   "id": "NR-FRONT-002",
+   "title": "Load on demand",
+   "family": "frontend",
+   "priority": "high",
+   "applies": [
+    "frontend"
+   ],
+   "automation": "none",
+   "scopes": [],
+   "rgesn": "6.x",
+   "origin": [
+    "green-claude:ECO-FRONT-02"
+   ]
+  },
+  {
+   "id": "NR-FRONT-003",
+   "title": "No blocking or synchronous requests",
+   "family": "frontend",
+   "priority": "high",
+   "applies": [
+    "frontend"
+   ],
+   "automation": "partial",
+   "scopes": [
+    "html",
+    "js",
+    "jsx",
+    "ts",
+    "tsx"
+   ],
+   "rgesn": "6.x",
+   "origin": [
+    "green-claude:ECO-FRONT-07",
+    "green-claude:ECO-FRONT-13"
+   ]
+  },
+  {
+   "id": "NR-FRONT-004",
+   "title": "DOM neither too large nor too deep",
+   "family": "frontend",
+   "priority": "medium",
+   "applies": [
+    "frontend"
+   ],
+   "automation": "partial",
+   "scopes": [
+    "html",
+    "jsx",
+    "tsx"
+   ],
+   "rgesn": "6.x",
+   "origin": [
+    "green-claude:ECO-FRONT-08"
+   ]
+  },
+  {
+   "id": "NR-FRONT-005",
+   "title": "No dead code and no dead CSS",
+   "family": "frontend",
+   "priority": "low",
+   "applies": [
+    "frontend"
+   ],
+   "automation": "partial",
+   "scopes": [
+    "css",
+    "scss"
+   ],
+   "rgesn": "6.x",
+   "origin": [
+    "green-claude:ECO-FRONT-05",
+    "green-claude:ECO-FRONT-12"
+   ]
+  },
+  {
+   "id": "NR-FRONT-006",
+   "title": "CSS without duplication or !important escalation",
+   "family": "frontend",
+   "priority": "low",
+   "applies": [
+    "frontend"
+   ],
+   "automation": "partial",
+   "scopes": [
+    "css",
+    "scss",
+    "vue"
+   ],
+   "rgesn": "6.x",
+   "origin": [
+    "green-claude:ECO-FRONT-10",
+    "green-claude:ECO-FRONT-11",
+    "green-claude:ECO-FRONT-09"
+   ]
+  },
+  {
+   "id": "NR-FRONT-007",
+   "title": "Clean up listeners, timers and observers",
+   "family": "frontend",
+   "priority": "high",
+   "applies": [
+    "frontend"
+   ],
+   "automation": "partial",
+   "scopes": [
+    "js",
+    "jsx",
+    "ts",
+    "tsx",
+    "vue"
+   ],
+   "rgesn": "6.x",
+   "origin": [
+    "green-claude:ECO-FRONT-06 area",
+    "green-codex:LANG-JS-*"
+   ]
+  },
+  {
+   "id": "NR-FRONT-008",
+   "title": "Debounce and throttle user-driven compute",
+   "family": "frontend",
+   "priority": "medium",
+   "applies": [
+    "frontend"
+   ],
+   "automation": "partial",
+   "scopes": [
+    "js",
+    "jsx",
+    "ts",
+    "tsx",
+    "vue"
+   ],
+   "rgesn": "6.x, 9.1",
+   "origin": [
+    "green-claude:ECO-ALGO area",
+    "green-codex:WEB-EFF-003"
+   ]
+  },
+  {
+   "id": "NR-FRONT-009",
+   "title": "Defer what is deferrable, keep what the user waits for",
+   "family": "frontend",
+   "priority": "medium",
+   "applies": [
+    "frontend"
+   ],
+   "automation": "none",
+   "scopes": [],
+   "rgesn": "6.x",
+   "origin": [
+    "green-claude:ECO-FRONT-13",
+    "green-claude:ECO-FRONT-14"
+   ]
+  },
+  {
+   "id": "NR-FRONT-010",
+   "title": "Minify and compress transport",
+   "family": "frontend",
+   "priority": "medium",
+   "applies": [
+    "frontend",
+    "infra"
+   ],
+   "automation": "none",
+   "scopes": [],
+   "rgesn": "6.x, 8.x",
+   "origin": [
+    "green-claude:ECO-FRONT-03",
+    "green-claude:ECO-HEB-02"
+   ]
+  },
+  {
+   "id": "NR-INFRA-001",
+   "title": "HTTPS, modern TLS, secure transport",
+   "family": "infra",
+   "priority": "high",
+   "applies": [
+    "infra",
+    "frontend"
+   ],
+   "automation": "partial",
+   "scopes": [
+    "conf",
+    "html",
+    "yaml"
+   ],
+   "rgesn": "8.x",
+   "origin": [
+    "green-claude:ECO-HEB-04",
+    "green-claude:ECO-HEB-05",
+    "green-claude:ECO-HEB-06"
+   ]
+  },
+  {
+   "id": "NR-INFRA-002",
+   "title": "Containers sized to what runs",
+   "family": "infra",
+   "priority": "medium",
+   "applies": [
+    "infra"
+   ],
+   "automation": "partial",
+   "scopes": [
+    "dockerfile"
+   ],
+   "rgesn": "8.x",
+   "origin": [
+    "green-claude:ECO-HEB-07",
+    "green-codex:INFRA-EFF-004"
+   ]
+  },
+  {
+   "id": "NR-INFRA-003",
+   "title": "Region and locality decisions on evidence",
+   "family": "infra",
+   "priority": "medium",
+   "applies": [
+    "infra"
+   ],
+   "automation": "none",
+   "scopes": [],
+   "rgesn": "8.x",
+   "origin": [
+    "green-claude:ECO-HEB-09",
+    "green-codex:INFRA-EFF-003"
+   ]
+  },
+  {
+   "id": "NR-INFRA-004",
+   "title": "Deferrable work in low-impact windows",
+   "family": "infra",
+   "priority": "low",
+   "applies": [
+    "infra",
+    "backend"
+   ],
+   "automation": "none",
+   "scopes": [],
+   "rgesn": "8.x",
+   "origin": [
+    "green-claude:ECO-HEB-08",
+    "green-codex:OPS-EFF-001"
+   ]
+  },
+  {
+   "id": "NR-INFRA-005",
+   "title": "Clean environments and orphaned resources",
+   "family": "infra",
+   "priority": "medium",
+   "applies": [
+    "infra",
+    "service"
+   ],
+   "automation": "none",
+   "scopes": [],
+   "rgesn": "3.7",
+   "origin": [
+    "green-claude:ECO-ARCH-04",
+    "green-codex:OPS-EFF-001"
+   ]
+  },
+  {
+   "id": "NR-INFRA-006",
+   "title": "Extend hardware life",
+   "family": "infra",
+   "priority": "medium",
+   "applies": [
+    "infra",
+    "service"
+   ],
+   "automation": "none",
+   "scopes": [],
+   "rgesn": "2.1, 2.2",
+   "origin": [
+    "green-codex:HW-EFF-001",
+    "green-codex:HW-EFF-002",
+    "green-claude:ECO-SPEC-02"
+   ]
+  },
+  {
+   "id": "NR-INFRA-007",
+   "title": "CI that spends what it must",
+   "family": "infra",
+   "priority": "medium",
+   "applies": [
+    "infra",
+    "strategy"
+   ],
+   "automation": "partial",
+   "scopes": [
+    "workflow-yaml"
+   ],
+   "rgesn": "3.7",
+   "origin": [
+    "green-claude:ECO-ARCH-06",
+    "green-claude:ECO-ARCH-04"
+   ]
+  },
+  {
+   "id": "NR-INFRA-008",
+   "title": "Scalability without waste",
+   "family": "infra",
+   "priority": "medium",
+   "applies": [
+    "infra",
+    "architecture"
+   ],
+   "automation": "none",
+   "scopes": [],
+   "rgesn": "3.2, 8.x",
+   "origin": [
+    "green-codex:ARCH-SERVERLESS-001",
+    "green-claude:ECO-ARCH-02"
+   ]
+  },
+  {
+   "id": "NR-MEASURE-001",
+   "title": "Baseline and functional unit before comparing",
+   "family": "measure",
+   "priority": "high",
+   "applies": [
+    "measure",
+    "any"
+   ],
+   "automation": "none",
+   "scopes": [],
+   "rgesn": "1.4, 1.5",
+   "origin": [
+    "green-codex:MEASURE-EFF-001",
+    "green-claude:ECO-STRAT-08"
+   ]
+  },
+  {
+   "id": "NR-MEASURE-002",
+   "title": "A tool score is an indicator, not compliance",
+   "family": "measure",
+   "priority": "high",
+   "applies": [
+    "measure",
+    "docs",
+    "any"
+   ],
+   "automation": "none",
+   "scopes": [],
+   "rgesn": null,
+   "origin": [
+    "green-codex:MEASURE-EFF-002",
+    "green-codex criteria discipline"
+   ]
+  },
+  {
+   "id": "NR-MEASURE-003",
+   "title": "Distinguish technical gain from environmental impact",
+   "family": "measure",
+   "priority": "high",
+   "applies": [
+    "measure",
+    "docs",
+    "ai",
+    "any"
+   ],
+   "automation": "none",
+   "scopes": [],
+   "rgesn": "9.x",
+   "origin": [
+    "green-codex:MEASURE-EFF-003",
+    "green-claude:ECO-ALGO-09"
+   ]
+  },
+  {
+   "id": "NR-MEASURE-004",
+   "title": "Unknown is not zero",
+   "family": "measure",
+   "priority": "medium",
+   "applies": [
+    "measure",
+    "any"
+   ],
+   "automation": "none",
+   "scopes": [],
+   "rgesn": null,
+   "origin": [
+    "green-codex measurement discipline"
+   ]
+  },
+  {
+   "id": "NR-MEASURE-005",
+   "title": "Monitor what grows",
+   "family": "measure",
+   "priority": "medium",
+   "applies": [
+    "measure",
+    "infra",
+    "backend"
+   ],
+   "automation": "none",
+   "scopes": [],
+   "rgesn": "8.x",
+   "origin": [
+    "green-claude:ECO-HEB-10",
+    "green-codex:OPS-EFF-002"
+   ]
+  },
+  {
+   "id": "NR-SERVICE-001",
+   "title": "Confirm the need before building",
+   "family": "service",
+   "priority": "high",
+   "applies": [
+    "service",
+    "any"
+   ],
+   "automation": "none",
+   "scopes": [],
+   "rgesn": "2.6",
+   "origin": [
+    "green-codex:SERVICE-EFF-001",
+    "green-claude:ECO-SPEC-05"
+   ]
+  },
+  {
+   "id": "NR-SERVICE-002",
+   "title": "Apply the 3U before investing",
+   "family": "service",
+   "priority": "high",
+   "applies": [
+    "service",
+    "ai"
+   ],
+   "automation": "none",
+   "scopes": [],
+   "rgesn": "1.1, 2.9",
+   "origin": [
+    "green-codex:three-u.md"
+   ]
+  },
+  {
+   "id": "NR-SERVICE-003",
+   "title": "Keep features to what is needed",
+   "family": "service",
+   "priority": "high",
+   "applies": [
+    "service",
+    "product"
+   ],
+   "automation": "none",
+   "scopes": [],
+   "rgesn": "1.1, 2.9",
+   "origin": [
+    "green-claude:ECO-SPEC-05",
+    "green-codex universal rules"
+   ]
+  },
+  {
+   "id": "NR-SERVICE-004",
+   "title": "Support older devices and slow networks",
+   "family": "service",
+   "priority": "high",
+   "applies": [
+    "frontend",
+    "service",
+    "mobile"
+   ],
+   "automation": "partial",
+   "scopes": [
+    "json"
+   ],
+   "rgesn": "2.1, 2.2, 2.3, 2.4",
+   "origin": [
+    "green-codex:SERVICE-EFF-002",
+    "green-claude:ECO-SPEC-02",
+    "green-claude:ECO-SPEC-03"
+   ]
+  },
+  {
+   "id": "NR-SERVICE-005",
+   "title": "User control over engagement mechanics",
+   "family": "service",
+   "priority": "high",
+   "applies": [
+    "frontend",
+    "ux",
+    "content"
+   ],
+   "automation": "partial",
+   "scopes": [
+    "html",
+    "jsx",
+    "tsx",
+    "vue"
+   ],
+   "rgesn": "4.1, 4.2",
+   "origin": [
+    "green-codex:SERVICE-EFF-003",
+    "green-claude:ECO-UX-01",
+    "green-claude:ECO-UX-02"
+   ]
+  },
+  {
+   "id": "NR-SERVICE-006",
+   "title": "Environmental criteria in user stories",
+   "family": "service",
+   "priority": "medium",
+   "applies": [
+    "service",
+    "strategy"
+   ],
+   "automation": "none",
+   "scopes": [],
+   "rgesn": "2.6",
+   "origin": [
+    "green-claude:ECO-SPEC-01"
+   ]
+  },
+  {
+   "id": "NR-SERVICE-007",
+   "title": "Plan retirement from the start",
+   "family": "service",
+   "priority": "medium",
+   "applies": [
+    "service",
+    "infra"
+   ],
+   "automation": "none",
+   "scopes": [],
+   "rgesn": "2.7",
+   "origin": [
+    "green-codex:SERVICE-EFF-005",
+    "green-claude:ECO-STRAT-07"
+   ]
+  },
+  {
+   "id": "NR-SERVICE-008",
+   "title": "Assess third-party services before integrating",
+   "family": "service",
+   "priority": "high",
+   "applies": [
+    "frontend",
+    "service"
+   ],
+   "automation": "partial",
+   "scopes": [
+    "html"
+   ],
+   "rgesn": "2.10",
+   "origin": [
+    "green-claude:ECO-SPEC-04",
+    "green-claude:ECO-UX-04"
+   ]
+  },
+  {
+   "id": "NR-STRAT-001",
+   "title": "Measure before optimising",
+   "family": "strategy",
+   "priority": "high",
+   "applies": [
+    "strategy",
+    "any"
+   ],
+   "automation": "none",
+   "scopes": [],
+   "rgesn": "1.4, 1.5",
+   "origin": [
+    "green-claude:ECO-STRAT-01",
+    "green-codex:MEASURE-EFF-001"
+   ]
+  },
+  {
+   "id": "NR-STRAT-002",
+   "title": "Reduce targets, not just technical metrics",
+   "family": "strategy",
+   "priority": "medium",
+   "applies": [
+    "strategy"
+   ],
+   "automation": "none",
+   "scopes": [],
+   "rgesn": "1.4, 1.5",
+   "origin": [
+    "green-claude:ECO-STRAT-01"
+   ]
+  },
+  {
+   "id": "NR-STRAT-003",
+   "title": "Hold regular ecodesign reviews",
+   "family": "strategy",
+   "priority": "medium",
+   "applies": [
+    "strategy"
+   ],
+   "automation": "none",
+   "scopes": [],
+   "rgesn": "1.8, 1.9",
+   "origin": [
+    "green-claude:ECO-STRAT-01"
+   ]
+  },
+  {
+   "id": "NR-STRAT-004",
+   "title": "Standard, open, interoperable technologies",
+   "family": "strategy",
+   "priority": "medium",
+   "applies": [
+    "strategy",
+    "architecture",
+    "docs"
+   ],
+   "automation": "partial",
+   "scopes": [
+    "any"
+   ],
+   "rgesn": "1.x",
+   "origin": [
+    "green-claude:ECO-STRAT-03"
+   ]
+  },
+  {
+   "id": "NR-STRAT-005",
+   "title": "State the functional unit and the boundary",
+   "family": "strategy",
+   "priority": "medium",
+   "applies": [
+    "strategy",
+    "measure"
+   ],
+   "automation": "none",
+   "scopes": [],
+   "rgesn": "1.4, 1.5",
+   "origin": [
+    "green-claude:ECO-STRAT-08"
+   ]
+  },
+  {
+   "id": "NR-STRAT-006",
+   "title": "Check the rebound before claiming a win",
+   "family": "strategy",
+   "priority": "medium",
+   "applies": [
+    "strategy",
+    "measure"
+   ],
+   "automation": "none",
+   "scopes": [],
+   "rgesn": "1.4, 1.5",
+   "origin": [
+    "green-claude:ECO-STRAT-09"
+   ]
+  },
+  {
+   "id": "NR-UX-001",
+   "title": "Accessibility is the floor",
+   "family": "ux",
+   "priority": "high",
+   "applies": [
+    "frontend",
+    "ux"
+   ],
+   "automation": "partial",
+   "scopes": [
+    "html"
+   ],
+   "rgesn": "4.8",
+   "origin": [
+    "green-claude:ECO-UX-08",
+    "green-codex criteria: RGAA"
+   ]
+  },
+  {
+   "id": "NR-UX-002",
+   "title": "The lightest medium that carries the information",
+   "family": "ux",
+   "priority": "medium",
+   "applies": [
+    "content",
+    "ux",
+    "frontend"
+   ],
+   "automation": "none",
+   "scopes": [],
+   "rgesn": "4.6, 4.7",
+   "origin": [
+    "green-claude:ECO-UX-06"
+   ]
+  },
+  {
+   "id": "NR-UX-003",
+   "title": "Native components rather than reimplemented ones",
+   "family": "ux",
+   "priority": "medium",
+   "applies": [
+    "frontend",
+    "ux"
+   ],
+   "automation": "none",
+   "scopes": [],
+   "rgesn": "4.5",
+   "origin": [
+    "green-claude:ECO-UX-03"
+   ]
+  },
+  {
+   "id": "NR-UX-004",
+   "title": "Honour reduced-motion preference",
+   "family": "ux",
+   "priority": "low",
+   "applies": [
+    "frontend",
+    "ux"
+   ],
+   "automation": "partial",
+   "scopes": [
+    "css",
+    "scss"
+   ],
+   "rgesn": "4.x",
+   "origin": [
+    "green-claude:ECO-UX-07"
+   ]
+  },
+  {
+   "id": "NR-UX-005",
+   "title": "Short and direct journeys",
+   "family": "ux",
+   "priority": "medium",
+   "applies": [
+    "ux",
+    "frontend"
+   ],
+   "automation": "none",
+   "scopes": [],
+   "rgesn": "4.3",
+   "origin": [
+    "green-claude:ECO-UX-06",
+    "RGESN 4.3"
+   ]
+  },
+  {
+   "id": "NR-UX-006",
+   "title": "Errors that save work",
+   "family": "ux",
+   "priority": "medium",
+   "applies": [
+    "ux",
+    "frontend",
+    "backend"
+   ],
+   "automation": "none",
+   "scopes": [],
+   "rgesn": "4.4",
+   "origin": [
+    "RGESN 4.4, Opquast",
+    "green-codex criteria: Opquast"
+   ]
+  },
+  {
+   "id": "NR-UX-007",
+   "title": "Third-party UI on demand",
+   "family": "ux",
+   "priority": "high",
+   "applies": [
+    "frontend",
+    "ux",
+    "content"
+   ],
+   "automation": "partial",
+   "scopes": [
+    "html",
+    "js",
+    "ts"
+   ],
+   "rgesn": "4.4",
+   "origin": [
+    "green-claude:ECO-UX-04",
+    "green-codex:WEB-EFF-002"
+   ]
+  },
+  {
+   "id": "NR-LANG-HTML-001",
+   "title": "Semantic HTML",
+   "family": "lang-html-css",
+   "priority": "high",
+   "applies": [
+    "html",
+    "css"
+   ],
+   "automation": "partial",
+   "scopes": [
+    "html"
+   ],
+   "rgesn": null,
+   "origin": [
+    "green-codex:LANG-HTML-001",
+    "green-claude:ECO-UX-03",
+    "NR-UX-001"
+   ]
+  },
+  {
+   "id": "NR-LANG-HTML-002",
+   "title": "Media with explicit dimensions and lazy loading",
+   "family": "lang-html-css",
+   "priority": "medium",
+   "applies": [
+    "html",
+    "css"
+   ],
+   "automation": "partial",
+   "scopes": [
+    "html"
+   ],
+   "rgesn": null,
+   "origin": [
+    "green-claude:ECO-CONT-01",
+    "green-codex:LANG-HTML-002"
+   ]
+  },
+  {
+   "id": "NR-LANG-HTML-003",
+   "title": "Forms: labels, autocomplete, validation",
+   "family": "lang-html-css",
+   "priority": "medium",
+   "applies": [
+    "html",
+    "ux"
+   ],
+   "automation": "partial",
+   "scopes": [
+    "html"
+   ],
+   "rgesn": null,
+   "origin": [
+    "green-codex criteria: Opquast/RGAA",
+    "NR-UX-006"
+   ]
+  },
+  {
+   "id": "NR-LANG-CSS-001",
+   "title": "Modern layout over hacks",
+   "family": "lang-html-css",
+   "priority": "low",
+   "applies": [
+    "css"
+   ],
+   "automation": "partial",
+   "scopes": [
+    "css",
+    "scss"
+   ],
+   "rgesn": null,
+   "origin": [
+    "green-codex:LANG-CSS-001",
+    "green-claude:ECO-FRONT-12"
+   ]
+  },
+  {
+   "id": "NR-LANG-CSS-002",
+   "title": "System fonts or subset web fonts",
+   "family": "lang-html-css",
+   "priority": "medium",
+   "applies": [
+    "css",
+    "html"
+   ],
+   "automation": "partial",
+   "scopes": [
+    "css",
+    "html"
+   ],
+   "rgesn": null,
+   "origin": [
+    "green-claude:ECO-UX-05",
+    "NR-CONTENT-004"
+   ]
+  },
+  {
+   "id": "NR-LANG-JAVA-001",
+   "title": "Stream over imperative loops only when it reads better",
+   "family": "lang-java",
+   "priority": "medium",
+   "applies": [
+    "java"
+   ],
+   "automation": "full",
+   "scopes": [
+    "java"
+   ],
+   "rgesn": null,
+   "origin": [
+    "green-claude:java.json",
+    "green-codex:LANG-JAVA-001"
+   ]
+  },
+  {
+   "id": "NR-LANG-JAVA-002",
+   "title": "Try-with-resources everywhere",
+   "family": "lang-java",
+   "priority": "high",
+   "applies": [
+    "java"
+   ],
+   "automation": "partial",
+   "scopes": [
+    "java"
+   ],
+   "rgesn": null,
+   "origin": [
+    "green-claude:java.json",
+    "green-codex:DB-EFF-006"
+   ]
+  },
+  {
+   "id": "NR-LANG-JAVA-003",
+   "title": "Lazy or batched JPA access",
+   "family": "lang-java",
+   "priority": "high",
+   "applies": [
+    "java"
+   ],
+   "automation": "partial",
+   "scopes": [
+    "java"
+   ],
+   "rgesn": null,
+   "origin": [
+    "green-claude:java.json",
+    "green-codex:DB-EFF-002"
+   ]
+  },
+  {
+   "id": "NR-LANG-JAVA-004",
+   "title": "Bound the JVM to the container",
+   "family": "lang-java",
+   "priority": "medium",
+   "applies": [
+    "java",
+    "infra"
+   ],
+   "automation": "partial",
+   "scopes": [
+    "conf",
+    "dockerfile"
+   ],
+   "rgesn": null,
+   "origin": [
+    "green-codex:INFRA-EFF-004",
+    "green-claude:java.json"
+   ]
+  },
+  {
+   "id": "NR-LANG-JAVA-005",
+   "title": "No reflection on hot paths",
+   "family": "lang-java",
+   "priority": "low",
+   "applies": [
+    "java"
+   ],
+   "automation": "partial",
+   "scopes": [
+    "java"
+   ],
+   "rgesn": null,
+   "origin": [
+    "green-claude:java.json",
+    "green-codex:LANG-JAVA-003"
+   ]
+  },
+  {
+   "id": "NR-LANG-JS-001",
+   "title": "Native APIs before libraries",
+   "family": "lang-javascript",
+   "priority": "high",
+   "applies": [
+    "js",
+    "ts"
+   ],
+   "automation": "partial",
+   "scopes": [
+    "js",
+    "jsx",
+    "ts",
+    "tsx"
+   ],
+   "rgesn": null,
+   "origin": [
+    "green-claude:javascript.json",
+    "green-codex:LANG-JS-001"
+   ]
+  },
+  {
+   "id": "NR-LANG-JS-002",
+   "title": "No sync I/O on the request path",
+   "family": "lang-javascript",
+   "priority": "high",
+   "applies": [
+    "js",
+    "ts"
+   ],
+   "automation": "full",
+   "scopes": [
+    "cjs",
+    "js",
+    "mjs",
+    "ts"
+   ],
+   "rgesn": null,
+   "origin": [
+    "green-claude:javascript.json",
+    "green-codex:CODE-EFF-008"
+   ]
+  },
+  {
+   "id": "NR-LANG-JS-003",
+   "title": "No unbounded Promise.all over collections",
+   "family": "lang-javascript",
+   "priority": "high",
+   "applies": [
+    "js",
+    "ts"
+   ],
+   "automation": "full",
+   "scopes": [
+    "js",
+    "jsx",
+    "ts",
+    "tsx"
+   ],
+   "rgesn": null,
+   "origin": [
+    "green-claude:javascript.json",
+    "green-codex:CODE-EFF-006"
+   ]
+  },
+  {
+   "id": "NR-LANG-JS-004",
+   "title": "Await in loops only with cause",
+   "family": "lang-javascript",
+   "priority": "medium",
+   "applies": [
+    "js",
+    "ts"
+   ],
+   "automation": "partial",
+   "scopes": [
+    "js",
+    "ts"
+   ],
+   "rgesn": null,
+   "origin": [
+    "green-claude:javascript.json",
+    "green-codex:API-EFF-001"
+   ]
+  },
+  {
+   "id": "NR-LANG-JS-005",
+   "title": "Tree-shake and measure the bundle",
+   "family": "lang-javascript",
+   "priority": "medium",
+   "applies": [
+    "js",
+    "ts",
+    "frontend"
+   ],
+   "automation": "none",
+   "scopes": [],
+   "rgesn": null,
+   "origin": [
+    "green-claude:javascript.json"
+   ]
+  },
+  {
+   "id": "NR-LANG-JS-006",
+   "title": "JSON without silent serialization traps",
+   "family": "lang-javascript",
+   "priority": "low",
+   "applies": [
+    "js",
+    "ts"
+   ],
+   "automation": "partial",
+   "scopes": [
+    "js",
+    "ts"
+   ],
+   "rgesn": null,
+   "origin": [
+    "green-codex:CODE-EFF-010",
+    "green-claude:javascript.json"
+   ]
+  },
+  {
+   "id": "NR-LANG-PY-001",
+   "title": "Iterators and chunked I/O for large data",
+   "family": "lang-python",
+   "priority": "high",
+   "applies": [
+    "py"
+   ],
+   "automation": "partial",
+   "scopes": [
+    "py"
+   ],
+   "rgesn": null,
+   "origin": [
+    "green-codex:LANG-PYTHON-001",
+    "green-claude:python.json"
+   ]
+  },
+  {
+   "id": "NR-LANG-PY-002",
+   "title": "Vectorise only after profiling",
+   "family": "lang-python",
+   "priority": "medium",
+   "applies": [
+    "py"
+   ],
+   "automation": "none",
+   "scopes": [],
+   "rgesn": null,
+   "origin": [
+    "green-codex:LANG-PYTHON-002",
+    "green-codex:LANG-PYTHON-005"
+   ]
+  },
+  {
+   "id": "NR-LANG-PY-003",
+   "title": "No N+1 with the ORM",
+   "family": "lang-python",
+   "priority": "high",
+   "applies": [
+    "py"
+   ],
+   "automation": "partial",
+   "scopes": [
+    "py"
+   ],
+   "rgesn": null,
+   "origin": [
+    "green-claude:python.json",
+    "green-codex:DB-EFF-002"
+   ]
+  },
+  {
+   "id": "NR-LANG-PY-004",
+   "title": "Bound multiprocessing and close resources",
+   "family": "lang-python",
+   "priority": "high",
+   "applies": [
+    "py"
+   ],
+   "automation": "partial",
+   "scopes": [
+    "py"
+   ],
+   "rgesn": null,
+   "origin": [
+    "green-codex:LANG-PYTHON-003",
+    "green-claude:python.json"
+   ]
+  },
+  {
+   "id": "NR-LANG-PY-005",
+   "title": "Don't ship a framework for a script",
+   "family": "lang-python",
+   "priority": "medium",
+   "applies": [
+    "py"
+   ],
+   "automation": "none",
+   "scopes": [],
+   "rgesn": null,
+   "origin": [
+    "green-claude:python.json",
+    "NR-ARCH-008"
+   ]
+  },
+  {
+   "id": "NR-LANG-PY-006",
+   "title": "Async without blocking",
+   "family": "lang-python",
+   "priority": "high",
+   "applies": [
+    "py"
+   ],
+   "automation": "partial",
+   "scopes": [
+    "py"
+   ],
+   "rgesn": null,
+   "origin": [
+    "green-codex:CODE-EFF-008",
+    "green-claude:python.json"
+   ]
+  },
+  {
+   "id": "NR-LANG-SH-001",
+   "title": "One tool call instead of a pipeline of greps",
+   "family": "lang-shell",
+   "priority": "medium",
+   "applies": [
+    "sh",
+    "bash"
+   ],
+   "automation": "partial",
+   "scopes": [
+    "bash",
+    "sh"
+   ],
+   "rgesn": null,
+   "origin": [
+    "green-codex:LANG-SHELL-001",
+    "green-claude:shell.json"
+   ]
+  },
+  {
+   "id": "NR-LANG-SH-002",
+   "title": "Set -euo pipefail in scripts, quoted variables",
+   "family": "lang-shell",
+   "priority": "medium",
+   "applies": [
+    "sh",
+    "bash"
+   ],
+   "automation": "special",
+   "scopes": [],
+   "rgesn": null,
+   "origin": [
+    "green-codex:LANG-SHELL-002",
+    "green-claude:shell.json"
+   ]
+  },
+  {
+   "id": "NR-LANG-SH-003",
+   "title": "Trap cleanup, mktemp files always",
+   "family": "lang-shell",
+   "priority": "medium",
+   "applies": [
+    "sh",
+    "bash"
+   ],
+   "automation": "partial",
+   "scopes": [
+    "bash",
+    "sh"
+   ],
+   "rgesn": null,
+   "origin": [
+    "green-codex:LANG-SHELL-003",
+    "green-claude:shell.json"
+   ]
+  },
+  {
+   "id": "NR-LANG-SH-004",
+   "title": "Bounded loops, no infinite retries",
+   "family": "lang-shell",
+   "priority": "medium",
+   "applies": [
+    "sh",
+    "bash"
+   ],
+   "automation": "partial",
+   "scopes": [
+    "bash",
+    "sh"
+   ],
+   "rgesn": null,
+   "origin": [
+    "green-codex:LANG-SHELL-004",
+    "green-claude:shell.json"
+   ]
+  },
+  {
+   "id": "NR-LANG-SQL-001",
+   "title": "Explicit column lists",
+   "family": "lang-sql",
+   "priority": "high",
+   "applies": [
+    "sql"
+   ],
+   "automation": "full",
+   "scopes": [
+    "sql"
+   ],
+   "rgesn": null,
+   "origin": [
+    "green-claude:sql.json",
+    "green-codex:DB-EFF-001",
+    "green-codex:LANG-SQL-001"
+   ]
+  },
+  {
+   "id": "NR-LANG-SQL-002",
+   "title": "JOINs over correlated subqueries on growing data",
+   "family": "lang-sql",
+   "priority": "medium",
+   "applies": [
+    "sql"
+   ],
+   "automation": "partial",
+   "scopes": [
+    "sql"
+   ],
+   "rgesn": null,
+   "origin": [
+    "green-claude:sql.json",
+    "green-codex:LANG-SQL-002"
+   ]
+  },
+  {
+   "id": "NR-LANG-SQL-003",
+   "title": "Batch inserts, not row-by-row loops",
+   "family": "lang-sql",
+   "priority": "medium",
+   "applies": [
+    "sql"
+   ],
+   "automation": "partial",
+   "scopes": [
+    "sql"
+   ],
+   "rgesn": null,
+   "origin": [
+    "green-claude:sql.json",
+    "green-codex:DB-EFF-004"
+   ]
+  },
+  {
+   "id": "NR-LANG-SQL-004",
+   "title": "No function on the indexed column in predicates",
+   "family": "lang-sql",
+   "priority": "medium",
+   "applies": [
+    "sql"
+   ],
+   "automation": "partial",
+   "scopes": [
+    "sql"
+   ],
+   "rgesn": null,
+   "origin": [
+    "green-claude:sql.json"
+   ]
+  },
+  {
+   "id": "NR-LANG-SQL-005",
+   "title": "Transactions short and bounded",
+   "family": "lang-sql",
+   "priority": "high",
+   "applies": [
+    "sql",
+    "backend"
+   ],
+   "automation": "none",
+   "scopes": [],
+   "rgesn": null,
+   "origin": [
+    "green-claude:sql.json",
+    "green-codex:CODE-EFF-002"
+   ]
+  },
+  {
+   "id": "NR-USAGE-001",
+   "title": "Context minimalism",
+   "family": "usage",
+   "priority": "high",
+   "applies": [
+    "usage"
+   ],
+   "automation": "none",
+   "scopes": [],
+   "rgesn": null,
+   "origin": [
+    "green-claude:USAGE-CTX-01"
+   ]
+  },
+  {
+   "id": "NR-USAGE-002",
+   "title": "Ask the one question that changes the work",
+   "family": "usage",
+   "priority": "high",
+   "applies": [
+    "usage"
+   ],
+   "automation": "none",
+   "scopes": [],
+   "rgesn": null,
+   "origin": [
+    "green-claude:USAGE-BRIEF-03"
+   ]
+  },
+  {
+   "id": "NR-USAGE-003",
+   "title": "Let the model fetch on demand",
+   "family": "usage",
+   "priority": "high",
+   "applies": [
+    "usage"
+   ],
+   "automation": "none",
+   "scopes": [],
+   "rgesn": null,
+   "origin": [
+    "green-claude:USAGE-CTX-01"
+   ]
+  },
+  {
+   "id": "NR-USAGE-004",
+   "title": "Compact instead of dragging history",
+   "family": "usage",
+   "priority": "medium",
+   "applies": [
+    "usage"
+   ],
+   "automation": "none",
+   "scopes": [],
+   "rgesn": null,
+   "origin": [
+    "green-codex:usage-practices.md"
+   ]
+  },
+  {
+   "id": "NR-USAGE-005",
+   "title": "Right model for the task",
+   "family": "usage",
+   "priority": "medium",
+   "applies": [
+    "usage"
+   ],
+   "automation": "none",
+   "scopes": [],
+   "rgesn": null,
+   "origin": [
+    "green-claude:USAGE-COMPUTE-*",
+    "green-codex:usage-practices.md"
+   ]
+  },
+  {
+   "id": "NR-USAGE-006",
+   "title": "Deterministic tools before model reasoning",
+   "family": "usage",
+   "priority": "high",
+   "applies": [
+    "usage"
+   ],
+   "automation": "none",
+   "scopes": [],
+   "rgesn": null,
+   "origin": [
+    "green-claude:USAGE-VERIF-*",
+    "green-codex:usage-practices.md"
+   ]
+  },
+  {
+   "id": "NR-USAGE-007",
+   "title": "One turn, one goal",
+   "family": "usage",
+   "priority": "medium",
+   "applies": [
+    "usage"
+   ],
+   "automation": "none",
+   "scopes": [],
+   "rgesn": null,
+   "origin": [
+    "green-claude:USAGE-BRIEF-*"
+   ]
+  },
+  {
+   "id": "NR-USAGE-008",
+   "title": "No blind retries",
+   "family": "usage",
+   "priority": "medium",
+   "applies": [
+    "usage"
+   ],
+   "automation": "none",
+   "scopes": [],
+   "rgesn": null,
+   "origin": [
+    "green-codex:usage-practices.md"
+   ]
+  },
+  {
+   "id": "NR-USAGE-009",
+   "title": "Reuse validated artifacts",
+   "family": "usage",
+   "priority": "medium",
+   "applies": [
+    "usage"
+   ],
+   "automation": "none",
+   "scopes": [],
+   "rgesn": null,
+   "origin": [
+    "green-codex:usage-practices.md"
+   ]
+  },
+  {
+   "id": "NR-USAGE-010",
+   "title": "Subagents keep the main context clean",
+   "family": "usage",
+   "priority": "medium",
+   "applies": [
+    "usage"
+   ],
+   "automation": "none",
+   "scopes": [],
+   "rgesn": null,
+   "origin": [
+    "green-codex:usage-practices.md"
+   ]
+  },
+  {
+   "id": "NR-USAGE-011",
+   "title": "Images only when they carry the task",
+   "family": "usage",
+   "priority": "low",
+   "applies": [
+    "usage"
+   ],
+   "automation": "none",
+   "scopes": [],
+   "rgesn": null,
+   "origin": [
+    "green-claude:USAGE-CTX-*",
+    "green-codex:usage-practices.md"
+   ]
+  },
+  {
+   "id": "NR-USAGE-012",
+   "title": "Close what you opened",
+   "family": "usage",
+   "priority": "medium",
+   "applies": [
+    "usage"
+   ],
+   "automation": "none",
+   "scopes": [],
+   "rgesn": null,
+   "origin": [
+    "green-claude:USAGE-COMPUTE-*"
+   ]
+  },
+  {
+   "id": "NR-USAGE-013",
+   "title": "Batch related work in the queue",
+   "family": "usage",
+   "priority": "low",
+   "applies": [
+    "usage"
+   ],
+   "automation": "none",
+   "scopes": [],
+   "rgesn": null,
+   "origin": [
+    "green-codex:usage-practices.md"
+   ]
+  },
+  {
+   "id": "NR-USAGE-014",
+   "title": "Verify before you regenerate",
+   "family": "usage",
+   "priority": "high",
+   "applies": [
+    "usage"
+   ],
+   "automation": "none",
+   "scopes": [],
+   "rgesn": null,
+   "origin": [
+    "green-claude:USAGE-VERIF-*"
+   ]
+  },
+  {
+   "id": "NR-USAGE-015",
+   "title": "Automation proportional to need",
+   "family": "usage",
+   "priority": "medium",
+   "applies": [
+    "usage"
+   ],
+   "automation": "none",
+   "scopes": [],
+   "rgesn": null,
+   "origin": [
+    "green-claude:hooks discipline",
+    "green-codex:usage-practices.md"
+   ]
+  },
+  {
+   "id": "NR-USAGE-016",
+   "title": "Directions, not ratios",
+   "family": "usage",
+   "priority": "high",
+   "applies": [
+    "usage",
+    "ai",
+    "docs"
+   ],
+   "automation": "none",
+   "scopes": [],
+   "rgesn": "9.x",
+   "origin": [
+    "green-claude:SKILL.md token-energy discipline",
+    "green-claude:ECO-ALGO-09"
+   ]
+  }
+ ]
+}

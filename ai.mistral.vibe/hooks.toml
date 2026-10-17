@@ -1,0 +1,12 @@
+# Green Vibe hooks: audit what writes add, fail-open.
+# Opt-in by installation: copying the plugin is enough for these to load
+# (project scope requires a trusted folder). Remove this file (or disable the
+# hook in your config) to turn the automatic audit off.
+
+[[hooks]]
+name = "green-vibe-post-edit"
+type = "post_tool"
+match = "re:^(write_file|edit)$"
+command = "python3 \"$HOME/.vibe/plugins/green-vibe/ai.mistral.vibe/hooks/post_edit.py\" 2>/dev/null || python3 .vibe/plugins/green-vibe/ai.mistral.vibe/hooks/post_edit.py 2>/dev/null || true"
+timeout = 20.0
+description = "Audit NR candidates in what the write added (fail-open, diff-scoped)"

@@ -1,0 +1,79 @@
+{
+  "family": "lang-java",
+  "title": "Java",
+  "version": "1.0",
+  "rules": [
+    {
+      "id": "NR-LANG-JAVA-001",
+      "title": "Stream over imperative loops only when it reads better",
+      "what": "Use streams where they clarify (filter/map/collect over collections), keep imperative loops where order, early exit or checked resources matter; never use parallelStream for I/O-bound work.",
+      "why": "parallelStream uses the shared ForkJoinPool for I/O-bound work: it blocks the common pool that everything else in the JVM depends on, and gains nothing on network waits.",
+      "how": "Sequential streams for clarity; explicit executors for parallel I/O; measured parallelism only for CPU-bound work with enough items.",
+      "detect": {"automation": "full", "patterns": [{"re": "parallelStream\\(\\)", "scope": ["java"], "note": "parallelStream; verify the pipeline is CPU-bound and the data volume justifies it."}]},
+      "verify": {"method": "measure", "how": "Throughput measured sequential vs parallel on the real workload; common-pool contention checked."},
+      "limits": ["Some CPU-bound workloads do gain; the measurement is the verdict, the default is no."],
+      "priority": "medium",
+      "applies": ["java"],
+      "origin": ["green-claude:java.json", "green-codex:LANG-JAVA-001"],
+      "rgesn": null
+    },
+    {
+      "id": "NR-LANG-JAVA-002",
+      "title": "Try-with-resources everywhere",
+      "what": "Every Closeable (streams, connections, statements, files) is opened in try-with-resources; no manual close paths that an exception can skip.",
+      "why": "A leaked connection pool under load is a production outage in slow motion: the error path is the common path, and manual close on it is where resources go missing.",
+      "how": "try (var conn = ds.getConnection(); var ps = conn.prepareStatement(sql)) { ... } - the language construct makes the release unconditional.",
+      "detect": {"automation": "partial", "patterns": [{"re": "\\w+\\s*=\\s*\\w+\\.getConnection\\(\\)", "scope": ["java"], "note": "Connection assigned outside try-with-resources; verify closure on all paths."}]},
+      "verify": {"method": "test", "how": "Fault-injection test: pool usage returns to baseline after failures; no leaked connections in pool metrics."},
+      "limits": [],
+      "priority": "high",
+      "applies": ["java"],
+      "origin": ["green-claude:java.json", "green-codex:DB-EFF-006"],
+      "rgesn": null,
+      "see": ["NR-BACK-006"]
+    },
+    {
+      "id": "NR-LANG-JAVA-003",
+      "title": "Lazy or batched JPA access",
+      "what": "JPA access avoids N+1: fetch joins or entity graphs for traversed relations, batched IN queries for collections, projections (DTO) over full entities where only fields are read.",
+      "why": "A lazy relation traversed in a loop issues one query per row; a full entity where three fields are read hydrates the whole graph per row. Both multiply silently with data.",
+      "how": "JOIN FETCH / @EntityGraph for accessed relations, IN-batching for collections, constructor projections for read paths; verify with hibernate query logging.",
+      "detect": {"automation": "partial", "patterns": [{"re": "for\\s*\\([^)]*:[^)]*\\)\\s*\\{[\\s\\S]{0,300}?\\.get\\w+\\(\\)\\.", "scope": ["java"], "note": "Relation traversal inside a loop; candidate N+1 with lazy relations."}, {"re": "findAll\\(\\)", "scope": ["java"], "note": "Unbounded findAll; verify pagination upstream."}]},
+      "verify": {"method": "test", "how": "Hibernate statistics: query count constant as row count grows."},
+      "limits": [],
+      "priority": "high",
+      "applies": ["java"],
+      "origin": ["green-claude:java.json", "green-codex:DB-EFF-002"],
+      "rgesn": null,
+      "see": ["NR-DATA-002"]
+    },
+    {
+      "id": "NR-LANG-JAVA-004",
+      "title": "Bound the JVM to the container",
+      "what": "JVM flags match the container's CPU and memory limits (MaxRAMPercentage), GC chosen for the workload and measured; no unbounded heap in a container.",
+      "why": "A JVM sized for a bare-metal machine inside a 512 MB container gets OOM-killed on the first peak; one sized correctly stays flat and avoids the swap spiral.",
+      "how": "-XX:MaxRAMPercentage=75 (or explicit -Xmx), container-aware GC (Serial/G1/ZGC by profile), startup flags under version control, GC logs reviewed.",
+      "detect": {"automation": "partial", "patterns": [{"re": "-Xmx\\s*(\\d+[gG])[bB]?\\s*$", "scope": ["conf", "dockerfile"], "note": "Very large fixed heap; verify it matches the container limit."}]},
+      "verify": {"method": "measure", "how": "Container memory profile under load: RSS within limit, no OOM kills, GC pauses within SLA."},
+      "limits": [],
+      "priority": "medium",
+      "applies": ["java", "infra"],
+      "origin": ["green-codex:INFRA-EFF-004", "green-claude:java.json"],
+      "rgesn": null
+    },
+    {
+      "id": "NR-LANG-JAVA-005",
+      "title": "No reflection on hot paths",
+      "what": "Reflection, dynamic proxies and annotation scanning are kept off measured hot paths; the framework's start-up scope, not the request path.",
+      "why": "Reflection per request costs class metadata lookups and boxing on every call, and hides the actual work from profilers.",
+      "how": "Resolve reflection targets at startup, cache Method handles, use generated accessors on hot paths.",
+      "detect": {"automation": "partial", "patterns": [{"re": "\\.getDeclaredMethod|Class\\.forName", "scope": ["java"], "note": "Reflective lookup; candidate if reachable from a request handler."}]},
+      "verify": {"method": "measure", "how": "Profile shows reflective lookup not in the top functions of the request path."},
+      "limits": ["Framework internals use reflection legitimately; the rule targets application code on hot paths."],
+      "priority": "low",
+      "applies": ["java"],
+      "origin": ["green-claude:java.json", "green-codex:LANG-JAVA-003"],
+      "rgesn": null
+    }
+  ]
+}

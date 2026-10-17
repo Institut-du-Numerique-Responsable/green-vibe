@@ -1,0 +1,65 @@
+{
+  "family": "lang-shell",
+  "title": "Shell (bash/zsh)",
+  "version": "1.0",
+  "rules": [
+    {
+      "id": "NR-LANG-SH-001",
+      "title": "One tool call instead of a pipeline of greps",
+      "what": "Search and transform with one well-chosen tool call (grep -r, find -exec, awk script) rather than chains of grep | grep | cut | sort per file in a loop.",
+      "why": "Each pipeline stage is a process spawn plus a full pass over the data; five stages in a loop over a hundred files is five hundred processes for what one awk pass does once.",
+      "how": "Prefer a single awk/grep invocation with a script; iterate files inside the tool (find -exec, grep -r), not in a shell loop.",
+      "detect": {"automation": "partial", "patterns": [{"re": "for\\s+\\w+\\s+in\\s*\\$\\(ls", "scope": ["sh", "bash"], "note": "Loop over ls output; use find or globbing directly."}, {"re": "grep[^\\n|]*\\|\\s*grep\\b", "scope": ["sh", "bash"], "note": "grep piped into grep; a single pattern or awk is usually enough."}]},
+      "verify": {"method": "measure", "how": "Script runtime and process count measured against the budget."},
+      "limits": ["Readability of the pipeline matters; a clear two-stage pipe beats an unreadable awk one-liner."],
+      "priority": "medium",
+      "applies": ["sh", "bash"],
+      "origin": ["green-codex:LANG-SHELL-001", "green-claude:shell.json"],
+      "rgesn": null
+    },
+    {
+      "id": "NR-LANG-SH-002",
+      "title": "Set -euo pipefail in scripts, quoted variables",
+      "what": "Scripts that matter run with set -euo pipefail and quote every expansion; pipelines do not hide failures.",
+      "why": "Without pipefail, a failing stage in a pipeline is silently swallowed by the next one - a script that 'succeeds' while having done nothing costs the run plus the debugging. Unquoted expansions split on spaces and corrupt paths.",
+      "how": "set -euo pipefail at the top of scripts, \"$var\" everywhere, explicit checks where a failure is expected.",
+      "detect": {"automation": "special", "detector": "shebang_strict"},
+      "verify": {"method": "test", "how": "Injected failure in a pipeline stage aborts the script with a non-zero code."},
+      "limits": ["Interactive or intentionally-fallible scripts opt out with a comment."],
+      "priority": "medium",
+      "applies": ["sh", "bash"],
+      "origin": ["green-codex:LANG-SHELL-002", "green-claude:shell.json"],
+      "rgesn": null
+    },
+    {
+      "id": "NR-LANG-SH-003",
+      "title": "Trap cleanup, mktemp files always",
+      "what": "Temporary files are created with mktemp and removed by a trap on EXIT; no fixed /tmp names, no orphaned files on failure.",
+      "why": "A fixed temp name collides between concurrent runs and leaks on failure; a trap makes cleanup unconditional, which is the only kind that survives an error path.",
+      "how": "tmp=$(mktemp); trap 'rm -f \"$tmp\"' EXIT - the pattern is three lines and closes the whole class.",
+      "detect": {"automation": "partial", "patterns": [{"re": "/tmp/\\w+\\.\\w{1,4}\\b", "scope": ["sh", "bash"], "note": "Fixed /tmp filename; candidate for mktemp."}]},
+      "verify": {"method": "test", "how": "Run ending in failure leaves no temp file behind (orphan check in a scratch dir)."},
+      "limits": [],
+      "priority": "medium",
+      "applies": ["sh", "bash"],
+      "origin": ["green-codex:LANG-SHELL-003", "green-claude:shell.json"],
+      "rgesn": null,
+      "see": ["NR-BACK-006"]
+    },
+    {
+      "id": "NR-LANG-SH-004",
+      "title": "Bounded loops, no infinite retries",
+      "what": "Retry loops in shell scripts have a maximum attempt count and a sleep; a wait loop has a timeout; no unbounded until true.",
+      "why": "A shell script retrying forever holds its session, its locks and its place in the pipeline for as long as the failure lasts.",
+      "how": "for attempt in $(seq 1 N) with a sleep and a final failure exit; timeout(1) for wait loops.",
+      "detect": {"automation": "partial", "patterns": [{"re": "while\\s+(\\[\\s*\\]?|!\\s*)*(true|:)\\s*;?\\s*do", "scope": ["sh", "bash"], "note": "while true loop; verify an exit condition, a counter or a timeout."}]},
+      "verify": {"method": "test", "how": "Permanently-failing dependency: script exits non-zero within the stated attempts/time."},
+      "limits": ["Supervisors (systemd, k8s) own retry policy for services; the rule is about scripts."],
+      "priority": "medium",
+      "applies": ["sh", "bash"],
+      "origin": ["green-codex:LANG-SHELL-004", "green-claude:shell.json"],
+      "rgesn": null,
+      "see": ["NR-BACK-001"]
+    }
+  ]
+}

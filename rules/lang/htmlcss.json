@@ -1,0 +1,81 @@
+{
+  "family": "lang-html-css",
+  "title": "HTML and CSS",
+  "version": "1.0",
+  "rules": [
+    {
+      "id": "NR-LANG-HTML-001",
+      "title": "Semantic HTML",
+      "what": "Use semantic elements (nav, main, button, table) rather than div/span + JS replicas; a native element carries the accessibility contract for free.",
+      "why": "A native button is focusable, keyboard-operable, screen-reader-announced and zero-JS; a div+JS replica must reimplement all four, and usually only does two.",
+      "how": "Default to semantic elements; ARIA only on top of semantics that the platform cannot express; validate with keyboard and screen reader passes.",
+      "detect": {"automation": "partial", "patterns": [{"re": "<div[^>]*(role=[\"'](button|link)[\"'])", "scope": ["html"], "note": "div with a button/link role; a native element is usually the fix."}, {"re": "<span[^>]*onclick", "scope": ["html"], "note": "Clickable span; candidate for button/a."}]},
+      "verify": {"method": "test", "how": "Keyboard journey works on native semantics; automated a11y checks run on the result."},
+      "limits": [],
+      "priority": "high",
+      "applies": ["html", "css"],
+      "origin": ["green-codex:LANG-HTML-001", "green-claude:ECO-UX-03", "NR-UX-001"],
+      "rgesn": null,
+      "see": ["NR-UX-001", "NR-UX-003"]
+    },
+    {
+      "id": "NR-LANG-HTML-002",
+      "title": "Media with explicit dimensions and lazy loading",
+      "what": "img/video carry width and height (or aspect-ratio) and loading=\"lazy\" when below the fold; no layout-shifting media.",
+      "why": "Missing dimensions force a layout shift on every late-loading image (wasted reflow) and a lower CLS; lazy loading keeps below-the-fold bytes off the first paint entirely.",
+      "how": "width/height attributes on the media elements, loading=lazy + decoding=async below the fold, aspect-ratio in CSS for fluid layouts.",
+      "detect": {"automation": "partial", "patterns": [{"re": "<img(?![^>]*(width|aspect-ratio))[^>]*>", "scope": ["html"], "note": "img without dimensions; candidate for layout shift."}]},
+      "verify": {"method": "static", "how": "Audited pages: media elements carry dimensions; CLS within budget."},
+      "limits": [],
+      "priority": "medium",
+      "applies": ["html", "css"],
+      "origin": ["green-claude:ECO-CONT-01", "green-codex:LANG-HTML-002"],
+      "rgesn": null,
+      "see": ["NR-CONTENT-001"]
+    },
+    {
+      "id": "NR-LANG-HTML-003",
+      "title": "Forms: labels, autocomplete, validation",
+      "what": "Every input has a label, relevant autocomplete attributes, and inline validation; forms never lose user input on failure.",
+      "why": "A form that loses input or is inaccessible wastes every byte spent reaching it, and the user's whole effort - the most expensive failure of all (NR-UX-006).",
+      "how": "label for=, input autocomplete=, client validation with server confirmation, preserved values on error.",
+      "detect": {"automation": "partial", "patterns": [{"re": "<input(?![^>]*(aria-label|\\bid=))[^>]*>", "scope": ["html"], "note": "Input with no label, aria-label or bindable id; candidate for a missing label."}]},
+      "verify": {"method": "test", "how": "Failing submission keeps input and reports field-level errors; keyboard-only completion works."},
+      "limits": [],
+      "priority": "medium",
+      "applies": ["html", "ux"],
+      "origin": ["green-codex criteria: Opquast/RGAA", "NR-UX-006"],
+      "rgesn": null,
+      "see": ["NR-UX-006"]
+    },
+    {
+      "id": "NR-LANG-CSS-001",
+      "title": "Modern layout over hacks",
+      "what": "Use flexbox/grid for layout; no float hacks, no presentational divs, no CSS table displays for layout.",
+      "why": "Layout hacks add wrapper nodes and CSS workarounds the browser must reconcile on every layout pass; native layout properties express the same intent with less code and better reflow cost.",
+      "how": "Grid for two-dimensional, flex for one-dimensional, gap instead of margin hacks; remove the wrappers the old hack required.",
+      "detect": {"automation": "partial", "patterns": [{"re": "float:\\s*(left|right)", "scope": ["css", "scss"], "note": "Float used for layout; candidate for flex/grid migration."}, {"re": "display:\\s*table(-cell)?", "scope": ["css", "scss"], "note": "CSS table for layout; modern layout usually expresses it better."}]},
+      "verify": {"method": "static", "how": "Stylesheet review: no layout floats outside documented legacy scope."},
+      "limits": ["Email templates and legacy browsers constrain layout tools; document the scope."],
+      "priority": "low",
+      "applies": ["css"],
+      "origin": ["green-codex:LANG-CSS-001", "green-claude:ECO-FRONT-12"],
+      "rgesn": null
+    },
+    {
+      "id": "NR-LANG-CSS-002",
+      "title": "System fonts or subset web fonts",
+      "what": "Prefer system font stacks; when a brand font is required, subset it, limit weights, self-host with preload on the critical one and font-display: swap.",
+      "why": "Web fonts block or shift text rendering and transfer tens to hundreds of KB per weight; system fonts cost nothing and never flash. Subsetting removes the glyphs the page never displays.",
+      "how": "font-family stacks with named system fallbacks; unicode-range subsetting (latin + used glyphs), 2-3 weights maximum, swap + preload for the critical file.",
+      "detect": {"automation": "partial", "patterns": [{"re": "fonts\\.(googleapis|gstatic)\\.com", "scope": ["html", "css"], "note": "Google Fonts tag/link; check subsetting, weight count, self-hosting trade-off."}]},
+      "verify": {"method": "static", "how": "Font inventory: families, weights, subsets, loading strategy, fallbacks; text renders without long invisible period."},
+      "limits": ["Brand fonts are legitimate; the rule bounds their cost."],
+      "priority": "medium",
+      "applies": ["css", "html"],
+      "origin": ["green-claude:ECO-UX-05", "NR-CONTENT-004"],
+      "rgesn": null,
+      "see": ["NR-CONTENT-004"]
+    }
+  ]
+}

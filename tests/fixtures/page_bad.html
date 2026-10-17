@@ -1,0 +1,24 @@
+<!-- Fixture: a page gathering detectable frontend anti-patterns -->
+<!doctype html>
+<html lang="fr">
+<head>
+  <meta charset="utf-8">
+  <title>Demo</title>
+  <script src="https://thirdparty.example.com/tracker.js"></script>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Roboto:wght@100..900">
+</head>
+<body>
+  <video autoplay loop muted>
+    <source src="hero.mp4" type="video/mp4">
+  </video>
+  <img src="logo.jpg">
+  <div role="button" onclick="go()">Start</div>
+  <input type="text" name="q">
+  <img src="http://cdn.example.com/icon.png">
+  <span onclick="menu()">Menu</span>
+  <script>
+    // legit: string below must not be flagged
+    var s = "SELECT * FROM nothing";
+  </script>
+</body>
+</html>

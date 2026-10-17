@@ -1,0 +1,24 @@
+Green Vibe — license scope
+
+Copyright (c) 2026 Institut du Numérique Responsable
+
+Code (validators, scripts, hooks, tests and executable tooling) is licensed
+under the Apache License, Version 2.0.
+
+Rule catalogs (rules/**/*.json), references, SKILL.md, KNOWLEDGE.md,
+documentation and original editorial content are licensed under Creative
+Commons Attribution 4.0 International (CC BY 4.0). Embedded code examples in
+these materials may also be used under Apache-2.0.
+
+This is a division by content type, not a choice of license for every file.
+Repository metadata describing the combined distribution uses the SPDX
+expression Apache-2.0 AND CC-BY-4.0.
+
+Full license texts are included in LICENSES/Apache-2.0.txt and
+LICENSES/CC-BY-4.0.txt. See NOTICE for attribution.
+
+The rules are derived from Green Claude and Green Codex, both (c) Institut du
+Numérique Responsable, licensed Apache-2.0 (code) and CC BY 4.0 (rule catalogs,
+documentation). The author of both projects has authorised this rewrite.
+
+These licenses grant no trademark rights in project names or logos.

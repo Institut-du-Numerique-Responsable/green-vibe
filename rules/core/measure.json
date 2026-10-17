@@ -1,0 +1,78 @@
+{
+  "family": "measure",
+  "title": "Measurement and honest claims",
+  "version": "1.0",
+  "rules": [
+    {
+      "id": "NR-MEASURE-001",
+      "title": "Baseline and functional unit before comparing",
+      "what": "Any resource comparison starts from a recorded baseline of the current alternative, measured on a stated functional unit.",
+      "why": "Without a baseline, 'faster' or 'lighter' means 'feels like it'. Comparisons without a unit compare different things.",
+      "how": "Record: task measured, workload, hardware/cloud context, method, sample size, uncertainty. Then measure the candidate the same way.",
+      "detect": {"automation": "none"},
+      "verify": {"method": "measure", "how": "A comparison ships with both measurements, same unit, same context, stated sample."},
+      "limits": ["No measurement means unknown gains, not zero impact."],
+      "priority": "high",
+      "applies": ["measure", "any"],
+      "origin": ["green-codex:MEASURE-EFF-001", "green-claude:ECO-STRAT-08"],
+      "rgesn": "1.4, 1.5",
+      "see": ["references/measurement.md"]
+    },
+    {
+      "id": "NR-MEASURE-002",
+      "title": "A tool score is an indicator, not compliance",
+      "what": "Never convert an EcoIndex, Lighthouse score, sonar score or a clean scan into 'RGESN/RGAA compliant'. Each tool proves only its narrow checks.",
+      "why": "Scores are proxies: they measure what they can measure, not what the referential requires. Treating a proxy as proof blocks the real audit and misleads the reader.",
+      "how": "Report the score with the tool name, version and date, next to what it does and does not cover. Compliance claims require the referential's own procedure.",
+      "detect": {"automation": "none"},
+      "verify": {"method": "review", "how": "No compliance wording appears without the referential's test procedure and evidence."},
+      "limits": [],
+      "priority": "high",
+      "applies": ["measure", "docs", "any"],
+      "origin": ["green-codex:MEASURE-EFF-002", "green-codex criteria discipline"],
+      "rgesn": null
+    },
+    {
+      "id": "NR-MEASURE-003",
+      "title": "Distinguish technical gain from environmental impact",
+      "what": "Report technical gains as technical gains. An environmental claim requires a measured reduction on a stated boundary, and nothing else.",
+      "why": "Fewer bytes, less CPU, fewer tokens are real savings, but energy, water and CO2 depend on hardware, grid mix, caching and usage patterns. The direction is honest; the ratio must be measured.",
+      "how": "Say 'reduced transferred bytes by 40% (measured)', not 'reduced carbon footprint by 40%'. Never copy a percentage from a vendor, benchmark or case study.",
+      "detect": {"automation": "none"},
+      "verify": {"method": "review", "how": "Every environmental wording in the docs traces to a measurement of its own."},
+      "limits": ["Direction of improvement (fewer resources processed -> less energy) holds qualitatively; the quantitative claim does not."],
+      "priority": "high",
+      "applies": ["measure", "docs", "ai", "any"],
+      "origin": ["green-codex:MEASURE-EFF-003", "green-claude:ECO-ALGO-09"],
+      "rgesn": "9.x"
+    },
+    {
+      "id": "NR-MEASURE-004",
+      "title": "Unknown is not zero",
+      "what": "When a gain was not measured, say 'unknown'; never present an unmeasured change as neutral or beneficial.",
+      "why": "'Unknown' is actionable: it names the next measurement. 'Probably fine' hides both risks and wasted effort.",
+      "how": "In reports, mark each assessed rule verified / failed / not_tested / manual_review_required, and list measurement gaps as next actions.",
+      "detect": {"automation": "none"},
+      "verify": {"method": "review", "how": "Reports contain an explicit measurement-gaps section."},
+      "limits": [],
+      "priority": "medium",
+      "applies": ["measure", "any"],
+      "origin": ["green-codex measurement discipline"],
+      "rgesn": null
+    },
+    {
+      "id": "NR-MEASURE-005",
+      "title": "Monitor what grows",
+      "what": "Watch the resources that grow silently: payload sizes, query counts per view, cache sizes, log volumes, dependency counts, build times.",
+      "why": "Growth is invisible per change and obvious over a quarter. A budget alert catches what no single review can.",
+      "how": "Track the metric over time, set a budget per functional unit, alert when crossed, review the trend at each ecodesign review.",
+      "detect": {"automation": "none"},
+      "verify": {"method": "measure", "how": "Metric history exists with a budget and alert configuration."},
+      "limits": ["Monitoring itself costs; instrument the few metrics that drive decisions."],
+      "priority": "medium",
+      "applies": ["measure", "infra", "backend"],
+      "origin": ["green-claude:ECO-HEB-10", "green-codex:OPS-EFF-002"],
+      "rgesn": "8.x"
+    }
+  ]
+}

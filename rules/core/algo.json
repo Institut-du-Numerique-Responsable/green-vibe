@@ -1,0 +1,327 @@
+{
+  "family": "algo",
+  "title": "Algorithms and runtime compute",
+  "version": "1.0",
+  "rules": [
+    {
+      "id": "NR-ALGO-001",
+      "title": "No premature optimisation",
+      "what": "Do not optimise what is not proven hot. Profile first, optimise the measured hot path, and keep the profile as evidence.",
+      "why": "Optimised cold code costs readability for no gain; the guess about what is hot is usually wrong by a wide margin.",
+      "how": "Run the workload with a profiler, rank by total time, optimise the top items, re-measure, keep both profiles.",
+      "detect": {
+        "automation": "none"
+      },
+      "verify": {
+        "method": "measure",
+        "how": "Before/after profiles on the same workload accompany the optimisation commit."
+      },
+      "limits": [],
+      "priority": "high",
+      "applies": [
+        "any"
+      ],
+      "origin": [
+        "green-claude:ECO-STRAT-01 area",
+        "green-codex:LANG-PYTHON-002"
+      ],
+      "rgesn": "1.4, 1.5",
+      "see": [
+        "NR-STRAT-001"
+      ]
+    },
+    {
+      "id": "NR-ALGO-002",
+      "title": "Complexity under control on growing inputs",
+      "what": "Code paths that receive growing inputs avoid quadratic-or-worse behaviour (nested loops, repeated contains on linear structures); data structures match the access pattern.",
+      "why": "O(n^2) on user data is the pattern that makes a service die on the day it succeeds: it works perfectly until the data grows, then it melts.",
+      "how": "For collection processing: hash-map lookups instead of nested scans, early exits, single-pass aggregation; state the input-size assumption in a comment when it matters.",
+      "detect": {
+        "automation": "special",
+        "detector": "nested_loops",
+        "patterns": [
+          {
+            "re": "\\.includes\\(|\\bin\\s+\\[",
+            "scope": [
+              "js",
+              "ts"
+            ],
+            "note": "Linear membership scan inside loops; candidate for Set/Map."
+          }
+        ]
+      },
+      "verify": {
+        "method": "test",
+        "how": "Complexity test: runtime on 2x input stays within the stated growth budget (not 4x)."
+      },
+      "limits": [
+        "Nested loops over two small bounded collections are fine; the audit finding is a candidate, not a verdict."
+      ],
+      "priority": "high",
+      "applies": [
+        "any",
+        "backend",
+        "frontend",
+        "algo"
+      ],
+      "origin": [
+        "green-claude:ECO-BACK-03",
+        "green-codex:CODE-EFF-009"
+      ],
+      "rgesn": "7.x, 9.1"
+    },
+    {
+      "id": "NR-ALGO-003",
+      "title": "Stream and chunk large data",
+      "what": "Process data larger than memory in a stream or by chunks; never load a whole large file, result set or payload into memory at once.",
+      "why": "Loading whole datasets caps the service at the size of its largest file and pays the full memory cost for data mostly passed over.",
+      "how": "Iterators/generators, chunked reads, HTTP streaming, cursor queries; cap and reject payloads above the stated maximum.",
+      "detect": {
+        "automation": "partial",
+        "patterns": [
+          {
+            "re": "\\.read\\(\\s*\\)|\\.readlines\\(\\)|readFileSync\\(",
+            "scope": [
+              "py",
+              "js",
+              "ts"
+            ],
+            "note": "Whole-file read; candidate if the file is user-supplied or unbounded."
+          }
+        ]
+      },
+      "verify": {
+        "method": "test",
+        "how": "Processing a file larger than the memory budget completes within bounded memory."
+      },
+      "limits": [
+        "Small config files read whole are fine; the rule targets data that grows."
+      ],
+      "priority": "high",
+      "applies": [
+        "any",
+        "backend",
+        "data"
+      ],
+      "origin": [
+        "green-codex:LANG-PYTHON-001",
+        "green-claude:ECO-BACK-04 area"
+      ],
+      "rgesn": "7.x, 9.1"
+    },
+    {
+      "id": "NR-ALGO-004",
+      "title": "Beware catastrophic regex",
+      "what": "Regular expressions applied to untrusted input avoid unbounded backtracking: no nested quantifiers on ambiguous patterns; prefer a parser for structured input.",
+      "why": "A catastrophic-backtracking regex turns one hostile input into a service outage: exponential CPU on a single thread, blocking everything behind it.",
+      "how": "Test the regex with adversarial inputs; avoid (.*)+ patterns; bound input length; use a real parser for structured formats (URLs, dates, JSON).",
+      "detect": {
+        "automation": "partial",
+        "patterns": [
+          {
+            "re": "\\(\\.[^)]*\\)[*+].*\\(\\.[^)]*\\)[*+]",
+            "scope": [
+              "any"
+            ],
+            "note": "Nested quantified groups; classic backtracking risk; verify with adversarial input."
+          }
+        ]
+      },
+      "verify": {
+        "method": "test",
+        "how": "Adversarial-input test completes within the time budget or rejects cleanly."
+      },
+      "limits": [],
+      "priority": "medium",
+      "applies": [
+        "any",
+        "backend",
+        "security"
+      ],
+      "origin": [
+        "green-codex:CODE-EFF-004"
+      ],
+      "rgesn": "7.x"
+    },
+    {
+      "id": "NR-ALGO-005",
+      "title": "Memoise or precompute repeated work",
+      "what": "Work repeated with the same inputs is computed once: memoise pure functions, precompute on write when many reads pay for it, or cache (NR-BACK-003).",
+      "why": "Recomputation is the quiet cost multiplier: it wastes the same CPU on every request when one computation with a stored result would serve.",
+      "how": "Identify pure repeated computations, memoise with a bounded store, or move the computation to write-time when the read/write ratio justifies it.",
+      "detect": {
+        "automation": "none"
+      },
+      "verify": {
+        "method": "measure",
+        "how": "Compute count per unit of work decreased; measured on the workload."
+      },
+      "limits": [
+        "Memoisation of impure or volatile functions creates bugs; purity first, speed second."
+      ],
+      "priority": "medium",
+      "applies": [
+        "any",
+        "backend"
+      ],
+      "origin": [
+        "green-codex:CODE-EFF-003",
+        "green-claude:ECO-BACK-04"
+      ],
+      "rgesn": "7.x"
+    },
+    {
+      "id": "NR-ALGO-006",
+      "title": "Bound concurrent work",
+      "what": "Concurrency (threads, coroutines, workers) is bounded to the platform's real capacity; unbounded fan-out is replaced by queues with limits.",
+      "why": "Concurrency beyond capacity multiplies context switching, memory and failure rate while throughput goes down - the extra workers do damage, not work.",
+      "how": "Pool sizes from measured throughput curves, queue with backpressure upstream, cap parallel requests per client.",
+      "detect": {
+        "automation": "partial",
+        "patterns": [
+          {
+            "re": "Promise\\.all\\(\\s*\\w+\\.map\\(",
+            "scope": [
+              "js",
+              "ts"
+            ],
+            "note": "Unbounded Promise.all over a mapped collection; candidate for a concurrency-limited runner."
+          },
+          {
+            "re": "multiprocessing\\.Pool\\(\\s*\\)",
+            "scope": [
+              "py"
+            ],
+            "note": "Pool with default size; verify it matches the machine profile."
+          }
+        ]
+      },
+      "verify": {
+        "method": "test",
+        "how": "Load beyond the bound: queueing or rejection, no worker explosion; throughput curve stays on its plateau."
+      },
+      "limits": [],
+      "priority": "high",
+      "applies": [
+        "backend",
+        "algo",
+        "architecture"
+      ],
+      "origin": [
+        "green-claude:ECO-ARCH-11",
+        "green-codex:CODE-EFF-006"
+      ],
+      "rgesn": "3.2, 9.1"
+    },
+    {
+      "id": "NR-ALGO-007",
+      "title": "Fail fast, avoid zombie work",
+      "what": "Invalid input is rejected at the entry point; long work checks a cancellation signal; failures stop dependent work instead of continuing to completion.",
+      "why": "Work done on invalid or already-failed premises consumes the full cost for a result that will be discarded: the most expensive computation is the one nobody needed.",
+      "how": "Validate at the boundary, propagate cancellation (abort signals, ctx.Err, interruption flags), short-circuit dependent steps on failure.",
+      "detect": {
+        "automation": "none"
+      },
+      "verify": {
+        "method": "test",
+        "how": "Cancellation mid-work stops dependent calls; invalid input rejected before any expensive processing."
+      },
+      "limits": [],
+      "priority": "medium",
+      "applies": [
+        "backend",
+        "any",
+        "ai"
+      ],
+      "origin": [
+        "green-codex:CODE-EFF-007",
+        "green-claude:ECO-BACK-07 area"
+      ],
+      "rgesn": "9.1"
+    },
+    {
+      "id": "NR-ALGO-008",
+      "title": "Use the platform's async/blocking model correctly",
+      "what": "Blocking work never occupies a platform's event loop: async runtimes get awaited I/O, thread-based runtimes get pooled blocking calls; CPU-bound work goes off the request path.",
+      "why": "One blocked event loop stalls every concurrent request behind it; blocking work is a scalability bug disguised as a slow function.",
+      "how": "In Node: no sync filesystem/crypto in handlers, CPU-heavy work to worker threads or queues. In async Python: no blocking calls without offloading. State the model in the service design.",
+      "detect": {
+        "automation": "partial",
+        "patterns": [
+          {
+            "re": "(readFileSync|writeFileSync|execSync|pbkdf2Sync)\\(",
+            "scope": [
+              "js",
+              "ts",
+              "jsx",
+              "tsx"
+            ],
+            "note": "Sync call in a JS codebase; verify it is not on the request path."
+          },
+          {
+            "re": "time\\.sleep\\(",
+            "scope": [
+              "py"
+            ],
+            "note": "Blocking sleep; in async code use asyncio.sleep and verify the context."
+          }
+        ]
+      },
+      "verify": {
+        "method": "test",
+        "how": "Concurrency test: one slow operation does not delay unrelated concurrent requests beyond budget."
+      },
+      "limits": [
+        "Startup-only or CLI code may block; the rule targets the request path."
+      ],
+      "priority": "high",
+      "applies": [
+        "backend",
+        "frontend"
+      ],
+      "origin": [
+        "green-claude:ECO-FRONT-07 area",
+        "green-codex:CODE-EFF-008"
+      ],
+      "rgesn": "7.x"
+    },
+    {
+      "id": "NR-ALGO-009",
+      "title": "Memory bounded, swap avoided",
+      "what": "Runtime memory has an explicit budget; hot paths avoid unbounded retention (growing caches, leaked references, whole-dataset copies); swapping is treated as a defect.",
+      "why": "Swapping turns compute into disk I/O on a path meant to be fast: latency multiplies, and the hardware's useful work collapses. Growing memory is the same failure in slow motion.",
+      "how": "Cap caches and buffers, profile allocations on the hot path, watch swap counters, alert on growth trends.",
+      "detect": {
+        "automation": "partial",
+        "patterns": [
+          {
+            "re": "(\\.copy\\(\\)|copy\\.deepcopy|list\\(\\w+\\)|[\\[]\\.concat)",
+            "scope": [
+              "py",
+              "js",
+              "ts"
+            ],
+            "note": "Full-copy of a possibly large structure; candidate inside loops."
+          }
+        ]
+      },
+      "verify": {
+        "method": "measure",
+        "how": "Memory profile flat under sustained load; no swap on the production workload."
+      },
+      "limits": [],
+      "priority": "medium",
+      "applies": [
+        "backend",
+        "algo",
+        "ai"
+      ],
+      "origin": [
+        "green-claude:ECO-ALGO-22",
+        "green-claude:ECO-ALGO-24",
+        "green-codex:CODE-EFF-010"
+      ],
+      "rgesn": "8.x, 9.x"
+    }
+  ]
+}

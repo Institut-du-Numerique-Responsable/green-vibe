@@ -394,11 +394,11 @@
     {
       "id": "NR-USAGE-028",
       "title": "Least privilege for the agent",
-      "what": "Run the agent with the least privilege the task needs: plan for exploration, default or accept-edits for normal work, auto-approve only in a sandbox; trust only folders you have reviewed.",
+      "what": "Run the agent with the least privilege the task needs: plan for exploration, ask (called default in the docs) or accept-edits for normal work, auto-approve only in a sandbox; trust only folders you have reviewed.",
       "why": "Broad permissions let a mistaken or manipulated tool call do real damage, and rework after damage costs far more than an approval prompt. Reliability and ethics are part of Numérique Responsable.",
       "how": "Shift+Tab or --agent to pick the agent; per-tool permissions in config.toml; review .vibe/, AGENTS.md and hooks before trusting a folder; smart-approve is a classifier, not a sandbox.",
       "detect": {"automation": "none"},
-      "verify": {"method": "review", "how": "Agent and permissions match the task; auto-approve only in isolated environments."},
+      "verify": {"method": "review", "how": "Agent and permissions match the task (vibe --agent ask|plan|accept-edits|smart-approve|auto-approve); auto-approve only in isolated environments."},
       "limits": [],
       "priority": "high",
       "applies": ["usage"],

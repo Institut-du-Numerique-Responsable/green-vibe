@@ -4,6 +4,12 @@
 
 This file records the changes in each version (SemVer).
 
+## 0.2.2 (2026-10-17)
+
+- NR-USAGE-028 names the built-in agent `ask`, as the Vibe CLI does
+  (`vibe --help`, `BuiltinAgentName`); the Vibe docs call it `default`.
+  Reported upstream in mistralai/mistral-vibe#1279.
+
 ## 0.2.1 (2026-10-17)
 
 Fixes from the 0.2.0 code review; no rule added or removed.

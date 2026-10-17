@@ -1,14 +1,13 @@
 Green Vibe
 Copyright (c) 2026 Institut du Numérique Responsable (https://institutnr.org/)
 
-Green Vibe integrates Numérique Responsable (responsible digital) practices
-into the Mistral Vibe coding agent.
+Green Vibe integrates Numérique Responsable (Sustainable IT) practices -
+Green IT, IT for Green, IT for Social and Social for IT - into the Mistral
+Vibe coding agent.
 
-Rule content is an original rewrite authored for Green Vibe, derived from:
-- Green Claude (https://github.com/Institut-du-Numerique-Responsable/green-claude)
-- Green Codex  (https://github.com/Institut-du-Numerique-Responsable/green-codex)
-both by the Institut du Numérique Responsable.
+Rule content is authored by the Institut du Numérique Responsable.
 
-Rule sheets record their per-rule origin ("origin" field) and the official
-referential they relate to, when one applies ("rgesn" field). Identifiers
+Rule sheets record their provenance ("origin" field: INR, and the official
+referentials they relate to, such as RGESN, RGAA or WCAG) and the RGESN
+criterion when one applies ("rgesn" field). Identifiers
 NR-* are Green Vibe project identifiers, not official criterion numbers.

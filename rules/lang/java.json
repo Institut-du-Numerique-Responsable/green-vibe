@@ -1,7 +1,7 @@
 {
   "family": "lang-java",
   "title": "Java",
-  "version": "1.0",
+  "version": "1.1",
   "rules": [
     {
       "id": "NR-LANG-JAVA-001",
@@ -14,7 +14,7 @@
       "limits": ["Some CPU-bound workloads do gain; the measurement is the verdict, the default is no."],
       "priority": "medium",
       "applies": ["java"],
-      "origin": ["green-claude:java.json", "green-codex:LANG-JAVA-001"],
+      "origin": ["INR"],
       "rgesn": null
     },
     {
@@ -28,7 +28,7 @@
       "limits": [],
       "priority": "high",
       "applies": ["java"],
-      "origin": ["green-claude:java.json", "green-codex:DB-EFF-006"],
+      "origin": ["INR"],
       "rgesn": null,
       "see": ["NR-BACK-006"]
     },
@@ -43,7 +43,7 @@
       "limits": [],
       "priority": "high",
       "applies": ["java"],
-      "origin": ["green-claude:java.json", "green-codex:DB-EFF-002"],
+      "origin": ["INR"],
       "rgesn": null,
       "see": ["NR-DATA-002"]
     },
@@ -58,7 +58,7 @@
       "limits": [],
       "priority": "medium",
       "applies": ["java", "infra"],
-      "origin": ["green-codex:INFRA-EFF-004", "green-claude:java.json"],
+      "origin": ["INR"],
       "rgesn": null
     },
     {
@@ -72,8 +72,68 @@
       "limits": ["Framework internals use reflection legitimately; the rule targets application code on hot paths."],
       "priority": "low",
       "applies": ["java"],
-      "origin": ["green-claude:java.json", "green-codex:LANG-JAVA-003"],
+      "origin": ["INR"],
       "rgesn": null
+    },
+    {
+      "id": "NR-LANG-JAVA-006",
+      "title": "Batch writes in bounded transactions",
+      "what": "Write entities and JDBC rows in batches (saveAll with hibernate.jdbc.batch_size, addBatch/executeBatch) inside bounded transactions; set a fetch size on large reads.",
+      "why": "One save or commit per row is one round trip per row; an unbounded transaction holds locks and undo for the whole run.",
+      "how": "spring.jpa.properties.hibernate.jdbc.batch_size=50, flush()/clear() every N entities, JdbcTemplate.batchUpdate, setFetchSize on streaming reads.",
+      "detect": {"automation": "partial", "patterns": [{"re": "for\\s*\\([^)]*\\)\\s*\\{[^}]*\\.(save|persist|executeUpdate)\\s*\\(", "scope": ["java"], "note": "Write call inside a loop: one round trip per row."}]},
+      "verify": {"method": "test", "how": "Integration test counts statements: proportional to batches, not rows."},
+      "limits": [],
+      "priority": "medium",
+      "applies": ["java", "data"],
+      "origin": ["INR", "RGESN 7.1"],
+      "rgesn": "7.1",
+      "see": ["NR-LANG-SQL-003"]
+    },
+    {
+      "id": "NR-LANG-JAVA-007",
+      "title": "StringBuilder in loops, parameterised logs",
+      "what": "Build strings in loops with StringBuilder, and log with placeholders (log.debug(\"x={}\", x)) instead of concatenation.",
+      "why": "+= on a String allocates at every iteration; a concatenated log message is built even when the level is disabled.",
+      "how": "StringBuilder sb = new StringBuilder(); SLF4J placeholders; guard expensive arguments with isDebugEnabled().",
+      "detect": {"automation": "partial", "patterns": [{"re": "\\blog(ger)?\\.(debug|info|trace)\\s*\\(\\s*\\\"[^\\\"]*\\\"\\s*\\+", "scope": ["java"], "note": "Concatenated log message; placeholders defer the formatting."}]},
+      "verify": {"method": "review", "how": "No String += in loops; log calls use placeholders."},
+      "limits": [],
+      "priority": "low",
+      "applies": ["java"],
+      "origin": ["INR", "RGESN 9.1"],
+      "rgesn": "9.1",
+      "see": ["NR-BACK-005"]
+    },
+    {
+      "id": "NR-LANG-JAVA-008",
+      "title": "Bounded caches, not static maps",
+      "what": "Cache through a bounded, expiring cache (Caffeine, Spring Cache with a spec) rather than a static Map that only grows.",
+      "why": "A static HashMap used as a cache keeps every entry until the JVM restarts: heap growth, longer GC pauses, eventually OOM.",
+      "how": "Caffeine.newBuilder().maximumSize(10_000).expireAfterWrite(Duration.ofMinutes(10)).",
+      "detect": {"automation": "partial", "patterns": [{"re": "static\\s+(final\\s+)?(Map|HashMap|ConcurrentHashMap)\\s*<[^>]*>\\s+\\w*(cache|Cache|CACHE)", "scope": ["java"], "note": "Static map named as a cache; check bound and expiry."}]},
+      "verify": {"method": "review", "how": "Every cache has a maximum size and an expiry."},
+      "limits": [],
+      "priority": "medium",
+      "applies": ["java", "backend"],
+      "origin": ["INR", "RGESN 7.3"],
+      "rgesn": "7.3",
+      "see": ["NR-ARCH-006"]
+    },
+    {
+      "id": "NR-LANG-JAVA-009",
+      "title": "Scheduled tasks justified, not polling",
+      "what": "@Scheduled jobs run at a justified frequency and never stand in for an event; prefer messages or change notifications.",
+      "why": "A high-frequency scheduled task queries for rare changes around the clock, spending CPU and database capacity for nothing.",
+      "how": "Trigger from the write (application events, a broker, CDC); otherwise widen fixedDelay/cron and document why.",
+      "detect": {"automation": "partial", "patterns": [{"re": "@Scheduled\\s*\\(\\s*(fixedRate|fixedDelay)\\s*=\\s*\\d{1,4}\\s*[,)]", "scope": ["java"], "note": "Schedule under 10 s; check it is not polling for an event."}]},
+      "verify": {"method": "review", "how": "Each schedule's interval is documented and matches the data's real change rate."},
+      "limits": [],
+      "priority": "medium",
+      "applies": ["java", "backend"],
+      "origin": ["INR", "RGESN 7.2"],
+      "rgesn": "7.2",
+      "see": ["NR-BACK-007"]
     }
   ]
 }

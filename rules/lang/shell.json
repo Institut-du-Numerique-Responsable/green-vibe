@@ -1,7 +1,7 @@
 {
   "family": "lang-shell",
   "title": "Shell (bash/zsh)",
-  "version": "1.0",
+  "version": "1.1",
   "rules": [
     {
       "id": "NR-LANG-SH-001",
@@ -14,7 +14,7 @@
       "limits": ["Readability of the pipeline matters; a clear two-stage pipe beats an unreadable awk one-liner."],
       "priority": "medium",
       "applies": ["sh", "bash"],
-      "origin": ["green-codex:LANG-SHELL-001", "green-claude:shell.json"],
+      "origin": ["INR"],
       "rgesn": null
     },
     {
@@ -28,7 +28,7 @@
       "limits": ["Interactive or intentionally-fallible scripts opt out with a comment."],
       "priority": "medium",
       "applies": ["sh", "bash"],
-      "origin": ["green-codex:LANG-SHELL-002", "green-claude:shell.json"],
+      "origin": ["INR"],
       "rgesn": null
     },
     {
@@ -42,7 +42,7 @@
       "limits": [],
       "priority": "medium",
       "applies": ["sh", "bash"],
-      "origin": ["green-codex:LANG-SHELL-003", "green-claude:shell.json"],
+      "origin": ["INR"],
       "rgesn": null,
       "see": ["NR-BACK-006"]
     },
@@ -57,9 +57,24 @@
       "limits": ["Supervisors (systemd, k8s) own retry policy for services; the rule is about scripts."],
       "priority": "medium",
       "applies": ["sh", "bash"],
-      "origin": ["green-codex:LANG-SHELL-004", "green-claude:shell.json"],
+      "origin": ["INR"],
       "rgesn": null,
       "see": ["NR-BACK-001"]
+    },
+    {
+      "id": "NR-LANG-SH-005",
+      "title": "Bounded logs, streamed data",
+      "what": "Scripts that append to logs rotate or cap them, and process large data as a stream rather than through intermediate copies.",
+      "why": "An appended log with no rotation grows until the disk fills; intermediate copies of large files double I/O and storage.",
+      "how": "logrotate or size checks; pipe through tools instead of writing temp copies; measure whether compression saves CPU plus I/O before enabling it.",
+      "detect": {"automation": "partial", "patterns": [{"re": ">>\\s*\\S+\\.log\\b", "scope": ["sh", "bash"], "note": "Append to a log file; check rotation.", "exclude_file": ["logrotate", "\\bstat\\b.*-c\\s*%s|wc\\s+-c"]}]},
+      "verify": {"method": "review", "how": "Every appended log has rotation or a cap; no full intermediate copy of large inputs."},
+      "limits": [],
+      "priority": "low",
+      "applies": ["sh", "infra"],
+      "origin": ["INR", "RGESN 8.x"],
+      "rgesn": "8.x",
+      "see": ["NR-BACK-005"]
     }
   ]
 }

@@ -1,0 +1,65 @@
+{
+  "family": "lang-kotlin",
+  "title": "Kotlin",
+  "version": "1.0",
+  "rules": [
+    {
+      "id": "NR-LANG-KT-001",
+      "title": "Coroutines live in a scope",
+      "what": "Launch coroutines from a scope with a lifetime (viewModelScope, lifecycleScope, a CoroutineScope you cancel), never GlobalScope.",
+      "why": "A GlobalScope coroutine outlives the screen or request that started it: on a phone, work and radio use continue for a screen already closed.",
+      "how": "viewModelScope.launch { ... }; structured concurrency with coroutineScope { }; cancel the custom scope on teardown.",
+      "detect": {"automation": "full", "patterns": [{"re": "GlobalScope\\.(launch|async)", "scope": ["kt"], "note": "GlobalScope coroutine: no lifetime, no cancellation."}]},
+      "verify": {"method": "test", "how": "A test cancels the scope and asserts no child coroutine is still active."},
+      "limits": [],
+      "priority": "high",
+      "applies": ["kt"],
+      "origin": ["INR", "RGESN 9.1"],
+      "rgesn": "9.1"
+    },
+    {
+      "id": "NR-LANG-KT-002",
+      "title": "No blocking inside coroutines",
+      "what": "Use delay() in suspending code and withContext(Dispatchers.IO) for blocking work; keep runBlocking for main() and tests.",
+      "why": "runBlocking or Thread.sleep pins a dispatcher thread; a handful are enough to starve the pool and keep cores busy waiting.",
+      "how": "Replace Thread.sleep with delay; wrap blocking I/O in withContext(Dispatchers.IO).",
+      "detect": {"automation": "partial", "patterns": [{"re": "\\brunBlocking\\b|Thread\\.sleep\\s*\\(", "scope": ["kt"], "note": "Blocking call; fine in main() and tests only.", "exclude_file": ["@Test\\b"]}]},
+      "verify": {"method": "review", "how": "No runBlocking or Thread.sleep outside main() and tests."},
+      "limits": [],
+      "priority": "high",
+      "applies": ["kt"],
+      "origin": ["INR", "RGESN 9.1"],
+      "rgesn": "9.1",
+      "see": ["NR-ALGO-008"]
+    },
+    {
+      "id": "NR-LANG-KT-003",
+      "title": "Bounded channels",
+      "what": "Size channels to what the consumer absorbs and choose the overflow policy deliberately; no Channel.UNLIMITED.",
+      "why": "An unlimited channel removes back-pressure: the queue grows to whatever memory allows, and work is done twice, to enqueue then discard.",
+      "how": "Channel(capacity = 64, onBufferOverflow = BufferOverflow.SUSPEND); buffer() with a size on flows.",
+      "detect": {"automation": "full", "patterns": [{"re": "Channel\\s*(<[^>]*>)?\\s*\\(\\s*(capacity\\s*=\\s*)?Channel\\.UNLIMITED", "scope": ["kt"], "note": "Unbounded channel."}]},
+      "verify": {"method": "review", "how": "Every channel declares a capacity and overflow policy."},
+      "limits": [],
+      "priority": "medium",
+      "applies": ["kt"],
+      "origin": ["INR", "RGESN 9.1"],
+      "rgesn": "9.1",
+      "see": ["NR-BACK-002"]
+    },
+    {
+      "id": "NR-LANG-KT-004",
+      "title": "Sequences for long chains, sets for lookups",
+      "what": "On large collections, chain transformations through asSequence() and look up in a Set or Map instead of contains() on a List inside a loop.",
+      "why": "Each map/filter on a List allocates a full copy; contains on a List inside a loop turns the work quadratic.",
+      "how": "list.asSequence().filter{}.map{}.toList(); val ids = items.mapTo(HashSet()) { it.id } before the loop.",
+      "detect": {"automation": "partial", "patterns": [{"re": "\\.(map|filter)\\s*\\{[^}]*\\}\\s*\\.(filter|map)\\s*\\{[^}]*\\}\\s*\\.(filter|map)\\s*\\{", "scope": ["kt"], "note": "Three chained list transformations; candidate for asSequence() on large inputs.", "exclude_file": ["asSequence\\(\\)"]}]},
+      "verify": {"method": "measure", "how": "Benchmark or allocation profile on representative volume when the change is performance-motivated."},
+      "limits": ["On small collections a plain List chain is clearer and cheaper; a hit is a question about volume, not a defect."],
+      "priority": "medium",
+      "applies": ["kt"],
+      "origin": ["INR", "RGESN 9.1"],
+      "rgesn": "9.1"
+    }
+  ]
+}

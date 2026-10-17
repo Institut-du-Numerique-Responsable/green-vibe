@@ -14,7 +14,7 @@
       "limits": ["PNG stays right for transparency, pixel art and technical screenshots; AVIF/WebP gains must be measured per image."],
       "priority": "high",
       "applies": ["content", "frontend"],
-      "origin": ["green-claude:ECO-CONT-01", "green-codex:WEB-EFF-001"],
+      "origin": ["INR", "RGESN 5.x"],
       "rgesn": "5.x"
     },
     {
@@ -28,7 +28,7 @@
       "limits": [],
       "priority": "high",
       "applies": ["content", "frontend", "ux"],
-      "origin": ["green-claude:ECO-CONT-02", "green-codex:WEB-EFF-004"],
+      "origin": ["INR", "RGESN 5.x"],
       "rgesn": "5.x",
       "see": ["NR-SERVICE-005"]
     },
@@ -43,7 +43,7 @@
       "limits": ["An existing icon font used for many glyphs everywhere may be the lighter migration path; measure before rewriting."],
       "priority": "low",
       "applies": ["content", "frontend"],
-      "origin": ["green-claude:ECO-CONT-03"],
+      "origin": ["INR", "RGESN 5.x"],
       "rgesn": "5.x"
     },
     {
@@ -57,7 +57,7 @@
       "limits": ["Brand requirements are legitimate; the rule bounds their cost, not their existence."],
       "priority": "medium",
       "applies": ["content", "frontend"],
-      "origin": ["green-claude:ECO-UX-05"],
+      "origin": ["INR", "RGESN 4.5"],
       "rgesn": "4.5"
     },
     {
@@ -71,7 +71,7 @@
       "limits": ["Low-traffic does not mean useless (archival, legal); access data is one input, not the verdict."],
       "priority": "medium",
       "applies": ["content", "service"],
-      "origin": ["green-codex:SERVICE-EFF-005", "green-claude:ECO-STRAT-07"],
+      "origin": ["INR", "RGESN 2.7"],
       "rgesn": "2.7"
     },
     {
@@ -85,7 +85,7 @@
       "limits": ["Administrative workflows often require office formats; the rule documents the reason rather than forbidding."],
       "priority": "low",
       "applies": ["content", "docs"],
-      "origin": ["green-claude:ECO-STRAT-03", "RGESN 5.5"],
+      "origin": ["INR", "RGESN 5.5"],
       "rgesn": "5.5"
     },
     {
@@ -99,7 +99,7 @@
       "limits": ["Legal retention obligations override deletion; they are recorded, not inferred."],
       "priority": "high",
       "applies": ["content", "backend", "data", "api"],
-      "origin": ["green-codex universal rules", "green-claude:ECO-HEB-12"],
+      "origin": ["INR", "RGESN 5.5, 8.x"],
       "rgesn": "5.5, 8.x"
     }
   ]

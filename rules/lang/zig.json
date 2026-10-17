@@ -1,0 +1,35 @@
+{
+  "family": "lang-zig",
+  "title": "Zig",
+  "version": "1.0",
+  "rules": [
+    {
+      "id": "NR-LANG-ZIG-001",
+      "title": "Every allocation has its defer",
+      "what": "Pair every alloc/create with a defer free/destroy (or use an arena with a clear lifetime), make allocator ownership explicit, and test the allocation-failure path.",
+      "why": "An alloc without defer leaks on every early return, and early returns are the normal control flow of error unions.",
+      "how": "const buf = try allocator.alloc(u8, n); defer allocator.free(buf); std.testing.FailingAllocator in tests.",
+      "detect": {"automation": "partial", "patterns": [{"re": "\\.alloc\\(|\\.create\\(|allocPrint\\(", "scope": ["zig"], "note": "Allocation in a file with no defer free/destroy or arena.", "exclude_file": ["defer\\s+[\\w.]*free", "defer\\s+[\\w.]*destroy", "[Aa]rena"]}]},
+      "verify": {"method": "test", "how": "Tests run with the testing allocator (leak detection) and a failing allocator."},
+      "limits": [],
+      "priority": "high",
+      "applies": ["zig"],
+      "origin": ["INR", "RGESN 9.1"],
+      "rgesn": "9.1"
+    },
+    {
+      "id": "NR-LANG-ZIG-002",
+      "title": "Bounded reads and fixed buffers",
+      "what": "Bound every read of external input with a maximum sized to the format, and use slices and fixed buffers where bounds are known.",
+      "why": "readAllAlloc with a large maximum lets the other end decide how much memory you allocate: a denial of service written as a convenience.",
+      "how": "reader.readAllAlloc(allocator, max_size) with a format-derived max; or read into a fixed buffer in a loop.",
+      "detect": {"automation": "partial", "patterns": [{"re": "readAllAlloc\\(|readToEndAlloc\\(", "scope": ["zig"], "note": "Whole-input read; check the maximum is sized to the format."}]},
+      "verify": {"method": "test", "how": "Oversized input test is rejected cleanly within the bound."},
+      "limits": [],
+      "priority": "medium",
+      "applies": ["zig"],
+      "origin": ["INR", "RGESN 9.1"],
+      "rgesn": "9.1"
+    }
+  ]
+}

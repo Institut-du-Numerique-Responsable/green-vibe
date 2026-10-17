@@ -1,7 +1,7 @@
 {
   "family": "service",
   "title": "Need, scope and lifecycle",
-  "version": "1.0",
+  "version": "1.1",
   "rules": [
     {
       "id": "NR-SERVICE-001",
@@ -14,7 +14,7 @@
       "limits": ["Code cannot establish adoption; a need hypothesis is not a verified need."],
       "priority": "high",
       "applies": ["service", "any"],
-      "origin": ["green-codex:SERVICE-EFF-001", "green-claude:ECO-SPEC-05"],
+      "origin": ["INR", "RGESN 2.6"],
       "rgesn": "2.6",
       "see": ["NR-SERVICE-002"]
     },
@@ -29,7 +29,7 @@
       "limits": ["Small samples are starting points, not proof of population-wide fit."],
       "priority": "high",
       "applies": ["service", "ai"],
-      "origin": ["green-codex:three-u.md"],
+      "origin": ["INR", "RGESN 1.1, 2.9"],
       "rgesn": "1.1, 2.9",
       "see": ["references/three-u.md"]
     },
@@ -44,7 +44,7 @@
       "limits": ["Removing an authorised feature needs the owner's decision, not the reviewer's."],
       "priority": "high",
       "applies": ["service", "product"],
-      "origin": ["green-claude:ECO-SPEC-05", "green-codex universal rules"],
+      "origin": ["INR", "RGESN 1.1, 2.9"],
       "rgesn": "1.1, 2.9"
     },
     {
@@ -58,7 +58,7 @@
       "limits": ["Security support overrides device longevity: never keep a vulnerable path for old hardware."],
       "priority": "high",
       "applies": ["frontend", "service", "mobile"],
-      "origin": ["green-codex:SERVICE-EFF-002", "green-claude:ECO-SPEC-02", "green-claude:ECO-SPEC-03"],
+      "origin": ["INR", "RGESN 2.1, 2.2, 2.3, 2.4"],
       "rgesn": "2.1, 2.2, 2.3, 2.4"
     },
     {
@@ -72,7 +72,7 @@
       "limits": ["Bounded pagination must remain keyboard-navigable and assistive-tech friendly."],
       "priority": "high",
       "applies": ["frontend", "ux", "content"],
-      "origin": ["green-codex:SERVICE-EFF-003", "green-claude:ECO-UX-01", "green-claude:ECO-UX-02"],
+      "origin": ["INR", "RGESN 4.1, 4.2"],
       "rgesn": "4.1, 4.2"
     },
     {
@@ -86,7 +86,7 @@
       "limits": [],
       "priority": "medium",
       "applies": ["service", "strategy"],
-      "origin": ["green-claude:ECO-SPEC-01"],
+      "origin": ["INR", "RGESN 2.6"],
       "rgesn": "2.6"
     },
     {
@@ -100,7 +100,7 @@
       "limits": ["Retiring a live service is a business decision; the rule ensures it is a conscious one."],
       "priority": "medium",
       "applies": ["service", "infra"],
-      "origin": ["green-codex:SERVICE-EFF-005", "green-claude:ECO-STRAT-07"],
+      "origin": ["INR", "RGESN 2.7"],
       "rgesn": "2.7"
     },
     {
@@ -114,8 +114,38 @@
       "limits": ["Some third parties (payment, consent, analytics under consent) are legitimate; the rule forces deliberation, not abstinence."],
       "priority": "high",
       "applies": ["frontend", "service"],
-      "origin": ["green-claude:ECO-SPEC-04", "green-claude:ECO-UX-04"],
+      "origin": ["INR", "RGESN 2.10"],
       "rgesn": "2.10"
+    },
+    {
+      "id": "NR-SERVICE-009",
+      "title": "Mobile: few wakeups, lean installs, resumable sync",
+      "what": "On mobile, minimise wakeups, background refresh, radio use and sensor sampling; ship only the features and assets needed; batch and resume synchronisation.",
+      "why": "Battery and data plans are the user's resources; background work they did not ask for spends them and shortens device life.",
+      "how": "WorkManager/BGTaskScheduler with constraints; app bundles and on-demand assets; bounded local caches; offline or degraded path where it helps.",
+      "detect": {"automation": "none"},
+      "verify": {"method": "measure", "how": "Battery and data usage measured on representative devices for the main journeys."},
+      "limits": [],
+      "priority": "high",
+      "applies": ["service", "ux", "kt", "swift"],
+      "origin": ["INR", "RGESN 4.x"],
+      "rgesn": "4.x",
+      "see": ["NR-SERVICE-004", "NR-LANG-SWIFT-001"]
+    },
+    {
+      "id": "NR-SERVICE-010",
+      "title": "The essential task works for everyone",
+      "what": "Make sure the essential task stays understandable, accessible and usable under degraded connectivity, without a mandatory account, tracking or heavy download when they are not needed.",
+      "why": "A service that requires the latest device, a fast network, an account or consent to tracking excludes people who most need public and essential services; inclusion is the purpose, not an option.",
+      "how": "Test the essential journey on a low-end device and a slow network, with assistive technology; make accounts optional where the task allows; keep captions and descriptions when offering lighter alternatives to media.",
+      "detect": {"automation": "none"},
+      "verify": {"method": "test", "how": "Essential journey completed on a low-end device, throttled network and with a screen reader."},
+      "limits": [],
+      "priority": "high",
+      "applies": ["service", "ux"],
+      "origin": ["INR", "RGESN 2.x"],
+      "rgesn": "2.x",
+      "see": ["NR-UX-001", "NR-SERVICE-004"]
     }
   ]
 }

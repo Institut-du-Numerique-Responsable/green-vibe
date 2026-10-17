@@ -1,0 +1,49 @@
+{
+  "family": "lang-julia",
+  "title": "Julia",
+  "version": "1.0",
+  "rules": [
+    {
+      "id": "NR-LANG-JL-001",
+      "title": "Type-stable hot functions",
+      "what": "Keep hot functions type-stable: pass values as arguments or declare true constants const; check with @code_warntype before optimising anything else.",
+      "why": "A non-constant global has no fixed type, so the compiler cannot specialise the functions that read it and boxes every value, at every call.",
+      "how": "const RATE = 0.2; function f(x, rate) ... end; @code_warntype f(x, rate); BenchmarkTools for timing.",
+      "detect": {"automation": "partial", "patterns": [{"re": "^\\s*global\\s+\\w+", "scope": ["jl"], "note": "Global mutated from a function; type instability candidate."}]},
+      "verify": {"method": "measure", "how": "@code_warntype clean on the hot function; @btime before/after."},
+      "limits": [],
+      "priority": "medium",
+      "applies": ["jl"],
+      "origin": ["INR", "RGESN 9.1"],
+      "rgesn": "9.1"
+    },
+    {
+      "id": "NR-LANG-JL-002",
+      "title": "Preallocate and reuse buffers",
+      "what": "Preallocate arrays whose size is known (sizehint!, Vector{T}(undef, n)) and mutate in place instead of growing with push! in loops.",
+      "why": "Repeated push! reallocates and copies as the array doubles; when the final size is known that work is avoidable.",
+      "how": "out = Vector{Float64}(undef, n); or sizehint!(out, n); reuse buffers across iterations with in-place (!) functions.",
+      "detect": {"automation": "partial", "patterns": [{"re": "\\bpush!\\(", "scope": ["jl"], "note": "Array grown by push!; fine when the size is unknown.", "exclude_file": ["sizehint!", "\\bundef\\b"]}]},
+      "verify": {"method": "measure", "how": "@allocated or @btime shows fewer allocations on the hot loop."},
+      "limits": [],
+      "priority": "low",
+      "applies": ["jl"],
+      "origin": ["INR", "RGESN 9.1"],
+      "rgesn": "9.1"
+    },
+    {
+      "id": "NR-LANG-JL-003",
+      "title": "Bounded threads, measured after warm-up",
+      "what": "Measure the sequential version first, then size threading to the work per item and the cores the machine can spare; compare after compilation and warm-up; precompile stable workloads.",
+      "why": "@threads takes every core the runtime was given; on a shared machine it takes them from other work, for a gain that depends on the work per item.",
+      "how": "julia -t N with N chosen from measurement; PrecompileTools for long-running services; compare steady-state timings.",
+      "detect": {"automation": "partial", "patterns": [{"re": "@threads\\b|Threads\\.@spawn", "scope": ["jl"], "note": "Threading; check it is measured and bounded."}]},
+      "verify": {"method": "measure", "how": "Sequential and threaded timings after warm-up recorded together."},
+      "limits": [],
+      "priority": "medium",
+      "applies": ["jl"],
+      "origin": ["INR", "RGESN 9.1"],
+      "rgesn": "9.1"
+    }
+  ]
+}

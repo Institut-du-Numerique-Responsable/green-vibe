@@ -14,7 +14,7 @@ STATUS_REVIEW = "REVIEW"  # candidate: context must settle it
 
 # ---------------------------------------------------------------------------
 # Masking: blank out strings/comments (positions preserved) so patterns do not
-# match inside literals or comments. Ported from the Green Codex approach.
+# match inside literals or comments.
 # ---------------------------------------------------------------------------
 
 def _blank(m: re.Match) -> str:
@@ -57,6 +57,20 @@ def mask_shell(text: str) -> str:
     return first + nl + rest
 
 
+def mask_rust(text: str) -> str:
+    # Like C, but a lone quote is a lifetime ('a), so only char literals are masked.
+    text = re.sub(r"//[^\n]*", _blank, text)
+    text = re.sub(r"/\*.*?\*/", _blank, text, flags=re.S)
+    text = re.sub(r"'(?:\\.|[^'\\\n])'", _blank, text)
+    return re.sub(r"\"(?:\\.|[^\"\\])*\"", _blank, text)
+
+
+def mask_hash_c_like(text: str) -> str:
+    # PHP and Ruby: '#' line comments on top of C-like strings and comments.
+    text = re.sub(r"(?<![\w$&{])#(?![\[{])[^\n]*", _blank, text)
+    return mask_c_like(text)
+
+
 def mask_yaml(text: str) -> str:
     return re.sub(r"(?<!\S)#(?!\[)[^\n]*", _blank, text)
 
@@ -68,11 +82,19 @@ def mask_text(path: Path, text: str) -> str:
         return mask_shell(text)
     if suffix == ".py":
         return mask_python(text)
-    if suffix in {".js", ".mjs", ".cjs", ".ts", ".jsx", ".tsx", ".java", ".go"}:
+    if suffix in {".js", ".mjs", ".cjs", ".ts", ".jsx", ".tsx", ".java", ".go",
+                  ".cs", ".kt", ".kts", ".swift", ".c", ".h", ".cc", ".cpp", ".cxx",
+                  ".hpp", ".hh", ".scala", ".sc", ".zig"}:
         return mask_c_like(text)
+    if suffix in {".jl", ".nim"}:
+        return mask_python(text)  # '#' comments and triple-quoted strings
+    if suffix == ".rs":
+        return mask_rust(text)
+    if suffix in {".php", ".rb"}:
+        return mask_hash_c_like(text)
     if suffix == ".sql":
         return mask_sql(text)
-    if suffix in {".html", ".htm", ".vue"}:
+    if suffix in {".html", ".htm", ".vue", ".svelte", ".astro"}:
         return mask_html(text)
     if suffix in {".css", ".scss"}:
         return mask_css(text)
@@ -102,7 +124,8 @@ def _det_shebang_strict(masked: str, raw: str, scopes: set[str]) -> list[int]:
 
 def _det_nested_loops(masked: str, raw: str, scopes: set[str]) -> list[int]:
     """NR-ALGO-002: a for/while loop whose body contains another loop, by indentation."""
-    if not (scopes & {"py", "js", "ts", "jsx", "tsx", "java", "go"}):
+    if not (scopes & {"py", "js", "ts", "jsx", "tsx", "java", "go", "rs", "php",
+                      "rb", "cs", "kt", "swift", "c", "cpp", "scala", "jl", "nim", "zig"}):
         return []
     lines = raw.split("\n")
     hits = []
@@ -134,6 +157,45 @@ SPECIAL_DETECTORS = {
 # Scanner
 # ---------------------------------------------------------------------------
 
+def _file_allows(pattern: dict, raw: str) -> bool:
+    """File-level guards of a pattern, checked on the raw text.
+
+    `require_file`: the file must match one of these (e.g. a framework import);
+    `exclude_file`: a match anywhere means the concern is already handled in
+    this file (e.g. a cancel/close/teardown call), so the pattern stays silent.
+    Imports live in string literals, hence the raw text, not the masked one.
+    """
+    req = pattern.get("_require")
+    if req and not any(r.search(raw) for r in req):
+        return False
+    return not any(r.search(raw) for r in pattern.get("_exclude", ()))
+
+
+_LOOP_HEAD = re.compile(r"^([ \t]*)(?:for|while)\b")
+
+
+def _in_indented_loop(lines: list[str], idx: int, window: int = 15) -> bool:
+    """True when line `idx` sits in the body of a for/while block, by indentation.
+
+    Linear look-back over at most `window` lines: replaces multi-line regexes
+    whose overlapping quantifiers backtrack catastrophically (NR-ALGO-004).
+    """
+    line = lines[idx]
+    indent = len(line) - len(line.lstrip(" \t"))
+    for j in range(idx - 1, max(-1, idx - window - 1), -1):
+        prev = lines[j]
+        if not prev.strip():
+            continue
+        prev_indent = len(prev) - len(prev.lstrip(" \t"))
+        if prev_indent < indent:
+            if _LOOP_HEAD.match(prev):
+                return True
+            indent = prev_indent  # enclosing block that is not a loop: keep climbing
+            if indent == 0:
+                return False
+    return False
+
+
 def _rule_patterns(rule: dict) -> list[dict]:
     detect = rule.get("detect") or {}
     return detect.get("patterns", [])
@@ -152,6 +214,7 @@ def audit_files(paths: list[str | Path], rules: list[dict]) -> list[dict]:
         scopes = file_scopes(path)
         masked = mask_text(path, raw)
         lines = None  # computed lazily
+        raw_lines = None
 
         for rule, patterns, flags, detector in compiled:
             hits: list[tuple[int, dict]] = []
@@ -162,12 +225,22 @@ def audit_files(paths: list[str | Path], rules: list[dict]) -> list[dict]:
                 for pattern in patterns:
                     if not (set(pattern.get("scope", ["any"])) & scopes):
                         continue
+                    if not _file_allows(pattern, raw):
+                        continue
+                    # "text": "raw" matches literals too (e.g. a quote after +=),
+                    # at the cost of also matching inside comments.
+                    target = raw if pattern.get("text") == "raw" else masked
                     try:
-                        for m in re.finditer(pattern["re"], masked, flags):
+                        for m in pattern["_re"].finditer(target):
                             start = m.start()
                             if lines is None:
                                 lines = _line_offsets(masked)
                             ln = _line_of(lines, start)
+                            if pattern.get("in_loop"):
+                                if raw_lines is None:
+                                    raw_lines = raw.split("\n")
+                                if not _in_indented_loop(raw_lines, ln - 1):
+                                    continue
                             hits.append((ln, pattern))
                     except re.error:
                         continue  # malformed pattern: skip, never crash the audit
@@ -208,7 +281,17 @@ def _compile_rules(rules: list[dict]):
         if not patterns and not detector:
             continue
         # Compile once per rule; patterns are case-insensitive + multiline.
-        compiled = [dict(p, _re=re.compile(p["re"], re.I | re.M)) for p in patterns]
+        compiled = []
+        for p in patterns:
+            try:
+                compiled.append(dict(
+                    p,
+                    _re=re.compile(p["re"], re.I | re.M),
+                    _require=[re.compile(x, re.M) for x in p.get("require_file", [])],
+                    _exclude=[re.compile(x, re.M) for x in p.get("exclude_file", [])],
+                ))
+            except re.error:
+                continue  # malformed pattern: skip, never crash the audit
         out.append((rule, compiled, re.I | re.M, detector))
     return out
 

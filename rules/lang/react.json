@@ -1,0 +1,80 @@
+{
+  "family": "lang-react",
+  "title": "React",
+  "version": "1.1",
+  "rules": [
+    {
+      "id": "NR-LANG-REACT-001",
+      "title": "Effects declare dependencies and clean up",
+      "what": "Every useEffect has a dependency array, and an effect that fetches, subscribes or starts a timer returns a cleanup.",
+      "why": "An effect with no dependency array runs after every render; when it fetches, the render it causes runs it again - a loop invisible in the code and obvious in the network panel.",
+      "how": "useEffect(() => { const c = new AbortController(); fetch(url, { signal: c.signal }); return () => c.abort(); }, [url]); prefer a data-fetching library that deduplicates requests.",
+      "detect": {"automation": "partial", "patterns": [{"re": "useEffect\\(\\s*(async\\s*)?\\([^)]*\\)\\s*=>\\s*\\{[^}]*\\}\\s*\\)", "scope": ["jsx", "tsx"], "note": "Single-line effect without a dependency array; multi-line effects are not seen by this pattern.", "exclude_file": ["from\\s*['\\\"]solid-js", "from\\s*['\\\"]vue", "from\\s*['\\\"]preact"]}]},
+      "verify": {"method": "test", "how": "A render test counts network calls and asserts one fetch per dependency change; unmount aborts in-flight requests."},
+      "limits": [],
+      "priority": "high",
+      "applies": ["jsx", "tsx", "frontend"],
+      "origin": ["INR", "RGESN 6.x"],
+      "rgesn": "6.x"
+    },
+    {
+      "id": "NR-LANG-REACT-002",
+      "title": "Virtualise or paginate long lists",
+      "what": "Render only the visible part of long lists (virtualisation or pagination), with stable keys that identify items, not indexes.",
+      "why": "Ten thousand rows mean ten thousand DOM nodes for the twenty on screen: memory, layout and every later interaction pay for it, worst on low-end devices.",
+      "how": "react-window/@tanstack/react-virtual, server pagination; key={item.id}, never key={index} on reorderable lists.",
+      "detect": {"automation": "partial", "patterns": [{"re": "\\.map\\(\\s*\\(?\\s*\\w+(\\s*,\\s*\\w+)?\\s*\\)?\\s*=>\\s*\\(?\\s*<", "scope": ["jsx", "tsx"], "note": "List rendered with map; candidate only if the list is long and not virtualised.", "exclude_file": ["react-window", "react-virtual", "VirtualList", "\\.slice\\(", "from\\s*['\\\"]solid-js", "from\\s*['\\\"]vue", "from\\s*['\\\"]preact"]}, {"re": "key=\\{\\s*(index|i|idx)\\s*\\}", "scope": ["jsx", "tsx"], "note": "Index used as key: items are rebuilt on insert/reorder.", "exclude_file": ["from\\s*['\\\"]solid-js", "from\\s*['\\\"]vue", "from\\s*['\\\"]preact"]}]},
+      "verify": {"method": "measure", "how": "React Profiler or DOM node count on the largest realistic dataset stays bounded."},
+      "limits": [],
+      "priority": "high",
+      "applies": ["jsx", "tsx", "frontend"],
+      "origin": ["INR", "RGESN 6.x"],
+      "rgesn": "6.x",
+      "see": ["NR-FRONT-004"]
+    },
+    {
+      "id": "NR-LANG-REACT-003",
+      "title": "Memoise what profiling proves hot",
+      "what": "Keep state local, hoist stable values, and add useMemo/useCallback/memo only where the Profiler shows avoidable re-renders.",
+      "why": "Inline objects and functions are new references at every render, defeating memoised children; blanket memoisation, though, adds cost and complexity for nothing.",
+      "how": "Move constants out of the component; colocate state; profile, then memoise the measured hot path.",
+      "detect": {"automation": "partial", "patterns": [{"re": "=\\{\\{[^}]*\\}\\}", "scope": ["jsx", "tsx"], "note": "Inline object prop; matters only if the child is memoised or the list is large.", "exclude_file": ["useMemo", "useCallback", "from\\s*['\\\"]solid-js", "from\\s*['\\\"]vue", "from\\s*['\\\"]preact"]}]},
+      "verify": {"method": "measure", "how": "React Profiler capture before/after on the interaction concerned."},
+      "limits": [],
+      "priority": "medium",
+      "applies": ["jsx", "tsx", "frontend"],
+      "origin": ["INR", "RGESN 6.x"],
+      "rgesn": "6.x"
+    },
+    {
+      "id": "NR-LANG-REACT-004",
+      "title": "Do not ship a client runtime for static content",
+      "what": "Render non-interactive content statically or on the server, and split routes and optional features into lazy chunks.",
+      "why": "A client-side runtime for content that never changes costs download, parse and hydration on every visit, and excludes slow devices and networks first.",
+      "how": "Static generation or server components for content; React.lazy + Suspense per route; measure JS per route.",
+      "detect": {"automation": "none"},
+      "verify": {"method": "measure", "how": "Bundle analysis shows per-route chunks; JS transferred on the content pages within budget."},
+      "limits": [],
+      "priority": "high",
+      "applies": ["jsx", "tsx", "frontend"],
+      "origin": ["INR", "RGESN 6.1"],
+      "rgesn": "6.1",
+      "see": ["NR-FRONT-002", "NR-SERVICE-004"]
+    },
+    {
+      "id": "NR-LANG-REACT-005",
+      "title": "Evaluate a lighter runtime against a baseline",
+      "what": "When Preact (or another lighter runtime) is used or a migration is being evaluated, compare the production bundle and the essential interactions against the current baseline, with compatibility and accessibility checked; never migrate on reputation.",
+      "why": "A smaller runtime saves bytes on every visit only if the libraries and accessibility behaviour survive; a migration that breaks them costs more than it saves.",
+      "how": "Measure bundle and interaction timings before/after on the same build settings; run the accessibility checks; drop compatibility layers the target browsers do not need.",
+      "detect": {"automation": "none"},
+      "verify": {"method": "measure", "how": "Bundle size and interaction timings compared to the baseline; accessibility checks pass."},
+      "limits": [],
+      "priority": "low",
+      "applies": ["jsx", "tsx", "frontend"],
+      "origin": ["INR", "RGESN 6.1"],
+      "rgesn": "6.1",
+      "see": ["NR-LANG-REACT-004"]
+    }
+  ]
+}

@@ -1,0 +1,35 @@
+{
+  "family": "lang-nim",
+  "title": "Nim",
+  "version": "1.0",
+  "rules": [
+    {
+      "id": "NR-LANG-NIM-001",
+      "title": "Borrow sequences, bound generated code",
+      "what": "Take openArray, var or lent parameters instead of copying seqs, reserve with newSeqOfCap, and keep macro and static generation bounded.",
+      "why": "A seq passed by value is copied; macros and static blocks can generate more code than anyone reads, slowing every build and shipping in every binary.",
+      "how": "proc f(xs: openArray[int]); newSeqOfCap[int](n); prefer a template where a macro is not needed; inspect expanded code when build size grows.",
+      "detect": {"automation": "partial", "patterns": [{"re": "proc\\s+\\w+\\*?\\s*\\([^)]*:\\s*seq\\[", "scope": ["nim"], "note": "seq parameter by value; openArray or var avoids the copy.", "exclude_file": ["openArray", "\\blent\\s", "var\\s+seq"]}]},
+      "verify": {"method": "measure", "how": "Build time and binary size tracked; allocation profile on hot procs."},
+      "limits": [],
+      "priority": "low",
+      "applies": ["nim"],
+      "origin": ["INR", "RGESN 9.1"],
+      "rgesn": "9.1"
+    },
+    {
+      "id": "NR-LANG-NIM-002",
+      "title": "Deterministic cleanup, chosen memory strategy",
+      "what": "Close files and sockets with defer or try/finally on every exit path, and choose ARC/ORC and allocation strategies from measured latency and memory needs.",
+      "why": "A resource closed only at the end of a proc leaks when an exception leaves early, exactly when the system is struggling.",
+      "how": "let f = open(path); defer: f.close(); --mm:orc by default, measured alternatives for latency-sensitive code.",
+      "detect": {"automation": "partial", "patterns": [{"re": "\\bopen\\(|\\bnewSocket\\(", "scope": ["nim"], "note": "Resource opened in a file with no defer/finally.", "exclude_file": ["defer:", "finally:"]}]},
+      "verify": {"method": "test", "how": "Failure-path test shows the resource closed; memory strategy documented with its measurement."},
+      "limits": [],
+      "priority": "medium",
+      "applies": ["nim"],
+      "origin": ["INR", "RGESN 9.1"],
+      "rgesn": "9.1"
+    }
+  ]
+}

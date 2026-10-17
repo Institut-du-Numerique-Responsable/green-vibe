@@ -1,0 +1,64 @@
+{
+  "family": "lang-c",
+  "title": "C",
+  "version": "1.0",
+  "rules": [
+    {
+      "id": "NR-LANG-C-001",
+      "title": "Release every allocation on every path",
+      "what": "Each malloc/calloc/realloc has an identified free on every path, error paths included; reuse buffers in loops instead of reallocating; run a sanitizer or leak check on changed code.",
+      "why": "A leak holds memory until the process ends; reallocating in a loop spends CPU in the allocator for no gain.",
+      "how": "Single exit with cleanup labels, ownership documented at each public boundary; -fsanitize=address,leak or valgrind in CI.",
+      "detect": {"automation": "partial", "patterns": [{"re": "for\\s*\\([^)]*\\)\\s*\\{[^}]*\\b(malloc|calloc|realloc)\\s*\\(", "scope": ["c", "cpp"], "note": "Allocation inside a loop body; candidate for buffer reuse."}]},
+      "verify": {"method": "test", "how": "ASan/LSan or valgrind run on the changed code reports no leak."},
+      "limits": [],
+      "priority": "high",
+      "applies": ["c"],
+      "origin": ["INR", "RGESN 9.2"],
+      "rgesn": "9.2"
+    },
+    {
+      "id": "NR-LANG-C-002",
+      "title": "Hoist strlen, avoid repeated strcat",
+      "what": "Compute string lengths once before loops and keep an end pointer instead of repeated strcat().",
+      "why": "strlen in a loop condition and strcat both rescan the string from the start: quadratic work invisible on reading.",
+      "how": "size_t n = strlen(s); before the loop; memcpy at a tracked offset; snprintf with a running length.",
+      "detect": {"automation": "partial", "patterns": [{"re": "for\\s*\\([^;]*;[^;]*\\bstrlen\\s*\\(", "scope": ["c", "cpp"], "note": "strlen re-evaluated at every iteration."}, {"re": "\\bstrcat\\s*\\(", "scope": ["c", "cpp"], "note": "strcat rescans the destination; quadratic in a loop."}]},
+      "verify": {"method": "review", "how": "No strlen in loop conditions; no strcat in loops."},
+      "limits": [],
+      "priority": "high",
+      "applies": ["c"],
+      "origin": ["INR", "RGESN 9.1"],
+      "rgesn": "9.1"
+    },
+    {
+      "id": "NR-LANG-C-003",
+      "title": "Buffered I/O, blocking waits",
+      "what": "Use buffered block I/O (fread/fwrite) instead of byte-by-byte calls, and block on poll/epoll/select or a condition variable instead of busy waiting.",
+      "why": "One system call per byte multiplies kernel transitions; a spin or short-sleep loop keeps a core busy and prevents low-power states.",
+      "how": "fread into a buffer; setvbuf for streams; poll()/epoll_wait() or pthread_cond_wait for readiness.",
+      "detect": {"automation": "partial", "patterns": [{"re": "while\\s*\\([^)]*\\b(fgetc|getc|getchar)\\s*\\(", "scope": ["c", "cpp"], "note": "Byte-by-byte read loop."}, {"re": "while\\s*\\(\\s*(1|true)\\s*\\)\\s*\\{[^}]*\\b(usleep|sleep|nanosleep)\\s*\\(", "scope": ["c", "cpp"], "note": "Sleep-and-spin loop."}]},
+      "verify": {"method": "review", "how": "No per-byte I/O loop on large data; no busy wait."},
+      "limits": [],
+      "priority": "high",
+      "applies": ["c", "cpp"],
+      "origin": ["INR", "RGESN 9.1"],
+      "rgesn": "9.1"
+    },
+    {
+      "id": "NR-LANG-C-004",
+      "title": "Standard optimisation, warnings kept",
+      "what": "Build production with standard supported optimisation (-O2), keep warnings and undefined-behaviour fixes, and benchmark aggressive flags before adopting them.",
+      "why": "Debug builds waste CPU at every run; aggressive flags can trade correctness for an unmeasured gain.",
+      "how": "-O2 -Wall -Wextra in release; -O3/-march or LTO only with a benchmark; compact structs (watch padding) on massively instantiated types.",
+      "detect": {"automation": "none"},
+      "verify": {"method": "measure", "how": "Release flags documented; any non-standard flag backed by a benchmark."},
+      "limits": [],
+      "priority": "medium",
+      "applies": ["c", "cpp"],
+      "origin": ["INR", "RGESN 9.1"],
+      "rgesn": "9.1",
+      "see": ["NR-ALGO-001"]
+    }
+  ]
+}

@@ -1,7 +1,7 @@
 {
   "family": "lang-python",
   "title": "Python",
-  "version": "1.0",
+  "version": "1.1",
   "rules": [
     {
       "id": "NR-LANG-PY-001",
@@ -14,7 +14,7 @@
       "limits": ["Small collections: readability wins; the rule targets data that grows."],
       "priority": "high",
       "applies": ["py"],
-      "origin": ["green-codex:LANG-PYTHON-001", "green-claude:python.json"],
+      "origin": ["INR"],
       "rgesn": null,
       "see": ["NR-ALGO-003"]
     },
@@ -29,7 +29,7 @@
       "limits": [],
       "priority": "medium",
       "applies": ["py"],
-      "origin": ["green-codex:LANG-PYTHON-002", "green-codex:LANG-PYTHON-005"],
+      "origin": ["INR"],
       "rgesn": null,
       "see": ["NR-ALGO-001"]
     },
@@ -38,13 +38,13 @@
       "title": "No N+1 with the ORM",
       "what": "Django/SQLAlchemy access avoids lazy-relation loads inside loops: use select_related (joins), prefetch_related (batches) or explicit IN queries.",
       "why": "Accessing obj.rel inside a loop over N objects issues N+1 queries - the most common Django performance defect, invisible in the code and obvious in the query log.",
-      "how": "select_related for many-to-one/one-to-one, prefetch_related for many-to-many/reverse, .values() for projections; assert with assertNumQueries.",
+      "how": "select_related for many-to-one/one-to-one, prefetch_related for many-to-many/reverse, .only()/.values() for projections, bulk_create/bulk_update for writes; assert with assertNumQueries.",
       "detect": {"automation": "partial", "patterns": [{"re": "for\\s+\\w+\\s+in\\s+(\\w+\\.objects|\\w+\\.query|\\w+\\.all)", "scope": ["py"], "note": "Loop over an ORM queryset; verify no relation access inside the body."}, {"re": "\\.objects\\.all\\(\\)\\s*\\)", "scope": ["py"], "note": "Unbounded .all() fetch; check slicing/pagination upstream."}]},
       "verify": {"method": "test", "how": "assertNumQueries (or equivalent) shows a constant query count as the row count grows."},
       "limits": [],
       "priority": "high",
       "applies": ["py"],
-      "origin": ["green-claude:python.json", "green-codex:DB-EFF-002"],
+      "origin": ["INR"],
       "rgesn": null,
       "see": ["NR-DATA-002"]
     },
@@ -59,7 +59,7 @@
       "limits": [],
       "priority": "high",
       "applies": ["py"],
-      "origin": ["green-codex:LANG-PYTHON-003", "green-claude:python.json"],
+      "origin": ["INR"],
       "rgesn": null,
       "see": ["NR-ALGO-006", "NR-BACK-006"]
     },
@@ -74,7 +74,7 @@
       "limits": ["Team conventions may mandate a framework even for small tools; record it as the reason."],
       "priority": "medium",
       "applies": ["py"],
-      "origin": ["green-claude:python.json", "NR-ARCH-008"],
+      "origin": ["INR", "NR-ARCH-008"],
       "rgesn": null,
       "see": ["NR-ARCH-008"]
     },
@@ -89,9 +89,84 @@
       "limits": ["CPU-bound blocking work goes to executors, not async awaits."],
       "priority": "high",
       "applies": ["py"],
-      "origin": ["green-codex:CODE-EFF-008", "green-claude:python.json"],
+      "origin": ["INR"],
       "rgesn": null,
       "see": ["NR-ALGO-008"]
+    },
+    {
+      "id": "NR-LANG-PY-007",
+      "title": "Vectorise pandas instead of iterating rows",
+      "what": "Express DataFrame work as column operations; avoid iterrows(), itertuples() loops and apply(axis=1) on large frames.",
+      "why": "Row iteration runs Python code once per row, where a vectorised operation runs native code once per column: orders of magnitude more CPU for the same result.",
+      "how": "df['total'] = df['qty'] * df['price']; np.where/np.select for conditions; merge instead of per-row lookups; profile first on small frames.",
+      "detect": {"automation": "partial", "patterns": [{"re": "\\.iterrows\\(\\)|\\.apply\\([^)]*axis\\s*=\\s*1", "scope": ["py"], "note": "Row-wise pandas operation; candidate on large frames."}]},
+      "verify": {"method": "measure", "how": "Timing on a representative frame before/after, recorded with the change."},
+      "limits": [],
+      "priority": "medium",
+      "applies": ["py", "data"],
+      "origin": ["INR", "RGESN 9.1"],
+      "rgesn": "9.1",
+      "see": ["NR-LANG-PY-002"]
+    },
+    {
+      "id": "NR-LANG-PY-008",
+      "title": "Sets for membership, join for strings",
+      "what": "Test membership in a set or dict rather than a large list inside loops, and build strings with ''.join() or io.StringIO instead of += in loops.",
+      "why": "x in list is linear: inside a loop the work turns quadratic. += on str copies the accumulated text at each step.",
+      "how": "seen = set(ids) before the loop; parts.append(s) then ''.join(parts).",
+      "detect": {"automation": "partial", "patterns": [{"re": "^[ \\t]+\\w+[ \\t]*\\+=[ \\t]*(f?['\\\"]|str\\()", "scope": ["py"], "note": "String accumulated with += inside a loop.", "text": "raw", "in_loop": true}]},
+      "verify": {"method": "review", "how": "No linear membership test over a growing list inside a loop; no str += in loops over data."},
+      "limits": [],
+      "priority": "medium",
+      "applies": ["py"],
+      "origin": ["INR", "RGESN 9.1"],
+      "rgesn": "9.1",
+      "see": ["NR-ALGO-002"]
+    },
+    {
+      "id": "NR-LANG-PY-009",
+      "title": "Reuse HTTP sessions, stream large bodies",
+      "what": "Make repeated HTTP calls through one requests.Session/httpx.Client with timeouts; stream large uploads and downloads instead of reading them whole.",
+      "why": "Module-level requests.get opens a new connection each time: DNS and TLS handshake repeated per call. An unbounded .content or read() loads the whole payload into memory.",
+      "how": "with requests.Session() as s: s.get(url, timeout=(3, 10)); stream=True + iter_content(chunk_size=...) for large bodies.",
+      "detect": {"automation": "partial", "patterns": [{"re": "\\brequests\\.(get|post|put|patch|delete)\\(", "scope": ["py"], "note": "Module-level requests call inside a loop: no connection reuse.", "exclude_file": ["requests\\.Session\\(", "httpx\\.(Async)?Client\\("], "in_loop": true}]},
+      "verify": {"method": "review", "how": "Repeated calls go through a shared session; large bodies are streamed."},
+      "limits": [],
+      "priority": "medium",
+      "applies": ["py", "backend"],
+      "origin": ["INR", "RGESN 7.2"],
+      "rgesn": "7.2",
+      "see": ["NR-BACK-001", "NR-BACK-009"]
+    },
+    {
+      "id": "NR-LANG-PY-010",
+      "title": "Bounded memoisation",
+      "what": "Give caches a bound: lru_cache with a maxsize sized to the working set, never maxsize=None or @cache on functions with unbounded argument space.",
+      "why": "An unbounded memo cache keeps every distinct argument forever: memory grows with traffic until the process is restarted.",
+      "how": "@lru_cache(maxsize=1024); cachetools.TTLCache for data that goes stale; cache_info() to check the hit rate.",
+      "detect": {"automation": "partial", "patterns": [{"re": "@(functools\\.)?(lru_cache\\(\\s*maxsize\\s*=\\s*None\\s*\\)|cache\\s*$)", "scope": ["py"], "note": "Unbounded memoisation; acceptable only for a small, closed argument space."}]},
+      "verify": {"method": "test", "how": "cache_info() hit rate and size checked under a representative workload."},
+      "limits": ["@lru_cache() without arguments is bounded (maxsize=128) and is not flagged."],
+      "priority": "medium",
+      "applies": ["py", "backend"],
+      "origin": ["INR", "RGESN 7.3"],
+      "rgesn": "7.3",
+      "see": ["NR-ARCH-006"]
+    },
+    {
+      "id": "NR-LANG-PY-011",
+      "title": "No sleep-and-poll loops",
+      "what": "Do not wait for state changes with while True + time.sleep; react to events (queues, notifications, webhooks) or bound the polling with a timeout and backoff.",
+      "why": "A polling loop spends CPU and I/O on its own schedule whether or not anything changed and keeps the machine awake.",
+      "how": "queue.get(timeout=...), watchdog/inotify for files, LISTEN/NOTIFY for databases; otherwise exponential backoff with a deadline.",
+      "detect": {"automation": "partial", "patterns": [{"re": "while\\s+(True|1)\\s*:[^\\n]*\\n(?:[^\\n]*\\n){0,12}?[^\\n]*\\btime\\.sleep\\(", "scope": ["py"], "note": "Infinite loop with sleep: polling candidate."}]},
+      "verify": {"method": "review", "how": "The loop has an event source, or a documented interval, deadline and backoff."},
+      "limits": [],
+      "priority": "medium",
+      "applies": ["py", "backend"],
+      "origin": ["INR", "RGESN 7.2"],
+      "rgesn": "7.2",
+      "see": ["NR-BACK-007"]
     }
   ]
 }

@@ -57,7 +57,7 @@ class TestRuleCatalog(unittest.TestCase):
 
     def test_usage_rules_are_conversation_scoped(self):
         usage = [r for r in self.rules if r["_family"] == "usage"]
-        self.assertEqual(len(usage), 16)
+        self.assertEqual(len(usage), 29)
 
 
 class TestIndex(unittest.TestCase):

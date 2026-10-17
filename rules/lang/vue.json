@@ -1,0 +1,51 @@
+{
+  "family": "lang-vue",
+  "title": "Vue",
+  "version": "1.0",
+  "rules": [
+    {
+      "id": "NR-LANG-VUE-001",
+      "title": "Watch precisely, derive with computed",
+      "what": "Watch the specific property that matters or derive it with computed; avoid deep watchers and deep reactivity on large payloads.",
+      "why": "deep: true walks the whole object graph at every change; deep reactive proxies on large immutable data add overhead for updates that never happen.",
+      "how": "watch(() => state.filter, ...); computed for derivations; shallowRef/markRaw for large immutable data; v-once for static blocks.",
+      "detect": {"automation": "partial", "patterns": [{"re": "deep\\s*:\\s*true", "scope": ["vue", "js", "ts"], "note": "Deep watcher; check the size of the watched object.", "require_file": ["\\bvue\\b"]}]},
+      "verify": {"method": "measure", "how": "Vue devtools performance timeline shows the update scope limited to what changed."},
+      "limits": [],
+      "priority": "medium",
+      "applies": ["vue", "frontend"],
+      "origin": ["INR", "RGESN 6.x"],
+      "rgesn": "6.x"
+    },
+    {
+      "id": "NR-LANG-VUE-002",
+      "title": "Lazy-load routes and optional components",
+      "what": "Load routes and optional components with dynamic imports; keep hydration to the interactive parts.",
+      "why": "Importing every view at the top of the router ships the whole application to a visitor who opens one page.",
+      "how": "component: () => import('../views/Page.vue'); defineAsyncComponent for heavy optional widgets.",
+      "detect": {"automation": "partial", "patterns": [{"re": "^import\\s+[A-Z]\\w*\\s+from\\s+['\\\"]\\.\\.?/(views|pages)/", "scope": ["vue", "js", "ts"], "note": "Eager view import; a component used on every route may legitimately stay eager.", "exclude_file": ["import\\(", "defineAsyncComponent"], "require_file": ["vue-router|createRouter"]}]},
+      "verify": {"method": "measure", "how": "Bundle report shows one chunk per route; initial JS within budget."},
+      "limits": [],
+      "priority": "high",
+      "applies": ["vue", "frontend"],
+      "origin": ["INR", "RGESN 6.x"],
+      "rgesn": "6.x",
+      "see": ["NR-FRONT-002"]
+    },
+    {
+      "id": "NR-LANG-VUE-003",
+      "title": "Stable keys and cleaned watchers",
+      "what": "Give v-for items stable keys from their data, and stop manual watchers, listeners and timers on unmount.",
+      "why": "Index keys rebuild nodes on every reorder; a watcher or listener left behind keeps the component and its data alive.",
+      "how": ":key=\"item.id\"; const stop = watch(...); onUnmounted(stop); clear timers in onUnmounted.",
+      "detect": {"automation": "partial", "patterns": [{"re": ":key=\\\"(index|i|idx)\\\"", "scope": ["vue"], "note": "Index used as key."}]},
+      "verify": {"method": "test", "how": "Mount/unmount cycles leave no listener or timer active."},
+      "limits": [],
+      "priority": "medium",
+      "applies": ["vue", "frontend"],
+      "origin": ["INR", "RGESN 6.x"],
+      "rgesn": "6.x",
+      "see": ["NR-FRONT-007"]
+    }
+  ]
+}

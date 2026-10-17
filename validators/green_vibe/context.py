@@ -18,6 +18,27 @@ EXT_SCOPES = {
     ".vue": {"vue", "js", "html", "css"},
     ".java": {"java"},
     ".go": {"go"},
+    ".rs": {"rs"},
+    ".php": {"php"},
+    ".rb": {"rb"},
+    ".cs": {"cs"},
+    ".kt": {"kt"},
+    ".kts": {"kt"},
+    ".swift": {"swift"},
+    ".c": {"c"},
+    ".h": {"c"},
+    ".cc": {"cpp"},
+    ".cpp": {"cpp"},
+    ".cxx": {"cpp"},
+    ".hpp": {"cpp"},
+    ".hh": {"cpp"},
+    ".svelte": {"svelte", "js", "html", "css"},
+    ".astro": {"astro", "html", "js", "css"},
+    ".scala": {"scala"},
+    ".sc": {"scala"},
+    ".jl": {"jl"},
+    ".nim": {"nim"},
+    ".zig": {"zig"},
     ".sql": {"sql"},
     ".html": {"html"},
     ".htm": {"html"},
@@ -37,7 +58,7 @@ EXT_SCOPES = {
 }
 
 # Extensions audited as code/text; everything else is skipped by the scanner.
-TEXT_SUFFIXES = set(EXT_SCOPES) | {".tsx", ".jsx", ".rb", ".php", ".c", ".h", ".cc", ".cpp", ".cs", ".swift", ".kt", ".rs", ".pl", ".pls", ".pkb"}
+TEXT_SUFFIXES = set(EXT_SCOPES) | {".pl", ".pls", ".pkb"}
 
 
 def iter_files(paths: list[str | Path]) -> list[Path]:
@@ -80,6 +101,10 @@ def detect_project_markers(root: Path) -> dict:
         "node": ["package.json"],
         "java": ["pom.xml", "build.gradle", "build.gradle.kts"],
         "go": ["go.mod"],
+        "rust": ["Cargo.toml"],
+        "php": ["composer.json"],
+        "ruby": ["Gemfile"],
+        "swift": ["Package.swift"],
         "docker": ["Dockerfile", "docker-compose.yml", "docker-compose.yaml"],
         "ci_github": [".github/workflows"],
     }
@@ -88,18 +113,30 @@ def detect_project_markers(root: Path) -> dict:
     return markers
 
 
+def _head(path: Path, size: int = 4096) -> str:
+    """First bytes of a file, where imports live; empty on read errors."""
+    try:
+        with path.open(encoding="utf-8", errors="replace") as fh:
+            return fh.read(size)
+    except OSError:
+        return ""
+
+
 def detect_frameworks(files: list[Path]) -> list[str]:
     """Framework hints from file names and common import lines (cheap heuristics)."""
     hints = set()
     for f in files:
         suffix = f.suffix.lower()
-        if suffix in {".jsx", ".tsx"} or f.name.lower() in {"next.config.js", "next.config.mjs"}:
+        solid = suffix in {".jsx", ".tsx"} and "solid-js" in _head(f)
+        if solid:
+            hints.add("solid")  # JSX shared by React and Solid: the import decides
+        elif suffix in {".jsx", ".tsx"} or f.name.lower() in {"next.config.js", "next.config.mjs"}:
             hints.add("react")
         if f.name.lower() in {"nuxt.config.js", "nuxt.config.ts"}:
             hints.add("vue")
         if suffix == ".vue":
             hints.add("vue")
-        if f.name.lower() in {"angular.json"}:
+        if f.name.lower() in {"angular.json"} or f.name.lower().endswith(".component.ts"):
             hints.add("angular")
         if f.name.lower() in {"svelte.config.js"} or suffix == ".svelte":
             hints.add("svelte")
@@ -131,12 +168,13 @@ ALWAYS_FAMILIES = {"strategy", "service", "architecture", "measure", "algo"}
 
 # Scope tokens that switch on each optional family.
 FAMILY_TRIGGERS = {
-    "frontend": {"html", "css", "scss", "js", "ts", "jsx", "tsx", "vue"},
-    "ux": {"html", "css", "scss", "js", "ts", "jsx", "tsx", "vue"},
-    "content": {"html", "css", "scss", "js", "ts", "jsx", "tsx", "vue"},
-    "backend": {"py", "java", "go", "js", "ts", "sql"},
-    "data": {"sql", "py", "java", "go", "js", "ts"},
-    "api": {"py", "java", "go", "js", "ts", "sql"},
+    "frontend": {"html", "css", "scss", "js", "ts", "jsx", "tsx", "vue", "svelte", "astro"},
+    "ux": {"html", "css", "scss", "js", "ts", "jsx", "tsx", "vue", "svelte", "astro", "swift", "kt"},
+    "content": {"html", "css", "scss", "js", "ts", "jsx", "tsx", "vue", "svelte", "astro"},
+    "backend": {"py", "java", "go", "js", "ts", "sql", "rs", "php", "rb", "cs", "kt", "c", "cpp",
+                "scala", "jl", "nim", "zig"},
+    "data": {"sql", "py", "java", "go", "js", "ts", "rs", "php", "rb", "cs", "kt"},
+    "api": {"py", "java", "go", "js", "ts", "sql", "rs", "php", "rb", "cs", "kt", "swift"},
     "infra": {"dockerfile", "yaml", "conf", "workflow-yaml", "sh", "bash"},
 }
 
@@ -162,22 +200,37 @@ def select_rule_ids(context: dict, rules: list[dict],
     """Rule ids relevant to this context: family-driven selection.
 
     Core families split into always-on (process) and scope-triggered; language
-    families are gated by scope overlap; `usage` rules are conversation-scoped
-    and never auto-selected.
+    families are gated by scope overlap, framework families by the detected
+    framework; `usage` rules are conversation-scoped and never auto-selected.
     """
     scopes = set(context.get("scopes", []))
+    frameworks = set(context.get("frameworks", []))
     families = set(relevant_families(context, extra_families))
     selected = []
     for r in rules:
         family = r["_family"]
         if family == "usage":
             continue
-        if family.startswith("lang-"):
+        if family in FRAMEWORK_FAMILIES:
+            if FRAMEWORK_FAMILIES[family] in frameworks:
+                selected.append(r["id"])
+        elif family.startswith("lang-"):
             if _lang_family_scopes(family) & scopes:
                 selected.append(r["id"])
         elif family in families:
             selected.append(r["id"])
     return selected
+
+
+# Framework catalogs share file extensions with plain JS/TS: gate them on the
+# framework detected in the change set, not on the scope.
+FRAMEWORK_FAMILIES = {
+    "lang-react": "react",
+    "lang-vue": "vue",
+    "lang-angular": "angular",
+    "lang-svelte": "svelte",
+    "lang-solid": "solid",
+}
 
 
 def _lang_family_scopes(family: str) -> set[str]:
@@ -188,5 +241,19 @@ def _lang_family_scopes(family: str) -> set[str]:
         "lang-sql": {"sql"},
         "lang-html-css": {"html", "css", "scss"},
         "lang-shell": {"sh", "bash"},
+        "lang-go": {"go"},
+        "lang-rust": {"rs"},
+        "lang-php": {"php"},
+        "lang-ruby": {"rb"},
+        "lang-csharp": {"cs"},
+        "lang-kotlin": {"kt"},
+        "lang-swift": {"swift"},
+        "lang-c": {"c"},
+        "lang-cpp": {"cpp"},
+        "lang-scala": {"scala"},
+        "lang-julia": {"jl"},
+        "lang-nim": {"nim"},
+        "lang-zig": {"zig"},
+        "lang-astro": {"astro"},
     }
     return mapping.get(family, set())

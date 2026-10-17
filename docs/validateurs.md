@@ -1,5 +1,7 @@
 # Les validateurs
 
+Cette page décrit le CLI, le moteur d'audit, les statuts et le hook.
+
 ## Vue d'ensemble
 
 Un CLI unique (`validators/green-vibe`), Python stdlib, aucune installation :
@@ -10,25 +12,48 @@ Un CLI unique (`validators/green-vibe`), Python stdlib, aucune installation :
 | `rules <filtre>` | Vue compacte des fiches (what/why/how/verify/auto/origin) |
 | `audit <paths>` | Audit statique : constats `FAIL`/`REVIEW` par fichier:ligne |
 | `report --audit f [--selected ids] [--verified R=preuve] [--mode m]` | Résultats normalisés + bilan pédagogique |
-| `index` | Régénère `rules/index.json` |
+| `index [--out f]` | Régénère `rules/index.json` (ou `f`) |
 | `stats` | Statistiques du catalogue |
+
+Options et comportements communs :
+
+- `--root DIR` (avant la sous-commande) : racine Green Vibe à utiliser ;
+  autodétectée par défaut. `stats` ignore cette option.
+- `select --family f` est répétable (`--family ai --family infra`).
+- `rules` filtre par sous-chaîne d'ID ou de famille (`rules data`,
+  `rules NR-DATA-004`) ; sans argument, liste tout le catalogue.
+- `report --json` sort le rapport complet (résultats, constats, bilan) au lieu
+  du seul bilan texte. Sans `--selected`, le rapport porte sur les règles qui
+  ont au moins un constat.
+- `--selected` attend des IDs **séparés** : `--selected NR-A NR-B`. Une chaîne
+  entre guillemets `"NR-A NR-B"` est lue comme un seul ID.
+- Sorties : JSON sur stdout ; `audit` résume aussi chaque constat sur stderr.
+  Toutes les commandes sortent en code 0, constats ou non : l'audit informe,
+  il ne bloque pas.
 
 ## Moteur d'audit
 
-1. **Énumération** : fichiers texte pertinents, exclusions standard
-   (`.git`, `node_modules`, `dist`, `__pycache__`...).
+L'audit procède en quatre étapes.
+
+1. **Énumération** : fichiers des 25 catalogues (Python, JS/TS, Java, Go,
+   Rust, PHP, Ruby, C#, Kotlin, Swift, C/C++, Scala, Julia, Nim, Zig, SQL,
+   HTML/CSS, shell, Vue, Svelte, Astro…), exclusions standard (`.git`,
+   `node_modules`, `dist`, `__pycache__`...).
 2. **Masquage** : chaînes et commentaires remplacés par des espaces (positions
-   préservées) avant tout matching — un anti-pattern cité dans un littéral ou
-   une docstring n'est pas du code. Le shebang des scripts shell est préservé.
+   préservées) avant tout matching : le moteur ignore ainsi un anti-pattern
+   cité dans un littéral ou une docstring. Le shebang des scripts shell est préservé.
 3. **Matching** : regex par règle, compilées une fois, scoping par type de
-   fichier (`scope`) ; détecteurs spéciaux en code pour les contrôles plus
+   fichier (`scope`), gardes de fichier `exclude_file` / `require_file` lues
+   sur le texte brut ; détecteurs spéciaux en code pour les contrôles plus
    propres qu'une regex (imbrication de boucles par indentation, `set -euo
    pipefail` en en-tête de script).
 4. **Statuts** : `FAIL` pour les détecteurs déterministes (`automation: full`
-   ou détecteur spécial confirmé), `REVIEW` pour les candidats — le constat
-   porte toujours la `note` qui décrit ses limites.
+   ou détecteur spécial confirmé), `REVIEW` pour les candidats. Chaque constat
+   porte la `note` qui décrit les limites du détecteur.
 
 ## Statuts normalisés (rapport)
+
+Le rapport attribue un statut par règle selon ces conditions.
 
 | Statut | Attribution |
 |---|---|
@@ -36,6 +61,7 @@ Un CLI unique (`validators/green-vibe`), Python stdlib, aucune installation :
 | `failed` | constat FAIL confirmé |
 | `manual_review_required` | constat REVIEW à trancher |
 | `not_tested` | règle applicable sans contrôle exécuté |
+| `not_applicable` | règle hors périmètre de l'intervention, avec raison |
 
 ## Traçabilité
 
@@ -54,6 +80,8 @@ fail-open sur toute erreur, timeout 20 s. Désactivation : supprimer
 `hooks.toml` de la copie installée.
 
 ## Limites documentées
+
+Ces limites accompagnent chaque résultat d'audit.
 
 - L'audit statique produit des **candidats** ; `FAIL` = motif déterministe
   confirmé, jamais une certitude sémantique.

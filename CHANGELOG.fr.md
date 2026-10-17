@@ -5,6 +5,12 @@
 Ce fichier consigne les évolutions de chaque version (SemVer). Traduction
 française de [CHANGELOG.md](CHANGELOG.md).
 
+## 0.2.2 (2026-10-17)
+
+- NR-USAGE-028 nomme l'agent intégré `ask`, comme le CLI de Vibe
+  (`vibe --help`, `BuiltinAgentName`) ; la doc de Vibe l'appelle `default`.
+  Signalé en amont dans mistralai/mistral-vibe#1279.
+
 ## 0.2.1 (2026-10-17)
 
 Corrections issues de la revue de code de la 0.2.0 ; aucune règle ajoutée

@@ -4,6 +4,21 @@
 
 This file records the changes in each version (SemVer).
 
+## 0.2.1 (2026-10-17)
+
+Fixes from the 0.2.0 code review; no rule added or removed.
+
+- Julia (`#= =#`) and Nim (`#[ ]#`) block comments are now masked, and a
+  Julia transpose (`A'`) no longer opens a string.
+- `select` detects Solid in plain `.js`/`.ts` files and Angular from
+  `*.component.html` templates alone.
+- 30 patterns bounded (`[^}]{0,2000}`, `[^>]{0,1000}`): audit time stays
+  linear on files with an unclosed brace or bracket.
+- File guards run only after a pattern's first hit; their case-sensitivity is
+  documented.
+- Tests: 61 (block comments, transpose, Solid/Angular detection, unclosed
+  braces).
+
 ## 0.2.0 (2026-10-17)
 
 Extended catalog and a broader Sustainable IT scope (Green IT, IT for Green,

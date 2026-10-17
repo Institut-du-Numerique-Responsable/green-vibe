@@ -11,7 +11,7 @@ description: |
   responsible use of Vibe itself. Ends every significant intervention with a
   pedagogical NR report (bilan) grounded in rules actually applied and verified.
 author: Institut du Numérique Responsable
-version: 0.2.0
+version: 0.2.1
 license: Apache-2.0 (code); CC BY 4.0 (rule content); see LICENSE
 user-invocable: true
 ---

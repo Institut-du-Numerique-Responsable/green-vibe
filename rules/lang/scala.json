@@ -23,7 +23,7 @@
       "what": "Stay sequential by default; parallelise (.par, Futures in loops) only after a benchmark, on a pool you sized, with explicit concurrency bounds.",
       "why": "A Future starts when built: building them in a loop launches every call at once. .par hands work to a shared pool and slows everything else using it.",
       "how": "Throttled traverse (parTraverseN, mapAsync(n)), a Semaphore, or a dedicated ExecutionContext sized from measurement.",
-      "detect": {"automation": "partial", "patterns": [{"re": "\\.par\\b|\\bParVector\\b|\\bParArray\\b", "scope": ["scala"], "note": "Parallel collection; check a benchmark justifies it."}, {"re": "for\\s*\\([^)]*\\)\\s*\\{[^}]*Future\\s*\\{|\\.map\\s*\\([^)]*Future\\s*\\{", "scope": ["scala"], "note": "Futures built in a loop: unbounded concurrency.", "exclude_file": ["Semaphore", "parTraverseN", "mapAsync", "throttle"]}]},
+      "detect": {"automation": "partial", "patterns": [{"re": "\\.par\\b|\\bParVector\\b|\\bParArray\\b", "scope": ["scala"], "note": "Parallel collection; check a benchmark justifies it."}, {"re": "for\\s*\\([^)]*\\)\\s*\\{[^}]{0,2000}Future\\s*\\{|\\.map\\s*\\([^)]*Future\\s*\\{", "scope": ["scala"], "note": "Futures built in a loop: unbounded concurrency.", "exclude_file": ["Semaphore", "parTraverseN", "mapAsync", "throttle"]}]},
       "verify": {"method": "measure", "how": "Benchmark shows the gain; the number of tasks in flight is bounded by configuration."},
       "limits": [],
       "priority": "high",

@@ -127,7 +127,7 @@ def detect_frameworks(files: list[Path]) -> list[str]:
     hints = set()
     for f in files:
         suffix = f.suffix.lower()
-        solid = suffix in {".jsx", ".tsx"} and "solid-js" in _head(f)
+        solid = suffix in {".jsx", ".tsx", ".js", ".ts"} and "solid-js" in _head(f)
         if solid:
             hints.add("solid")  # JSX shared by React and Solid: the import decides
         elif suffix in {".jsx", ".tsx"} or f.name.lower() in {"next.config.js", "next.config.mjs"}:
@@ -136,7 +136,7 @@ def detect_frameworks(files: list[Path]) -> list[str]:
             hints.add("vue")
         if suffix == ".vue":
             hints.add("vue")
-        if f.name.lower() in {"angular.json"} or f.name.lower().endswith(".component.ts"):
+        if f.name.lower() in {"angular.json"} or f.name.lower().endswith((".component.ts", ".component.html")):
             hints.add("angular")
         if f.name.lower() in {"svelte.config.js"} or suffix == ".svelte":
             hints.add("svelte")

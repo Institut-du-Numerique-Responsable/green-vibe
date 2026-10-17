@@ -87,7 +87,8 @@ Follow these steps to add a language rule:
      import…).
 
    A guard acts on the whole file, so keep it precise or it silences real
-   candidates. The pattern itself reads the masked text. Two pattern options
+   candidates. Guards are case-sensitive (patterns aren't), and the engine
+   evaluates them only once a pattern has a hit. The pattern itself reads the masked text. Two pattern options
    are available: `"in_loop": true` keeps a hit only inside a for/while body
    (by indentation), and `"text": "raw"` matches literals too. For line-start
    indentation, write `^[ \t]*`, never `^\s*`: `\s` swallows newlines and

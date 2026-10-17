@@ -67,7 +67,7 @@
       "what": "No autoplaying media, no engagement-only infinite scroll, no unsolicited refresh, prefetch or notifications. Let users finish a task and stop.",
       "why": "Mechanics that hold attention consume resources without adding value, and they take control away from the user. Both are waste by definition.",
       "how": "Require an explicit action to start media; bound or paginate lists; make notifications opt-in; verify idle behaviour (no network or CPU when the user is not acting).",
-      "detect": {"automation": "partial", "patterns": [{"re": "<(video|audio)[^>]*\\bautoplay", "scope": ["html", "vue", "jsx", "tsx"], "note": "Autoplay attribute; verify no user-gesture gate around it."}]},
+      "detect": {"automation": "partial", "patterns": [{"re": "<(video|audio)[^>]{0,1000}\\bautoplay", "scope": ["html", "vue", "jsx", "tsx"], "note": "Autoplay attribute; verify no user-gesture gate around it."}]},
       "verify": {"method": "test", "how": "Idle-state network/CPU check shows no background activity; media start requires user action."},
       "limits": ["Bounded pagination must remain keyboard-navigable and assistive-tech friendly."],
       "priority": "high",

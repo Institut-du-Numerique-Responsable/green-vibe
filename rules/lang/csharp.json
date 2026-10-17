@@ -82,7 +82,7 @@
       "what": "A BackgroundService reacts to messages or signals rather than polling a state in a tight loop.",
       "why": "A loop with a short Task.Delay queries the database or an API continuously to catch a rare change.",
       "how": "Consume a queue (Channel<T>, a broker), use PeriodicTimer with a justified interval when polling is unavoidable.",
-      "detect": {"automation": "partial", "patterns": [{"re": "while\\s*\\([^)]*\\)\\s*\\{[^}]*Task\\.Delay\\s*\\(\\s*\\d{1,4}\\s*[,)]", "scope": ["cs"], "note": "Polling loop with a short delay (under 10 s)."}]},
+      "detect": {"automation": "partial", "patterns": [{"re": "while\\s*\\([^)]*\\)\\s*\\{[^}]{0,2000}Task\\.Delay\\s*\\(\\s*\\d{1,4}\\s*[,)]", "scope": ["cs"], "note": "Polling loop with a short delay (under 10 s)."}]},
       "verify": {"method": "review", "how": "Polling interval justified and documented, or replaced by an event source."},
       "limits": [],
       "priority": "medium",

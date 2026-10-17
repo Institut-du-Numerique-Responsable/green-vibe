@@ -25,6 +25,10 @@ Catalogue étendu et cadrage Numérique Responsable élargi
 - Moteur : gardes de fichier `exclude_file` / `require_file`, masquage Rust
   (lifetimes), PHP/Ruby, Julia/Nim ; sélection des frameworks par détection
   (nom de fichier, import) ; motifs compilés une seule fois.
+- Revue : cinq motifs `^\s*` rendus linéaires (`^[ \t]*`) ; `exclude_file`
+  lit le texte masqué, `exclude_import` gère les imports ; gardes trop larges
+  retirées (NR-LANG-RS-005 `#[cfg(test)]`, NR-LANG-GO-001/002) ; masquage
+  PHP/Ruby en une passe (`'#'` dans une chaîne) ; `async for` reconnu.
 - Faux positif corrigé : NR-ALGO-009 ne prend plus `function List(props)`
   pour `list(x)` en JS.
 - Provenance : chaque fiche porte `INR` et ses référentiels (RGESN, RGAA,

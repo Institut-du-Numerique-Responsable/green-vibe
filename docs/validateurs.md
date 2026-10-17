@@ -43,8 +43,9 @@ L'audit procède en quatre étapes.
    préservées) avant tout matching : le moteur ignore ainsi un anti-pattern
    cité dans un littéral ou une docstring. Le shebang des scripts shell est préservé.
 3. **Matching** : regex par règle, compilées une fois, scoping par type de
-   fichier (`scope`), gardes de fichier `exclude_file` / `require_file` lues
-   sur le texte brut ; détecteurs spéciaux en code pour les contrôles plus
+   fichier (`scope`), gardes de fichier (`exclude_file` sur le texte masqué,
+   `exclude_import` / `require_file` sur le texte brut), garde `in_loop`
+   (constat gardé seulement dans le corps d'une boucle, par indentation) ; détecteurs spéciaux en code pour les contrôles plus
    propres qu'une regex (imbrication de boucles par indentation, `set -euo
    pipefail` en en-tête de script).
 4. **Statuts** : `FAIL` pour les détecteurs déterministes (`automation: full`

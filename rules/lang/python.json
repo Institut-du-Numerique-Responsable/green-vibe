@@ -54,7 +54,7 @@
       "what": "Bound worker/queue/process counts to the machine profile; use context managers for files, connections and locks without exception.",
       "why": "Unbounded multiprocessing exhausts memory and thrashes the CPU on one machine while appearing 'parallel'; an unclosed resource leaks until the process dies.",
       "how": "Pool sizes from the core/RAM budget, with-statement everywhere a resource is acquired, concurrent.futures with bounded executors.",
-      "detect": {"automation": "partial", "patterns": [{"re": "multiprocessing\\.Pool\\(\\s*\\)|Pool\\(\\s*\\d{3,}\\s*\\)", "scope": ["py"], "note": "Pool with default or very large size; check machine budget."}, {"re": "^\\s*\\w+\\s*=\\s*open\\(", "scope": ["py"], "note": "Bare open() assignment; verify a close or a with-statement."}]},
+      "detect": {"automation": "partial", "patterns": [{"re": "multiprocessing\\.Pool\\(\\s*\\)|Pool\\(\\s*\\d{3,}\\s*\\)", "scope": ["py"], "note": "Pool with default or very large size; check machine budget."}, {"re": "^[ \\t]*\\w+\\s*=\\s*open\\(", "scope": ["py"], "note": "Bare open() assignment; verify a close or a with-statement."}]},
       "verify": {"method": "test", "how": "Worker count under load stays within the bound; fd count stable across iterations (lsof/ulimit check)."},
       "limits": [],
       "priority": "high",

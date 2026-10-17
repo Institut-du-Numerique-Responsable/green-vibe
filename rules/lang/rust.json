@@ -68,7 +68,7 @@
       "what": "Return Result and use ? on foreseeable error paths; keep unwrap()/expect() for invariants that are genuinely guaranteed.",
       "why": "A panic on an expected error restarts the service: a cold cache, lost in-flight work and computation redone at every incident.",
       "how": "Propagate with ?, map errors to typed errors, document each remaining expect() with the invariant it relies on.",
-      "detect": {"automation": "partial", "patterns": [{"re": "\\.unwrap\\(\\)", "scope": ["rs"], "note": "unwrap(); acceptable in tests and on proven invariants, candidate on request paths.", "exclude_file": ["#\\[cfg\\(test\\)\\]"]}]},
+      "detect": {"automation": "partial", "patterns": [{"re": "\\.unwrap\\(\\)", "scope": ["rs"], "note": "unwrap(); acceptable in tests and on proven invariants, candidate on request paths."}]},
       "verify": {"method": "review", "how": "Remaining unwrap()/expect() calls each guard a documented invariant; clippy unwrap_used clean on request paths."},
       "limits": [],
       "priority": "medium",

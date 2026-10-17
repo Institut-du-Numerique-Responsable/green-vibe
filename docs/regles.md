@@ -73,14 +73,20 @@ Suivez ces étapes pour ajouter une règle de langage :
    `context._lang_family_scopes` (ou `FRAMEWORK_FAMILIES` pour un framework).
 2. Si automatisable : ajouter le `pattern` avec `scope` et une `note` décrivant
    précisément ses limites (le catalogue vit avec ses faux positifs déclarés).
-   Deux gardes au niveau du fichier réduisent le bruit :
-   - `exclude_file` : liste de regex ; une seule correspondance dans le
-     fichier signifie que le sujet y est déjà traité (`defer resp.Body.Close()`,
-     `takeUntilDestroyed`…) et rend le motif silencieux ;
-   - `require_file` : liste de regex ; le motif ne s'applique que si le
-     fichier en contient une (import `@angular/core`, `solid-js`…).
-   Les gardes lisent le texte brut (les imports sont des chaînes), le motif
-   lit le texte masqué.
+   Trois gardes au niveau du fichier réduisent le bruit :
+   - `exclude_file` : liste de regex lues sur le texte masqué ; une
+     correspondance signifie que le code traite déjà le sujet
+     (`defer resp.Body.Close()`, `takeUntilDestroyed`…) et rend le motif
+     silencieux. Un appel cité en commentaire ne compte pas ;
+   - `exclude_import` : liste de regex lues sur le texte brut ; un import
+     écarte le motif (autre framework, bibliothèque de virtualisation) ;
+   - `require_file` : liste de regex lues sur le texte brut ; le motif ne
+     s'applique que si le fichier en contient une (import `@angular/core`,
+     `solid-js`…).
+   Une garde agit sur tout le fichier : choisissez-la précise, sinon elle
+   fait taire de vrais candidats. Le motif lui-même lit le texte masqué.
+   En multiligne, écrivez l'indentation `^[ \t]*`, jamais `^\s*` : `\s`
+   avale les retours ligne et rend le scan quadratique (un test le vérifie).
 3. `python3 validators/green-vibe index` (régénère `rules/index.json`).
 4. Ajouter un test sur fixture conforme + non conforme
    (`tests/unit/test_lang_catalogs.py`, fixtures dans `tests/fixtures/lang/`).

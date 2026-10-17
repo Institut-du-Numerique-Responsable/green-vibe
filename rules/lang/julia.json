@@ -9,7 +9,7 @@
       "what": "Keep hot functions type-stable: pass values as arguments or declare true constants const; check with @code_warntype before optimising anything else.",
       "why": "A non-constant global has no fixed type, so the compiler cannot specialise the functions that read it and boxes every value, at every call.",
       "how": "const RATE = 0.2; function f(x, rate) ... end; @code_warntype f(x, rate); BenchmarkTools for timing.",
-      "detect": {"automation": "partial", "patterns": [{"re": "^\\s*global\\s+\\w+", "scope": ["jl"], "note": "Global mutated from a function; type instability candidate."}]},
+      "detect": {"automation": "partial", "patterns": [{"re": "^[ \\t]*global\\s+\\w+", "scope": ["jl"], "note": "Global mutated from a function; type instability candidate."}]},
       "verify": {"method": "measure", "how": "@code_warntype clean on the hot function; @btime before/after."},
       "limits": [],
       "priority": "medium",

@@ -103,6 +103,41 @@ class TestFileGuards(unittest.TestCase):
         audit_mod.audit_files([REPO_ROOT / "validators", REPO_ROOT / "scripts"], self.rules)
         self.assertLess(time.monotonic() - start, 5.0)
 
+    def test_no_newline_crossing_anchor_in_patterns(self):
+        # With re.M, "^\s" also eats newlines: on masked (blank) blocks the scan
+        # turns quadratic. Line-start indentation must be [ \t].
+        import re
+
+        bad = [r["id"] for r in self.rules for p in (r.get("detect") or {}).get("patterns", [])
+               if re.search(r"\^\\s[*+]", p["re"])]
+        self.assertEqual(bad, [])
+
+    def test_every_scope_stays_linear_on_masked_blocks(self):
+        # A 5000-line comment becomes 5000 blank lines after masking.
+        import time
+
+        samples = {".go": "/*\n" + "x\n" * 5000 + "*/\n", ".py": '"""\n' + "x\n" * 5000 + '"""\n',
+                   ".jl": "#\n" * 5000, ".sql": "/*\n" + "x\n" * 5000 + "*/\n",
+                   ".svelte": "<!--\n" + "x\n" * 5000 + "-->\n", ".rs": "/*\n" + "x\n" * 5000 + "*/\n",
+                   ".php": "/*\n" + "x\n" * 5000 + "*/\n", ".ts": "/*\n" + "x\n" * 5000 + "*/\n"}
+        for suffix, text in samples.items():
+            with self.subTest(suffix=suffix):
+                start = time.monotonic()
+                audit_mod.audit_text(text, "big" + suffix, self.rules)
+                self.assertLess(time.monotonic() - start, 1.0)
+
+    def test_test_module_does_not_silence_production_unwrap(self):
+        text = "fn main() { let v = read().unwrap(); }\n#[cfg(test)]\nmod tests {}\n"
+        self.assertIn("NR-LANG-RS-005", self._audit(text, "a.rs"))
+
+    def test_guard_quoted_in_a_comment_does_not_silence(self):
+        text = "package m\n// TODO: errgroup later\nfunc f() { go func() { work() }() }\n"
+        self.assertIn("NR-LANG-GO-001", self._audit(text, "a.go"))
+
+    def test_hash_inside_php_string_is_not_a_comment(self):
+        text = "<?php\n$a['#'] = 1; $users = User::all();\n"
+        self.assertIn("NR-LANG-PHP-001", self._audit(text, "a.php"))
+
     def test_rust_lifetimes_do_not_break_masking(self):
         text = "fn f<'a>(x: &'a str) -> &'a str { let s = \"Client::new()\"; x }\n"
         self.assertNotIn("NR-LANG-RS-004", self._audit(text, "a.rs"))

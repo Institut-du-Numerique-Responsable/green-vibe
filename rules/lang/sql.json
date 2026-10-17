@@ -110,7 +110,7 @@
       "what": "Commit in batches sized to undo/redo capacity, never per row; delete or archive large volumes in bounded chunks, never one giant statement.",
       "why": "A commit per row multiplies log flushes; one massive DELETE holds locks, bloats undo and replication, and can stall the whole database.",
       "how": "Loop over batches of a few thousand rows with a checkpoint; partition and drop old partitions where the engine supports it.",
-      "detect": {"automation": "partial", "patterns": [{"re": "\\bLOOP\\b[\\s\\S]{0,400}?\\bCOMMIT\\b[\\s\\S]{0,100}?\\bEND\\s+LOOP\\b", "scope": ["sql"], "note": "COMMIT inside a loop."}, {"re": "^\\s*DELETE\\s+FROM\\s+[\\w.\\\"]+\\s*;", "scope": ["sql"], "note": "Unfiltered DELETE of a whole table; check volume, or TRUNCATE/partition drop."}]},
+      "detect": {"automation": "partial", "patterns": [{"re": "\\bLOOP\\b[\\s\\S]{0,400}?\\bCOMMIT\\b[\\s\\S]{0,100}?\\bEND\\s+LOOP\\b", "scope": ["sql"], "note": "COMMIT inside a loop."}, {"re": "^[ \\t]*DELETE\\s+FROM\\s+[\\w.\\\"]+\\s*;", "scope": ["sql"], "note": "Unfiltered DELETE of a whole table; check volume, or TRUNCATE/partition drop."}]},
       "verify": {"method": "test", "how": "Batch job test shows commits proportional to batches; purge run on a copy stays within the lock budget."},
       "limits": [],
       "priority": "medium",

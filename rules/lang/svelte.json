@@ -9,7 +9,7 @@
       "what": "Keep reactive statements and derived values scoped to the data they need; split wide ones into narrow ones.",
       "why": "A broad reactive block re-runs whenever any dependency moves, including those that do not affect its result.",
       "how": "One $: (or $derived) per derived value; derived stores for shared state.",
-      "detect": {"automation": "partial", "patterns": [{"re": "^\\s*\\$:\\s*\\{", "scope": ["svelte"], "note": "Reactive block; check that it depends only on what it computes."}]},
+      "detect": {"automation": "partial", "patterns": [{"re": "^[ \\t]*\\$:\\s*\\{", "scope": ["svelte"], "note": "Reactive block; check that it depends only on what it computes."}]},
       "verify": {"method": "review", "how": "Each reactive statement depends only on its own inputs."},
       "limits": [],
       "priority": "medium",

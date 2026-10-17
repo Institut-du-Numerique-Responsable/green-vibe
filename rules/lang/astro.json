@@ -23,7 +23,7 @@
       "what": "Use the Image/Picture components (astro:assets) so formats, sizes and dimensions are produced at build time; keep alt text and content usable without client JavaScript.",
       "why": "A raw img skips build-time optimisation: no modern format, no responsive sizes, no dimensions, paid by every visitor on every load.",
       "how": "import { Image } from 'astro:assets'; <Image src={hero} alt=\"...\" widths={[400, 800]} />.",
-      "detect": {"automation": "partial", "patterns": [{"re": "<img\\s", "scope": ["astro"], "note": "Raw img tag; the Image component optimises at build.", "exclude_file": ["astro:assets", "<Image\\b", "<Picture\\b"]}]},
+      "detect": {"automation": "partial", "patterns": [{"re": "<img\\s", "scope": ["astro"], "note": "Raw img tag; the Image component optimises at build.", "exclude_file": ["<Image\\b", "<Picture\\b"], "exclude_import": ["astro:assets"]}]},
       "verify": {"method": "review", "how": "Content images go through astro:assets and carry alt text."},
       "limits": [],
       "priority": "medium",

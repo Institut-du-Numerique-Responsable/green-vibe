@@ -65,10 +65,18 @@ def mask_rust(text: str) -> str:
     return re.sub(r"\"(?:\\.|[^\"\\])*\"", _blank, text)
 
 
+_HASH_C_TOKENS = re.compile(
+    r"'(?:\\.|[^'\\\n])*'|\"(?:\\.|[^\"\\])*\"|`(?:\\.|[^`\\])*`"  # strings first
+    r"|//[^\n]*|/\*.*?\*/"                                         # C-style comments
+    r"|(?<![\w$&{])#(?![\[{])[^\n]*",                               # '#' comments
+    re.S,
+)
+
+
 def mask_hash_c_like(text: str) -> str:
-    # PHP and Ruby: '#' line comments on top of C-like strings and comments.
-    text = re.sub(r"(?<![\w$&{])#(?![\[{])[^\n]*", _blank, text)
-    return mask_c_like(text)
+    # PHP and Ruby: one left-to-right pass, so a '#' inside a string stays a
+    # string and a quote inside a comment stays a comment.
+    return _HASH_C_TOKENS.sub(_blank, text)
 
 
 def mask_yaml(text: str) -> str:
@@ -157,21 +165,26 @@ SPECIAL_DETECTORS = {
 # Scanner
 # ---------------------------------------------------------------------------
 
-def _file_allows(pattern: dict, raw: str) -> bool:
-    """File-level guards of a pattern, checked on the raw text.
+def _file_allows(pattern: dict, raw: str, masked: str) -> bool:
+    """File-level guards of a pattern (case-sensitive, whole file).
 
-    `require_file`: the file must match one of these (e.g. a framework import);
-    `exclude_file`: a match anywhere means the concern is already handled in
-    this file (e.g. a cancel/close/teardown call), so the pattern stays silent.
-    Imports live in string literals, hence the raw text, not the masked one.
+    `require_file`: the file must match one of these (e.g. a framework import).
+    Imports live in string literals, so this guard reads the raw text.
+    `exclude_import`: an import that rules the pattern out (another framework,
+    a virtualisation library); raw text too.
+    `exclude_file`: a match means the concern is already handled in this file
+    (e.g. a cancel/close/teardown call), so the pattern stays silent. It reads
+    the masked text: a call quoted in a comment or a string handles nothing.
     """
     req = pattern.get("_require")
     if req and not any(r.search(raw) for r in req):
         return False
-    return not any(r.search(raw) for r in pattern.get("_exclude", ()))
+    if any(r.search(raw) for r in pattern.get("_exclude_import", ())):
+        return False
+    return not any(r.search(masked) for r in pattern.get("_exclude", ()))
 
 
-_LOOP_HEAD = re.compile(r"^([ \t]*)(?:for|while)\b")
+_LOOP_HEAD = re.compile(r"^([ \t]*)(?:async[ \t]+)?(?:for|while)\b")
 
 
 def _in_indented_loop(lines: list[str], idx: int, window: int = 15) -> bool:
@@ -225,7 +238,7 @@ def audit_files(paths: list[str | Path], rules: list[dict]) -> list[dict]:
                 for pattern in patterns:
                     if not (set(pattern.get("scope", ["any"])) & scopes):
                         continue
-                    if not _file_allows(pattern, raw):
+                    if not _file_allows(pattern, raw, masked):
                         continue
                     # "text": "raw" matches literals too (e.g. a quote after +=),
                     # at the cost of also matching inside comments.
@@ -289,6 +302,7 @@ def _compile_rules(rules: list[dict]):
                     _re=re.compile(p["re"], re.I | re.M),
                     _require=[re.compile(x, re.M) for x in p.get("require_file", [])],
                     _exclude=[re.compile(x, re.M) for x in p.get("exclude_file", [])],
+                    _exclude_import=[re.compile(x, re.M) for x in p.get("exclude_import", [])],
                 ))
             except re.error:
                 continue  # malformed pattern: skip, never crash the audit

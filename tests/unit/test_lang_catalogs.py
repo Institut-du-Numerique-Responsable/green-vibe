@@ -138,6 +138,27 @@ class TestFileGuards(unittest.TestCase):
         text = "<?php\n$a['#'] = 1; $users = User::all();\n"
         self.assertIn("NR-LANG-PHP-001", self._audit(text, "a.php"))
 
+    def test_julia_and_nim_block_comments_are_masked(self):
+        julia = "#=\nfunction step()\n    global counter\nend\n=#\nx = A' * B'\n"
+        self.assertNotIn("NR-LANG-JL-001", self._audit(julia, "a.jl"))
+        nim = "#[\nproc total(xs: seq[int]): int = 0\n]#\n"
+        self.assertNotIn("NR-LANG-NIM-001", self._audit(nim, "a.nim"))
+
+    def test_julia_transpose_does_not_open_a_string(self):
+        text = "y = A'\nfunction step()\n    global counter\nend\n"
+        self.assertIn("NR-LANG-JL-001", self._audit(text, "a.jl"))
+
+    def test_unclosed_braces_stay_linear(self):
+        import time
+
+        for name, text in [("a.c", "for (i = 0; i < n; i++) {" * 4000),
+                           ("a.html", "<div role=x " * 5000),
+                           ("a.scala", "for (u <- x) { " * 4000)]:
+            with self.subTest(fixture=name):
+                start = time.monotonic()
+                audit_mod.audit_text(text, name, self.rules)
+                self.assertLess(time.monotonic() - start, 1.0)
+
     def test_rust_lifetimes_do_not_break_masking(self):
         text = "fn f<'a>(x: &'a str) -> &'a str { let s = \"Client::new()\"; x }\n"
         self.assertNotIn("NR-LANG-RS-004", self._audit(text, "a.rs"))
@@ -159,6 +180,25 @@ class TestFrameworkSelection(unittest.TestCase):
         solid = self._selected("solid_bad.tsx")
         self.assertIn("NR-LANG-SOLID-001", solid)
         self.assertNotIn("NR-LANG-REACT-001", solid)
+
+    def test_solid_store_in_plain_ts_selects_solid(self):
+        import tempfile
+
+        with tempfile.TemporaryDirectory() as d:
+            store = Path(d) / "store.ts"
+            store.write_text("import { createSignal } from 'solid-js';\nexport const [n, setN] = createSignal(0);\n")
+            ctx = context.analyze([str(store)])
+        self.assertIn("solid", ctx["frameworks"])
+        self.assertIn("NR-LANG-SOLID-001", set(context.select_rule_ids(ctx, self.rules)))
+
+    def test_angular_template_alone_selects_angular(self):
+        import tempfile
+
+        with tempfile.TemporaryDirectory() as d:
+            tpl = Path(d) / "orders.component.html"
+            tpl.write_text("<li *ngFor=\"let o of orders\">{{ total(o) }}</li>\n")
+            ctx = context.analyze([str(tpl)])
+        self.assertIn("NR-LANG-NG-002", set(context.select_rule_ids(ctx, self.rules)))
 
     def test_new_languages_select_their_catalog(self):
         for name, rid in [("go_bad.go", "NR-LANG-GO-001"), ("rust_bad.rs", "NR-LANG-RS-001"),

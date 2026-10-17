@@ -1,7 +1,7 @@
 {
   "$schema": "https://agent-plugins.org/schemas/1.0.0/plugin.schema.json",
   "name": "green-vibe",
-  "version": "0.2.0",
+  "version": "0.2.1",
   "description": "Numérique Responsable (Sustainable IT) practices for the Mistral Vibe coding agent: 286 rewritten rules covering Green IT, IT for Green, IT for Social and Social for IT (sobriety, accessibility, inclusion, reliability, ethics), deterministic audit validators, and a mandatory pedagogical report. By the Institut du Numérique Responsable.",
   "author": {
     "name": "Institut du Numérique Responsable",

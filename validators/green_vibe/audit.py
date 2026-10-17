@@ -79,6 +79,24 @@ def mask_hash_c_like(text: str) -> str:
     return _HASH_C_TOKENS.sub(_blank, text)
 
 
+def _hash_block_masker(block_open: str, block_close: str):
+    """Julia (#= =#) and Nim (#[ ]#): block comments, '#' comments, triple and
+    double-quoted strings, and char literals only, so a transpose (A') or a
+    lone quote never opens a string. One left-to-right pass."""
+    tokens = re.compile(
+        re.escape(block_open) + r".*?" + re.escape(block_close)
+        + r'|"""(?:.|\n)*?"""|"(?:\\.|[^"\\])*"'
+        + r"|'(?:\\.|[^'\\\n])'"
+        + r"|#[^\n]*",
+        re.S,
+    )
+    return lambda text: tokens.sub(_blank, text)
+
+
+mask_julia = _hash_block_masker("#=", "=#")
+mask_nim = _hash_block_masker("#[", "]#")
+
+
 def mask_yaml(text: str) -> str:
     return re.sub(r"(?<!\S)#(?!\[)[^\n]*", _blank, text)
 
@@ -94,8 +112,10 @@ def mask_text(path: Path, text: str) -> str:
                   ".cs", ".kt", ".kts", ".swift", ".c", ".h", ".cc", ".cpp", ".cxx",
                   ".hpp", ".hh", ".scala", ".sc", ".zig"}:
         return mask_c_like(text)
-    if suffix in {".jl", ".nim"}:
-        return mask_python(text)  # '#' comments and triple-quoted strings
+    if suffix == ".jl":
+        return mask_julia(text)
+    if suffix == ".nim":
+        return mask_nim(text)
     if suffix == ".rs":
         return mask_rust(text)
     if suffix in {".php", ".rb"}:
@@ -229,7 +249,7 @@ def audit_files(paths: list[str | Path], rules: list[dict]) -> list[dict]:
         lines = None  # computed lazily
         raw_lines = None
 
-        for rule, patterns, flags, detector in compiled:
+        for rule, patterns, detector in compiled:
             hits: list[tuple[int, dict]] = []
             if detector:
                 hit_lines = SPECIAL_DETECTORS[detector](masked, raw, scopes)
@@ -238,13 +258,16 @@ def audit_files(paths: list[str | Path], rules: list[dict]) -> list[dict]:
                 for pattern in patterns:
                     if not (set(pattern.get("scope", ["any"])) & scopes):
                         continue
-                    if not _file_allows(pattern, raw, masked):
-                        continue
                     # "text": "raw" matches literals too (e.g. a quote after +=),
                     # at the cost of also matching inside comments.
                     target = raw if pattern.get("text") == "raw" else masked
+                    allowed = None  # file guards, evaluated on the first hit only
                     try:
                         for m in pattern["_re"].finditer(target):
+                            if allowed is None:
+                                allowed = _file_allows(pattern, raw, masked)
+                            if not allowed:
+                                break
                             start = m.start()
                             if lines is None:
                                 lines = _line_offsets(masked)
@@ -306,7 +329,7 @@ def _compile_rules(rules: list[dict]):
                 ))
             except re.error:
                 continue  # malformed pattern: skip, never crash the audit
-        out.append((rule, compiled, re.I | re.M, detector))
+        out.append((rule, compiled, detector))
     return out
 
 

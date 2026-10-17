@@ -93,7 +93,7 @@
       "what": "Queries go through parameters/prepared statements, not string concatenation of user input.",
       "why": "String-built queries defeat plan caching (a parse per variation), are the textbook SQL injection vector, and make the database re-plan work it has already planned.",
       "how": "Parameterised queries everywhere user input meets SQL; ORM query builders by default; literals only for constants.",
-      "detect": {"automation": "partial", "patterns": [{"re": "sql[^#\\n=]*=[^#\\n]*\\+|f?SELECT[^\\n]*\\{[^}]*\\}", "scope": ["py", "js", "ts", "java"], "note": "SQL built by concatenation or interpolation (strings are masked by the scanner, so this matches the build pattern); REVIEW for injection and plan reuse."}]},
+      "detect": {"automation": "partial", "patterns": [{"re": "sql[^#\\n=]*=[^#\\n]*\\+|f?SELECT[^\\n]*\\{[^}]{0,2000}\\}", "scope": ["py", "js", "ts", "java"], "note": "SQL built by concatenation or interpolation (strings are masked by the scanner, so this matches the build pattern); REVIEW for injection and plan reuse."}]},
       "verify": {"method": "static", "how": "No user input reaches SQL outside parameters; SQL lint/injection tests pass."},
       "limits": ["Security rule first; the resource argument backs it, not replaces it."],
       "priority": "high",

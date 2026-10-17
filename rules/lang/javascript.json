@@ -98,7 +98,7 @@
       "what": "Index data in a Map or Set before a loop instead of calling includes/indexOf/find on a growing array inside it.",
       "why": "Each linear search walks the array; nested in a loop the work becomes quadratic and collapses on real volumes.",
       "how": "const byId = new Map(items.map(i => [i.id, i])); then byId.get(id).",
-      "detect": {"automation": "partial", "patterns": [{"re": "for\\s*\\([^)]*\\)\\s*\\{[^}]*\\.(includes|indexOf|find)\\(|\\.(forEach|map|filter)\\([^)]*=>[^\\n]*\\.(includes|indexOf|find)\\(", "scope": ["js", "ts", "jsx", "tsx"], "note": "Linear search inside a loop; candidate if the searched array grows."}]},
+      "detect": {"automation": "partial", "patterns": [{"re": "for\\s*\\([^)]*\\)\\s*\\{[^}]{0,2000}\\.(includes|indexOf|find)\\(|\\.(forEach|map|filter)\\([^)]*=>[^\\n]*\\.(includes|indexOf|find)\\(", "scope": ["js", "ts", "jsx", "tsx"], "note": "Linear search inside a loop; candidate if the searched array grows."}]},
       "verify": {"method": "review", "how": "No linear search over a growing array inside a loop."},
       "limits": [],
       "priority": "medium",

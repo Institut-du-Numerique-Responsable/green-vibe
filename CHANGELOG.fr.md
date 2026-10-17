@@ -5,6 +5,22 @@
 Ce fichier consigne les évolutions de chaque version (SemVer). Traduction
 française de [CHANGELOG.md](CHANGELOG.md).
 
+## 0.2.1 (2026-10-17)
+
+Corrections issues de la revue de code de la 0.2.0 ; aucune règle ajoutée
+ni retirée.
+
+- Les commentaires de bloc Julia (`#= =#`) et Nim (`#[ ]#`) sont masqués, et
+  une transposée Julia (`A'`) n'ouvre plus de chaîne.
+- `select` détecte Solid dans les fichiers `.js`/`.ts` simples et Angular à
+  partir des seuls templates `*.component.html`.
+- 30 motifs bornés (`[^}]{0,2000}`, `[^>]{0,1000}`) : le temps d'audit reste
+  linéaire sur un fichier où il manque une accolade ou un chevron fermant.
+- Les gardes de fichier ne s'évaluent qu'après le premier constat d'un
+  motif ; leur sensibilité à la casse est documentée.
+- Tests : 61 (commentaires de bloc, transposée, détection Solid/Angular,
+  accolades non fermées).
+
 ## 0.2.0 (2026-10-17)
 
 Catalogue étendu et cadrage Numérique Responsable élargi

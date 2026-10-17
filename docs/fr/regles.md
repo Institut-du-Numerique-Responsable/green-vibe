@@ -86,7 +86,8 @@ Suivez ces étapes pour ajouter une règle de langage :
      s'applique que si le fichier en contient une (import `@angular/core`,
      `solid-js`…).
    Une garde agit sur tout le fichier : choisissez-la précise, sinon elle
-   fait taire de vrais candidats. Le motif lui-même lit le texte masqué.
+   fait taire de vrais candidats. Les gardes sont sensibles à la casse (les
+   motifs non), et le moteur ne les évalue qu'après un premier constat. Le motif lui-même lit le texte masqué.
    Deux options de motif existent : `"in_loop": true` ne garde un constat
    que dans le corps d'une boucle for/while (par indentation), et
    `"text": "raw"` lit aussi les littéraux. Pour l'indentation en début de

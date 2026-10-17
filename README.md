@@ -1,5 +1,14 @@
 # Green Vibe
 
+[![Version](https://img.shields.io/github/v/release/Institut-du-Numerique-Responsable/green-vibe?sort=semver)](https://github.com/Institut-du-Numerique-Responsable/green-vibe/releases/latest)
+[![License](https://img.shields.io/badge/license-Apache--2.0%20%2B%20CC%20BY%204.0-yellow.svg)](LICENSE)
+[![Mistral Vibe](https://img.shields.io/badge/Mistral%20Vibe-Agent%20Plugins%201.0-fa500f)](https://docs.mistral.ai/vibe/code/overview)
+[![Sustainable IT rules](https://img.shields.io/badge/rules-286-1b7a4a)](#what-green-vibe-does)
+[![Python](https://img.shields.io/badge/python-%E2%89%A5%203.10-3776ab?logo=python&logoColor=white)](#quickstart)
+[![RGESN](https://img.shields.io/badge/RGESN-criteria%20mapped-0b6e4f)](https://ecoresponsable.numerique.gouv.fr/publications/referentiel-general-ecoconception/)
+[![GR491](https://img.shields.io/badge/GR491-INR-0b6e4f)](https://gr491.isit-europe.org/)
+[![INR](https://img.shields.io/badge/INR-Institut%20du%20Num%C3%A9rique%20Responsable-4CAF50)](https://institutnr.org/)
+
 **English** · [Français](README.fr.md)
 
 Native Sustainable IT (Numérique Responsable) for [Mistral Vibe](https://docs.mistral.ai/vibe/code/overview):

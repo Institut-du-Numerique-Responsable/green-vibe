@@ -1,109 +1,111 @@
 # Architecture
 
-Cette page décrit l'organisation du dépôt et les choix qui la justifient.
+**English** · [Français](fr/architecture.md)
 
-## Vue d'ensemble
+This page describes how the repository is organised and the choices behind it.
 
-Le dépôt sépare le socle de règles de l'adaptateur Vibe.
+## Overview
+
+The repository separates the rule core from the Vibe adapter.
 
 ```text
 green-vibe/
-├── plugin.json                    Manifeste Agent Plugins 1.0 (namespace greenVibe)
-├── skills/green-vibe/SKILL.md     Entrée du modèle : pipeline, disciplines, bilan
-├── rules/                         SOCLE COMMUN (sans dépendance Vibe)
-│   ├── index.json                 Index compact (1 ligne par règle, généré)
-│   ├── core/*.json                13 familles transversales (128 règles)
-│   ├── lang/*.json                19 langages + 6 frameworks (129 règles)
-│   └── usage.json                 29 pratiques d'usage de Vibe
-├── references/                    3U, mesure, critères, charte IA
+├── plugin.json                    Agent Plugins 1.0 manifest (namespace greenVibe)
+├── skills/green-vibe/SKILL.md     Model entry point: pipeline, disciplines, report
+├── rules/                         SHARED CORE (no Vibe dependency)
+│   ├── index.json                 Compact index (one line per rule, generated)
+│   ├── core/*.json                13 cross-cutting families (128 rules)
+│   ├── lang/*.json                19 languages + 6 frameworks (129 rules)
+│   └── usage.json                 29 practices for using Vibe
+├── references/                    3U, measurement, criteria, AI charter
 ├── validators/
-│   ├── green-vibe                 Lanceur CLI (aucune installation)
-│   └── green_vibe/                rules, context (sélection), audit, report, cli
+│   ├── green-vibe                 CLI launcher (no installation)
+│   └── green_vibe/                rules, context (selection), audit, report, cli
 ├── ai.mistral.vibe/
-│   ├── hooks.toml                 Hook post_tool (audit de l'écrit, fail-open)
-│   ├── hooks/post_edit.py         Implémentation du hook
-│   └── knowledge/nr-referentiels/ Entrée knowledge (routage référentiels)
+│   ├── hooks.toml                 post_tool hook (audits what was written, fail-open)
+│   ├── hooks/post_edit.py         Hook implementation
+│   └── knowledge/nr-referentiels/ Knowledge entry (referential routing)
 ├── scripts/                       install.sh
-├── tests/                         unit + integration + fixtures (fixtures/lang/ par langage)
-├── evals/                         Scénarios de démonstration
-└── docs/
+├── tests/                         unit + integration + fixtures (fixtures/lang/ per language)
+├── evals/                         Demo scenarios
+└── docs/                          English documentation (French in docs/fr/)
 ```
 
-## Flux de données
+## Data flow
 
-Les commandes s'enchaînent ainsi, du choix des règles au bilan.
+The commands chain like this, from rule selection to the report.
 
 ```text
-fichiers du projet ──> select ──> IDs de règles retenues ─┐
-         │                                                ├──> report ──> bilan
-         └──────────> audit ──> constats FAIL/REVIEW ─────┘      (texte ou --json)
-                                    ▲
-écriture Vibe (write_file|edit) ──> hook post_edit.py ──> additional_context
+project files ──> select ──> selected rule IDs ─┐
+      │                                         ├──> report ──> teaching report
+      └────────> audit ──> FAIL/REVIEW findings ┘      (text or --json)
+                                ▲
+Vibe write (write_file|edit) ──> post_edit.py hook ──> additional_context
 ```
 
-- `select` et `audit` écrivent leur JSON sur **stdout** ; `audit` résume en
-  plus chaque constat sur **stderr** (lisible par l'humain, n'altère pas le
-  JSON redirigé).
-- `report` lit le JSON d'audit et n'attribue `verified` qu'aux règles passées
-  par `--verified RULE=preuve`.
-- Le hook réutilise le moteur d'audit sur le seul contenu ajouté par
-  l'écriture.
+- `select` and `audit` write their JSON to **stdout**; `audit` also
+  summarises each finding on **stderr** (human-readable, and it leaves the
+  redirected JSON intact).
+- `report` reads the audit JSON and gives `verified` only to rules passed
+  with `--verified RULE=evidence`.
+- The hook reuses the audit engine on the content the write added, and on
+  nothing else.
 
-## Socle commun / adaptateur
+## Shared core and adapter
 
-La séparation demandée pour la mutualisation future est explicite :
+The split is explicit, so other agents can reuse the core later:
 
-- **Socle commun NR** : `rules/` + `references/`. Zéro dépendance envers Vibe,
-  zéro référence à l'agent dans les fiches (sauf `rules/usage.json`, propre à
-  chaque assistant). Ce répertoire est extractible tel quel vers un
-  référentiel NR commun à plusieurs agents de code.
-- **Adaptateur Vibe** : `skills/`, `ai.mistral.vibe/`, `validators/`. Il encode
-  le pipeline, les hooks et le bilan propre à Vibe.
+- **Sustainable IT core**: `rules/` and `references/`. No dependency on Vibe,
+  and no reference to the agent in the sheets (except `rules/usage.json`,
+  which is specific to each assistant). You can extract this directory as is
+  into a Sustainable IT referential shared by several coding agents.
+- **Vibe adapter**: `skills/`, `ai.mistral.vibe/`, and `validators/`. It
+  encodes the pipeline, the hooks, and the Vibe-specific report.
 
-## Choix de conception
+## Design choices
 
-Chaque choix répond à une contrainte explicite.
+Each choice answers an explicit constraint.
 
-| Choix | Raison |
+| Choice | Reason |
 |---|---|
-| Plugins Agent Plugins 1.0 | Format natif Vibe (skills + hooks + knowledge) ; aligne la proposition INR |
-| Index JSON + sélection déterministe | Pas de RAG : la sélection doit être rapide, explicable, reproductible |
-| Python stdlib pour les validateurs | Aucune dépendance, exécutable partout, testable |
-| Statuts 5 états avec `verified` réservé | Anti « déclaration = conformité » : la preuve est le contrôle exécuté |
-| Hook post_tool fail-open | Garantie d'audit sans jamais bloquer le travail |
-| Bilan dans le SKILL + rendu par `report` | La pédagogie est obligatoire mais fondée sur les résultats réels |
-| Masquage chaînes/commentaires avant détection | Faux positifs : le code mort dans un littéral n'est pas du code |
+| Agent Plugins 1.0 plugin | Native Vibe format (skills, hooks, and knowledge); matches the INR proposal |
+| JSON index and deterministic selection | No RAG: selection must be fast, explainable, and reproducible |
+| Standard-library Python validators | No dependency, runs anywhere, testable |
+| Five statuses with `verified` reserved | Guards against "declared means compliant": the evidence is the check that ran |
+| Fail-open post_tool hook | Guarantees an audit without ever blocking the work |
+| Report in SKILL.md, rendered by `report` | Teaching is mandatory but grounded in real results |
+| Mask strings and comments before detection | Fewer false positives: dead code in a literal isn't code |
 
-## Capacités Vibe utilisées
+## Vibe capabilities used
 
-Le plugin n'utilise que des capacités natives de Vibe.
+The plugin uses only native Vibe capabilities.
 
-| Capacité | Classe | Usage |
+| Capability | Class | Use |
 |---|---|---|
-| Skills natifs + plugins Agent Plugins 1.0 | native (vérifiée) | distribution, entrée du pipeline |
-| Hooks `post_tool` (`additional_context`) | native (vérifiée) | audit automatique de l'écrit |
-| Knowledge `KNOWLEDGE.md` | native (présence vérifiée ; sémantique d'injection vérifiée à l'installation) | routage référentiels |
-| Bash + outils fichiers | native | exécution des validateurs |
-| Hook `post_agent` | native (documentée) | non utilisé : forcer une relance coûte un tour complet ; le bilan est porté par le SKILL |
-| Hook `UserPromptSubmit` | indisponible | pas de cache de contexte avant envoi du prompt |
-| RAG vectoriel | indisponible (et non voulu) | sélection déterministe par index |
+| Native skills + Agent Plugins 1.0 plugins | native (verified) | distribution, pipeline entry point |
+| `post_tool` hooks (`additional_context`) | native (verified) | automatic audit of what was written |
+| `KNOWLEDGE.md` knowledge | native (presence verified; injection behaviour checked at install) | referential routing |
+| Bash and file tools | native | running the validators |
+| `post_agent` hook | native (documented) | not used: forcing a retry costs a full turn; SKILL.md carries the report |
+| `UserPromptSubmit` hook | unavailable | no context cache before the prompt is sent |
+| Vector RAG | unavailable (and not wanted) | deterministic selection by index |
 
-## Intégration produit (pour les équipes Mistral)
+## Product integration (for Mistral teams)
 
-L'objectif de cette architecture est de rendre l'adoption native triviale :
+This architecture aims to make native adoption trivial:
 
-1. **Compatibilité zéro-code** : le plugin fonctionne sans aucun changement de
-   Vibe ; l'installation est une copie de répertoire.
-2. **Contenu extractible** : `rules/` + `references/` forment un socle NR
-   autonome (JSON documenté), réutilisable pour une intégration native
-   (skill proposé à l'onboarding, base d'un mode audit produit) ou pour un
-   référentiel commun multi-assistants.
-3. **Droits clairs** : Apache-2.0 (code) + CC BY 4.0 (contenu), paternité INR.
-4. **Aucun service externe** : pas d'appel réseau, pas de télémétrie, aucune
-   dépendance pip/npm ; le hook a un timeout et un fail-open explicites.
-5. **Canaux proposés** (cf. proposition INR niveau 1->3) : page de doc Vibe
-   référençant le plugin ; registre de plugins ; à terme skill NR proposé par
-   défaut et pratiques d'usage de l'agent co-écrites.
+1. **Zero-code compatibility**: the plugin works with no change to Vibe;
+   installing it means copying a directory.
+2. **Extractable content**: `rules/` and `references/` form a standalone
+   Sustainable IT core (documented JSON), reusable for a native integration
+   (a skill offered at onboarding, the base of a product audit mode) or for a
+   referential shared by several assistants.
+3. **Clear rights**: Apache-2.0 (code) and CC BY 4.0 (content), INR authorship.
+4. **No external service**: no network call, no telemetry, no pip or npm
+   dependency; the hook has an explicit timeout and fails open.
+5. **Proposed channels** (see the INR proposal, levels 1 to 3): a Vibe docs
+   page listing the plugin, the plugin registry, and later a Sustainable IT
+   skill offered by default with co-written agent usage practices.
 
-Ce dossier tient lieu de dossier d'intégration pour un éventuel travail
-conjoint avec l'équipe produit Vibe.
+This document doubles as the integration file for any joint work with the
+Vibe product team.

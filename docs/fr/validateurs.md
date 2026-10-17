@@ -1,5 +1,7 @@
 # Les validateurs
 
+[English](../validators.md) · **Français**
+
 Cette page décrit le CLI, le moteur d'audit, les statuts et le hook.
 
 ## Vue d'ensemble

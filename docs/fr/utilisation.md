@@ -1,5 +1,7 @@
 # Utilisation : le pipeline
 
+[English](../usage.md) · **Français**
+
 Green Vibe suit le même pipeline à chaque intervention.
 
 ```text
@@ -100,5 +102,5 @@ l'intervention. Il n'annonce un gain environnemental qu'avec sa mesure.
 
 ## Exemple complet
 
-Voir `evals/README.md` pour le scénario de démonstration bout-en-bout
+Voir [evals/README.fr.md](../../evals/README.fr.md) pour le scénario de démonstration bout-en-bout
 (sélection -> audit -> rapport -> bilan) rejouable sur `tests/fixtures/`.

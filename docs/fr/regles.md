@@ -1,5 +1,7 @@
 # La base de règles
 
+[English](../rules.md) · **Français**
+
 Cette page décrit le contenu du catalogue, le schéma d'une fiche et sa gouvernance.
 
 ## Contenu
@@ -30,7 +32,7 @@ Chaque règle porte les métadonnées exigées :
 | `what` | La règle, impérative, une phrase |
 | `why` | La raison (matière pédagogique du bilan) |
 | `how` | Application concrète |
-| `detect` | `automation` : `full` / `partial` / `special` / `none` + `patterns` (regex + `scope`, gardes optionnelles `exclude_file` / `require_file`) ou `detector` |
+| `detect` | `automation` : `full` / `partial` / `special` / `none` + `patterns` (regex + `scope`, gardes optionnelles `exclude_file` / `exclude_import` / `require_file`, options `in_loop` et `text`) ou `detector` |
 | `verify` | `method` (static/test/measure/review) + `how` : le contrôle propre à la règle |
 | `limits` | Limites connues, affichées avec les résultats |
 | `priority` | high / medium / low |
@@ -85,9 +87,13 @@ Suivez ces étapes pour ajouter une règle de langage :
      `solid-js`…).
    Une garde agit sur tout le fichier : choisissez-la précise, sinon elle
    fait taire de vrais candidats. Le motif lui-même lit le texte masqué.
-   En multiligne, écrivez l'indentation `^[ \t]*`, jamais `^\s*` : `\s`
+   Deux options de motif existent : `"in_loop": true` ne garde un constat
+   que dans le corps d'une boucle for/while (par indentation), et
+   `"text": "raw"` lit aussi les littéraux. Pour l'indentation en début de
+   ligne, écrivez l'indentation `^[ \t]*`, jamais `^\s*` : `\s`
    avale les retours ligne et rend le scan quadratique (un test le vérifie).
 3. `python3 validators/green-vibe index` (régénère `rules/index.json`).
 4. Ajouter un test sur fixture conforme + non conforme
    (`tests/unit/test_lang_catalogs.py`, fixtures dans `tests/fixtures/lang/`).
-5. Exécuter la suite de tests ; mettre à jour `CHANGELOG.md`.
+5. Exécuter la suite de tests ; mettre à jour `CHANGELOG.md` et
+   `CHANGELOG.fr.md`.

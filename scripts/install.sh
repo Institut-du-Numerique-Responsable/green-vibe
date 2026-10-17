@@ -7,6 +7,12 @@
 
 set -euo pipefail
 
+# Reproducibility: the validators use PEP 604 unions and need python3 >= 3.10.
+if ! python3 -c 'import sys; sys.exit(0 if sys.version_info >= (3, 10) else 1)' 2>/dev/null; then
+  echo "green-vibe: python3 >= 3.10 required (found: $(python3 --version 2>&1))" >&2
+  exit 1
+fi
+
 PLUGIN_NAME="green-vibe"
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
 

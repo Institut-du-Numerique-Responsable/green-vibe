@@ -3,7 +3,8 @@
 ## Prérequis
 
 - Mistral Vibe (le plugin est au format Agent Plugins 1.0, supporté nativement).
-- `python3` (stdlib uniquement, aucune dépendance à installer).
+- `python3 >= 3.10` (stdlib uniquement, aucune dépendance à installer) —
+  l'installeur le vérifie.
 
 ## Installation
 

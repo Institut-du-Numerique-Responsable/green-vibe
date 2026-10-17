@@ -1,7 +1,7 @@
 {
   "family": "infra",
   "title": "Hosting, infrastructure and operations",
-  "version": "1.0",
+  "version": "1.1",
   "rules": [
     {
       "id": "NR-INFRA-001",
@@ -14,7 +14,7 @@
       "limits": ["Never trade this rule for any performance or sobriety gain."],
       "priority": "high",
       "applies": ["infra", "frontend"],
-      "origin": ["green-claude:ECO-HEB-04", "green-claude:ECO-HEB-05", "green-claude:ECO-HEB-06"],
+      "origin": ["INR", "RGESN 8.x"],
       "rgesn": "8.x"
     },
     {
@@ -28,7 +28,7 @@
       "limits": ["Debugging sometimes needs a fuller image; make it an explicit tool, not the default."],
       "priority": "medium",
       "applies": ["infra"],
-      "origin": ["green-claude:ECO-HEB-07", "green-codex:INFRA-EFF-004"],
+      "origin": ["INR", "RGESN 8.x"],
       "rgesn": "8.x"
     },
     {
@@ -42,7 +42,7 @@
       "limits": ["Provider carbon data changes with the grid; an environmental claim carries its date and source."],
       "priority": "medium",
       "applies": ["infra"],
-      "origin": ["green-claude:ECO-HEB-09", "green-codex:INFRA-EFF-003"],
+      "origin": ["INR", "RGESN 8.x"],
       "rgesn": "8.x"
     },
     {
@@ -56,7 +56,7 @@
       "limits": ["Only applies to genuinely deferrable work; user-facing latency never waits for a grid."],
       "priority": "low",
       "applies": ["infra", "backend"],
-      "origin": ["green-claude:ECO-HEB-08", "green-codex:OPS-EFF-001"],
+      "origin": ["INR", "RGESN 8.x"],
       "rgesn": "8.x"
     },
     {
@@ -70,7 +70,7 @@
       "limits": ["Deletion of production data needs authority (NR-SERVICE-007)."],
       "priority": "medium",
       "applies": ["infra", "service"],
-      "origin": ["green-claude:ECO-ARCH-04", "green-codex:OPS-EFF-001"],
+      "origin": ["INR", "RGESN 3.7"],
       "rgesn": "3.7",
       "see": ["NR-SERVICE-007"]
     },
@@ -85,7 +85,7 @@
       "limits": ["Security support end-of-life overrides life extension (NR-SERVICE-004 note)."],
       "priority": "medium",
       "applies": ["infra", "service"],
-      "origin": ["green-codex:HW-EFF-001", "green-codex:HW-EFF-002", "green-claude:ECO-SPEC-02"],
+      "origin": ["INR", "RGESN 2.1, 2.2"],
       "rgesn": "2.1, 2.2"
     },
     {
@@ -99,7 +99,7 @@
       "limits": ["Some jobs (nightly full builds) are deliberate; the rule targets waste, not scheduled work."],
       "priority": "medium",
       "applies": ["infra", "strategy"],
-      "origin": ["green-claude:ECO-ARCH-06", "green-claude:ECO-ARCH-04"],
+      "origin": ["INR", "RGESN 3.7"],
       "rgesn": "3.7",
       "see": ["NR-ARCH-007"]
     },
@@ -114,9 +114,68 @@
       "limits": [],
       "priority": "medium",
       "applies": ["infra", "architecture"],
-      "origin": ["green-codex:ARCH-SERVERLESS-001", "green-claude:ECO-ARCH-02"],
+      "origin": ["INR", "RGESN 3.2, 8.x"],
       "rgesn": "3.2, 8.x",
       "see": ["NR-ARCH-003"]
+    },
+    {
+      "id": "NR-INFRA-009",
+      "title": "Interruptible capacity only for interruptible work",
+      "what": "Use spot or preemptible capacity only for workloads that checkpoint safely, tolerate interruption and do not expose personal data through requeued work.",
+      "why": "Spare capacity is cheaper and uses otherwise idle hardware, but interruption, retries and migration have their own cost; on the wrong workload they cancel the saving.",
+      "how": "Checkpoint at bounded intervals; idempotent tasks; compare retry and migration overhead with the expected saving.",
+      "detect": {"automation": "none"},
+      "verify": {"method": "test", "how": "Interruption drill: the job resumes from its checkpoint without duplicated work or data exposure."},
+      "limits": [],
+      "priority": "low",
+      "applies": ["infra"],
+      "origin": ["INR", "RGESN 8.x"],
+      "rgesn": "8.x",
+      "see": ["NR-INFRA-004"]
+    },
+    {
+      "id": "NR-INFRA-010",
+      "title": "Choose hosting on evidence",
+      "what": "Choose a host and region from published, verifiable data (energy source, PUE, water, hardware lifetime) and the service's real needs, not from labels.",
+      "why": "Hosting accounts for a large share of a service's footprint; claims without data cannot be compared and often do not hold.",
+      "how": "Request the provider's measured indicators; prefer providers publishing methodology; record the choice and its sources.",
+      "detect": {"automation": "none"},
+      "verify": {"method": "review", "how": "Hosting decision record lists the indicators and their sources."},
+      "limits": [],
+      "priority": "medium",
+      "applies": ["infra"],
+      "origin": ["INR", "RGESN 8.x"],
+      "rgesn": "8.x",
+      "see": ["NR-INFRA-003", "NR-MEASURE-002"]
+    },
+    {
+      "id": "NR-INFRA-011",
+      "title": "Edge execution only when it pays",
+      "what": "Run at the edge only when the reduced transfer or latency offsets replication, invalidation and deployment overhead; document residency and consistency.",
+      "why": "Replicating code and data to many locations multiplies storage, deployments and invalidations; the gain exists only for the traffic that needs it.",
+      "how": "Measure latency and bytes saved per request against the added replication; keep personal data out of shared edge caches without review.",
+      "detect": {"automation": "none"},
+      "verify": {"method": "measure", "how": "Before/after latency and transfer on real traffic; residency documented."},
+      "limits": [],
+      "priority": "low",
+      "applies": ["infra", "api"],
+      "origin": ["INR", "RGESN 8.x"],
+      "rgesn": "8.x",
+      "see": ["NR-ARCH-006"]
+    },
+    {
+      "id": "NR-INFRA-012",
+      "title": "IoT and embedded: budget sampling, radio and sleep",
+      "what": "Define sampling frequency, payload size, sleep cycle and update budget for devices; batch telemetry with bounded local storage; test worst-case memory and energy on target hardware.",
+      "why": "Every sample and transmission wakes the radio and drains the battery; frequent firmware pushes and chatty telemetry multiply that across the fleet.",
+      "how": "Increase fidelity only when the decision it serves is demonstrated; batch and compress telemetry; define loss, retry and deduplication before raising frequency.",
+      "detect": {"automation": "none"},
+      "verify": {"method": "measure", "how": "Energy and memory measured on the target device for the worst-case cycle."},
+      "limits": [],
+      "priority": "medium",
+      "applies": ["infra", "embedded"],
+      "origin": ["INR", "RGESN 8.x"],
+      "rgesn": "8.x"
     }
   ]
 }

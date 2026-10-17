@@ -1,0 +1,36 @@
+{
+  "family": "lang-astro",
+  "title": "Astro",
+  "version": "1.0",
+  "rules": [
+    {
+      "id": "NR-LANG-ASTRO-001",
+      "title": "Static by default, smallest client directive",
+      "what": "Keep pages static and hydrate only the islands that need interaction, with the smallest directive that meets it (client:visible, client:idle, client:media before client:load).",
+      "why": "client:load downloads, parses and boots the framework before the user does anything, even for a component below the fold.",
+      "how": "client:visible for below-the-fold widgets; client:idle for non-urgent ones; check hydrated JS per route in the build output.",
+      "detect": {"automation": "partial", "patterns": [{"re": "\\bclient:load\\b", "scope": ["astro"], "note": "Island hydrated on load; check it must be interactive immediately."}]},
+      "verify": {"method": "measure", "how": "Hydrated JS per route measured in the build report."},
+      "limits": [],
+      "priority": "high",
+      "applies": ["astro", "frontend"],
+      "origin": ["INR", "RGESN 6.x"],
+      "rgesn": "6.x"
+    },
+    {
+      "id": "NR-LANG-ASTRO-002",
+      "title": "Images through the build pipeline, accessible fallbacks",
+      "what": "Use the Image/Picture components (astro:assets) so formats, sizes and dimensions are produced at build time; keep alt text and content usable without client JavaScript.",
+      "why": "A raw img skips build-time optimisation: no modern format, no responsive sizes, no dimensions, paid by every visitor on every load.",
+      "how": "import { Image } from 'astro:assets'; <Image src={hero} alt=\"...\" widths={[400, 800]} />.",
+      "detect": {"automation": "partial", "patterns": [{"re": "<img\\s", "scope": ["astro"], "note": "Raw img tag; the Image component optimises at build.", "exclude_file": ["<Image\\b", "<Picture\\b"], "exclude_import": ["astro:assets"]}]},
+      "verify": {"method": "review", "how": "Content images go through astro:assets and carry alt text."},
+      "limits": [],
+      "priority": "medium",
+      "applies": ["astro", "content"],
+      "origin": ["INR", "RGESN 5.x"],
+      "rgesn": "5.x",
+      "see": ["NR-CONTENT-001"]
+    }
+  ]
+}

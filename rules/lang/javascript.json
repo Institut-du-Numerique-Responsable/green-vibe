@@ -1,7 +1,7 @@
 {
   "family": "lang-javascript",
   "title": "JavaScript and TypeScript",
-  "version": "1.0",
+  "version": "1.1",
   "rules": [
     {
       "id": "NR-LANG-JS-001",
@@ -14,7 +14,7 @@
       "limits": ["Existing heavy usage may make a staged migration cheaper than a rewrite; measure."],
       "priority": "high",
       "applies": ["js", "ts"],
-      "origin": ["green-claude:javascript.json", "green-codex:LANG-JS-001"],
+      "origin": ["INR"],
       "rgesn": null,
       "see": ["NR-FRONT-001"]
     },
@@ -29,7 +29,7 @@
       "limits": ["Startup-only reads (config, templates) are deliberate; a comment marks them."],
       "priority": "high",
       "applies": ["js", "ts"],
-      "origin": ["green-claude:javascript.json", "green-codex:CODE-EFF-008"],
+      "origin": ["INR"],
       "rgesn": null,
       "see": ["NR-ALGO-008"]
     },
@@ -44,7 +44,7 @@
       "limits": ["Small, known-size collections are fine; the rule targets data that grows."],
       "priority": "high",
       "applies": ["js", "ts"],
-      "origin": ["green-claude:javascript.json", "green-codex:CODE-EFF-006"],
+      "origin": ["INR"],
       "rgesn": null,
       "see": ["NR-ALGO-006"]
     },
@@ -59,7 +59,7 @@
       "limits": ["Rate-limited or order-dependent work must stay sequential; that is the documented cause."],
       "priority": "medium",
       "applies": ["js", "ts"],
-      "origin": ["green-claude:javascript.json", "green-codex:API-EFF-001"],
+      "origin": ["INR"],
       "rgesn": null,
       "see": ["NR-API-003"]
     },
@@ -74,7 +74,7 @@
       "limits": [],
       "priority": "medium",
       "applies": ["js", "ts", "frontend"],
-      "origin": ["green-claude:javascript.json"],
+      "origin": ["INR"],
       "rgesn": null,
       "see": ["NR-FRONT-002", "NR-ARCH-008"]
     },
@@ -89,8 +89,68 @@
       "limits": [],
       "priority": "low",
       "applies": ["js", "ts"],
-      "origin": ["green-codex:CODE-EFF-010", "green-claude:javascript.json"],
+      "origin": ["INR"],
       "rgesn": null
+    },
+    {
+      "id": "NR-LANG-JS-007",
+      "title": "Maps and Sets for lookups in loops",
+      "what": "Index data in a Map or Set before a loop instead of calling includes/indexOf/find on a growing array inside it.",
+      "why": "Each linear search walks the array; nested in a loop the work becomes quadratic and collapses on real volumes.",
+      "how": "const byId = new Map(items.map(i => [i.id, i])); then byId.get(id).",
+      "detect": {"automation": "partial", "patterns": [{"re": "for\\s*\\([^)]*\\)\\s*\\{[^}]*\\.(includes|indexOf|find)\\(|\\.(forEach|map|filter)\\([^)]*=>[^\\n]*\\.(includes|indexOf|find)\\(", "scope": ["js", "ts", "jsx", "tsx"], "note": "Linear search inside a loop; candidate if the searched array grows."}]},
+      "verify": {"method": "review", "how": "No linear search over a growing array inside a loop."},
+      "limits": [],
+      "priority": "medium",
+      "applies": ["js", "ts", "jsx", "tsx"],
+      "origin": ["INR", "RGESN 9.1"],
+      "rgesn": "9.1",
+      "see": ["NR-ALGO-002"]
+    },
+    {
+      "id": "NR-LANG-JS-008",
+      "title": "Reuse clients, abort what is no longer needed",
+      "what": "Create HTTP and database clients once and share them; give fetches a deadline with AbortController and cancel them when the result is no longer wanted.",
+      "why": "A client per call loses connection reuse; a fetch nobody waits for any more still costs the network, the server and the battery.",
+      "how": "One axios instance or keep-alive agent per service; AbortSignal.timeout(ms); abort on unmount or on a newer request.",
+      "detect": {"automation": "partial", "patterns": [{"re": "axios\\.create\\(|new\\s+XMLHttpRequest\\(", "scope": ["js", "ts", "jsx", "tsx"], "note": "Client construction; fine once per module, a defect inside a function called per request."}]},
+      "verify": {"method": "test", "how": "Navigation/unmount test asserts in-flight requests are aborted; client created once."},
+      "limits": [],
+      "priority": "medium",
+      "applies": ["js", "ts", "jsx", "tsx", "frontend", "backend"],
+      "origin": ["INR", "RGESN 7.2"],
+      "rgesn": "7.2",
+      "see": ["NR-BACK-001", "NR-BACK-009"]
+    },
+    {
+      "id": "NR-LANG-JS-009",
+      "title": "Pause polling when nobody looks",
+      "what": "Replace setInterval polling with events (WebSocket, SSE, push) where possible; otherwise pause it when the page is hidden and widen the interval.",
+      "why": "A polling timer keeps querying the server and waking the radio for a tab nobody is looking at.",
+      "how": "document.addEventListener('visibilitychange', ...) to pause; Server-Sent Events for server updates; clearInterval on teardown.",
+      "detect": {"automation": "partial", "patterns": [{"re": "\\bsetInterval\\s*\\(", "scope": ["js", "ts", "jsx", "tsx"], "note": "Interval timer in a file that never checks page visibility.", "exclude_file": ["visibilitychange", "document\\.hidden", "visibilityState"]}]},
+      "verify": {"method": "review", "how": "Polling is paused on hidden pages, or replaced by an event source."},
+      "limits": [],
+      "priority": "medium",
+      "applies": ["js", "ts", "jsx", "tsx", "frontend"],
+      "origin": ["INR", "RGESN 6.3"],
+      "rgesn": "6.3",
+      "see": ["NR-BACK-007", "NR-FRONT-007"]
+    },
+    {
+      "id": "NR-LANG-JS-010",
+      "title": "No implicit globals",
+      "what": "Scope variables to modules or functions; never assign undeclared variables or declare top-level vars in classic scripts.",
+      "why": "A global stays alive for the whole page lifetime and is visible to every script: memory held longer than needed and collisions between scripts.",
+      "how": "type=\"module\" scripts or an IIFE; const/let inside functions; 'use strict' turns implicit globals into errors; assign required globals explicitly as properties.",
+      "detect": {"automation": "none"},
+      "verify": {"method": "static", "how": "Linter rule no-implicit-globals / no-undef passes."},
+      "limits": [],
+      "priority": "low",
+      "applies": ["js", "ts", "jsx", "tsx"],
+      "origin": ["INR", "RGESN 6.x"],
+      "rgesn": "6.x",
+      "see": ["NR-FRONT-005"]
     }
   ]
 }

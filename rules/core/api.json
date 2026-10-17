@@ -1,7 +1,7 @@
 {
   "family": "api",
   "title": "APIs",
-  "version": "1.0",
+  "version": "1.1",
   "rules": [
     {
       "id": "NR-API-001",
@@ -14,7 +14,7 @@
       "limits": ["Public API contracts restrict removal; deprecation policy applies."],
       "priority": "high",
       "applies": ["api", "backend"],
-      "origin": ["green-claude:ECO-BACK-09 area", "green-codex:API-EFF-001"],
+      "origin": ["INR", "RGESN 7.1"],
       "rgesn": "7.1"
     },
     {
@@ -28,7 +28,7 @@
       "limits": ["Do not cache personalised or sensitive responses; private directive where needed."],
       "priority": "high",
       "applies": ["api", "infra"],
-      "origin": ["green-claude:ECO-HEB-03", "green-claude:ECO-HEB-02", "green-codex:API-EFF-003"],
+      "origin": ["INR", "RGESN 8.x"],
       "rgesn": "8.x"
     },
     {
@@ -42,7 +42,7 @@
       "limits": ["Sequential calls with real dependencies are not chatty; verify independence before batching."],
       "priority": "medium",
       "applies": ["api", "backend", "integration"],
-      "origin": ["green-claude:ECO-ALGO area", "green-codex:API-EFF-001"],
+      "origin": ["INR", "RGESN 7.x"],
       "rgesn": "7.x"
     },
     {
@@ -56,7 +56,7 @@
       "limits": ["Limits themselves cost a store (counter); size that infrastructure to the need."],
       "priority": "medium",
       "applies": ["api", "infra", "security"],
-      "origin": ["green-codex:API-EFF-002 area", "green-claude:ECO-HEB area"],
+      "origin": ["INR", "RGESN 8.x"],
       "rgesn": "8.x"
     },
     {
@@ -70,7 +70,7 @@
       "limits": ["Contractual obligations override retirement speed; they are recorded."],
       "priority": "low",
       "applies": ["api", "service"],
-      "origin": ["green-claude:ECO-ARCH-03 area", "green-codex:SERVICE-EFF-005"],
+      "origin": ["INR", "RGESN 3.4"],
       "rgesn": "3.4"
     },
     {
@@ -84,8 +84,22 @@
       "limits": [],
       "priority": "medium",
       "applies": ["api", "backend"],
-      "origin": ["green-codex criteria: Opquast", "NR-UX-006"],
+      "origin": ["INR", "RGESN 4.4, 7.x", "Opquast", "NR-UX-006"],
       "rgesn": "4.4, 7.x"
+    },
+    {
+      "id": "NR-API-007",
+      "title": "Choose protocols on measurement",
+      "what": "Select HTTP/2, HTTP/3, WebSocket or another protocol from measured latency, reliability, compatibility and resource use under the target network conditions.",
+      "why": "A newer protocol is not automatically more sober; the gain depends on the network and the traffic pattern.",
+      "how": "Test under representative conditions (mobile, lossy, high latency); record the conditions and the result with the decision.",
+      "detect": {"automation": "none"},
+      "verify": {"method": "measure", "how": "Benchmark under stated network conditions accompanies the protocol choice."},
+      "limits": [],
+      "priority": "low",
+      "applies": ["api", "infra"],
+      "origin": ["INR", "RGESN 8.x"],
+      "rgesn": "8.x"
     }
   ]
 }

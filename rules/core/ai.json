@@ -1,7 +1,7 @@
 {
   "family": "ai",
   "title": "AI workloads",
-  "version": "1.0",
+  "version": "1.1",
   "rules": [
     {
       "id": "NR-AI-001",
@@ -14,7 +14,7 @@
       "limits": ["A user who has heard the argument and still wants the model is making a decision, not a mistake."],
       "priority": "high",
       "applies": ["ai", "any"],
-      "origin": ["green-claude:ECO-ALGO-08", "green-claude:ECO-ALGO-19", "green-codex:AI-EFF-002"],
+      "origin": ["INR", "RGESN 9.x"],
       "rgesn": "9.x"
     },
     {
@@ -28,7 +28,7 @@
       "limits": ["Quality bars are project decisions; the rule forces the evidence, not the choice."],
       "priority": "high",
       "applies": ["ai"],
-      "origin": ["green-claude:ECO-ALGO-02", "green-claude:ECO-ALGO-17", "green-claude:ECO-ALGO-04"],
+      "origin": ["INR", "RGESN 9.x"],
       "rgesn": "9.x"
     },
     {
@@ -42,7 +42,7 @@
       "limits": ["Insufficient context costs accuracy; trim to the measured minimum, not to zero."],
       "priority": "high",
       "applies": ["ai", "any"],
-      "origin": ["green-claude:ECO-ALGO-06", "green-claude:ECO-ALGO-16", "green-codex:AI-EFF-003"],
+      "origin": ["INR", "RGESN 9.x"],
       "rgesn": "9.x"
     },
     {
@@ -56,7 +56,7 @@
       "limits": ["Personalised or time-sensitive outputs must not be served stale; mark cacheability explicitly."],
       "priority": "high",
       "applies": ["ai"],
-      "origin": ["green-claude:ECO-ALGO-15", "green-codex:AI-EFF-004"],
+      "origin": ["INR", "RGESN 9.x"],
       "rgesn": "9.x"
     },
     {
@@ -70,7 +70,7 @@
       "limits": ["Interactive latency budgets can rule out batching; the measurement decides."],
       "priority": "medium",
       "applies": ["ai"],
-      "origin": ["green-claude:ECO-ALGO-13", "green-codex:AI-EFF-005"],
+      "origin": ["INR", "RGESN 9.x"],
       "rgesn": "9.x"
     },
     {
@@ -84,7 +84,7 @@
       "limits": [],
       "priority": "high",
       "applies": ["ai", "backend"],
-      "origin": ["green-claude:ECO-ALGO-07", "green-claude:ECO-ALGO-05"],
+      "origin": ["INR", "RGESN 9.x"],
       "rgesn": "9.x"
     },
     {
@@ -98,7 +98,7 @@
       "limits": ["Human rework is observable imperfectly (edits, resubmissions); record the proxy used."],
       "priority": "medium",
       "applies": ["ai", "measure"],
-      "origin": ["green-claude:ECO-ALGO-05", "green-codex:AI-EFF-001"],
+      "origin": ["INR", "RGESN 9.x"],
       "rgesn": "9.x"
     },
     {
@@ -112,7 +112,7 @@
       "limits": ["Some latency-critical tasks genuinely need baked-in knowledge; the evidence decides."],
       "priority": "medium",
       "applies": ["ai"],
-      "origin": ["green-claude:ECO-ALGO-25", "green-claude:ECO-ALGO-27"],
+      "origin": ["INR", "RGESN 9.x, 3.1"],
       "rgesn": "9.x, 3.1"
     },
     {
@@ -126,9 +126,83 @@
       "limits": ["Code cannot certify an organisation's compliance; the review lists evidence, not verdicts."],
       "priority": "high",
       "applies": ["ai"],
-      "origin": ["green-codex:responsible-ai-charter.md", "green-codex:AI-EFF-006"],
+      "origin": ["INR"],
       "rgesn": null,
       "see": ["references/responsible-ai-charter.md"]
+    },
+    {
+      "id": "NR-AI-010",
+      "title": "Deterministic first, LLM for the ambiguous part",
+      "what": "Use a language model only for the genuinely ambiguous part of a task, and compare it against a non-LLM baseline (rules, regex, search, a small classifier) before adopting it.",
+      "why": "A model call costs orders of magnitude more compute than a deterministic function for the same answer on structured input, and adds latency, variance and failure modes.",
+      "how": "Write the baseline first; route only the cases the baseline cannot settle to the model; record quality and cost of both on the same evaluation set.",
+      "detect": {"automation": "none"},
+      "verify": {"method": "measure", "how": "Evaluation on a fixed set comparing the baseline and the model: quality, latency and cost per successful task."},
+      "limits": [],
+      "priority": "high",
+      "applies": ["ai"],
+      "origin": ["INR", "RGESN 9.x"],
+      "rgesn": "9.x",
+      "see": ["NR-AI-001", "NR-USAGE-006"]
+    },
+    {
+      "id": "NR-AI-011",
+      "title": "Measure AI consumption, do not estimate it",
+      "what": "Report the resources of an AI workload from measurement (tokens, GPU-hours, metered energy where available), with the method, the period and the uncertainty.",
+      "why": "Vendor ratios and per-token energy figures vary by orders of magnitude across models, hardware and load; an estimate quoted as a fact misleads every decision built on it.",
+      "how": "Log tokens in/out and calls per successful task; read GPU power from the platform (nvidia-smi, DCGM, cloud metrics); label any modelled value as a model.",
+      "detect": {"automation": "none"},
+      "verify": {"method": "measure", "how": "The figure cites its source (meter, log, model) and its uncertainty."},
+      "limits": [],
+      "priority": "high",
+      "applies": ["ai", "measure"],
+      "origin": ["INR", "RGESN 9.x"],
+      "rgesn": "9.x",
+      "see": ["NR-MEASURE-004", "NR-USAGE-016"]
+    },
+    {
+      "id": "NR-AI-012",
+      "title": "Size self-hosted inference to the workload",
+      "what": "Before buying or reserving accelerators, quantise the model, try CPU for small models, move preprocessing to CPU, and justify GPU capacity with a utilisation measurement.",
+      "why": "An idle or oversized accelerator draws power and embodies manufacturing impact for work a smaller or quantised setup would handle.",
+      "how": "Try int8/int4 quantisation with an accuracy check; batch requests; monitor utilisation and temperature (DCGM) and right-size from the data.",
+      "detect": {"automation": "none"},
+      "verify": {"method": "measure", "how": "Utilisation and latency measured on the target workload; accuracy of the quantised model checked against the reference."},
+      "limits": [],
+      "priority": "medium",
+      "applies": ["ai", "infra"],
+      "origin": ["INR", "RGESN 9.x"],
+      "rgesn": "9.x",
+      "see": ["NR-AI-002", "NR-INFRA-002"]
+    },
+    {
+      "id": "NR-AI-013",
+      "title": "Stream long outputs",
+      "what": "Stream long model outputs to the client and let users stop a generation they no longer need.",
+      "why": "Streaming shows useful text sooner and lets the user cancel early: tokens never generated are compute never spent.",
+      "how": "Use the streaming mode of the API; wire a stop control to request cancellation; cap max_tokens to the need.",
+      "detect": {"automation": "partial", "patterns": [{"re": "max_tokens\\s*[=:]\\s*(None|null|\\d{5,})", "scope": ["py", "js", "ts"], "note": "Output cap absent or very large; check it matches the need."}]},
+      "verify": {"method": "test", "how": "UI test: first tokens displayed before completion; stop control cancels the request server-side."},
+      "limits": [],
+      "priority": "medium",
+      "applies": ["ai", "ux"],
+      "origin": ["INR", "RGESN 9.x"],
+      "rgesn": "9.x"
+    },
+    {
+      "id": "NR-AI-014",
+      "title": "Train and fine-tune on filtered data",
+      "what": "Deduplicate and filter training and fine-tuning datasets to what the task needs before spending compute on them.",
+      "why": "Duplicates and off-task data cost training compute and storage, and can degrade the model they were meant to improve.",
+      "how": "Deduplicate (exact and near-duplicate), filter by quality and relevance, document the dataset card with sizes before/after.",
+      "detect": {"automation": "none"},
+      "verify": {"method": "review", "how": "Dataset card records filtering steps and sizes before/after."},
+      "limits": [],
+      "priority": "medium",
+      "applies": ["ai", "data"],
+      "origin": ["INR", "RGESN 9.x"],
+      "rgesn": "9.x",
+      "see": ["NR-AI-008"]
     }
   ]
 }

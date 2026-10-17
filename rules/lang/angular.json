@@ -1,0 +1,64 @@
+{
+  "family": "lang-angular",
+  "title": "Angular",
+  "version": "1.0",
+  "rules": [
+    {
+      "id": "NR-LANG-NG-001",
+      "title": "OnPush or signals for change detection",
+      "what": "Use ChangeDetectionStrategy.OnPush or signal-based components, with immutable inputs and trackBy/track on lists.",
+      "why": "With default detection, every binding of every component is re-evaluated after any event: thousands of checks for a keystroke on a large page.",
+      "how": "changeDetection: ChangeDetectionStrategy.OnPush; signals for local state; @for (x of items; track x.id).",
+      "detect": {"automation": "partial", "patterns": [{"re": "@Component\\s*\\(\\s*\\{", "scope": ["ts"], "note": "Component without OnPush or signals in this file.", "exclude_file": ["OnPush", "\\bsignal\\s*\\("], "require_file": ["@angular/core"]}]},
+      "verify": {"method": "measure", "how": "Angular DevTools profiler shows change-detection cycles limited to the affected components."},
+      "limits": ["Default detection is a reasonable choice on a small, rarely updated component."],
+      "priority": "medium",
+      "applies": ["ts", "frontend"],
+      "origin": ["INR", "RGESN 6.x"],
+      "rgesn": "6.x"
+    },
+    {
+      "id": "NR-LANG-NG-002",
+      "title": "No method calls in templates",
+      "what": "Bind templates to precomputed values, signals or pure pipes, not to component method calls.",
+      "why": "A method in a binding runs at every change-detection pass, far more often than its result changes.",
+      "how": "Compute once in the component or a computed() signal; @Pipe({ pure: true }) for formatting.",
+      "detect": {"automation": "partial", "patterns": [{"re": "\\{\\{\\s*[a-zA-Z_]\\w*\\([^)]*\\)\\s*\\}\\}", "scope": ["html"], "note": "Method call in an interpolation; signals (name()) are fine.", "require_file": ["\\*ngFor|\\*ngIf|@for|@if|\\[\\w+\\]=|\\(click\\)"]}]},
+      "verify": {"method": "review", "how": "Template bindings reference fields, signals or pure pipes."},
+      "limits": [],
+      "priority": "medium",
+      "applies": ["ts", "html", "frontend"],
+      "origin": ["INR", "RGESN 6.x"],
+      "rgesn": "6.x"
+    },
+    {
+      "id": "NR-LANG-NG-003",
+      "title": "Tear down subscriptions",
+      "what": "Use the async pipe or takeUntilDestroyed for subscriptions; every manual subscribe has a teardown.",
+      "why": "A subscription that outlives its component keeps the component and everything it captures alive; navigating back and forth leaks one copy per visit.",
+      "how": "obs$ | async in templates; .pipe(takeUntilDestroyed(this.destroyRef)).subscribe(...).",
+      "detect": {"automation": "partial", "patterns": [{"re": "\\.subscribe\\s*\\(", "scope": ["ts"], "note": "Manual subscription; files with takeUntil, the async pipe or unsubscribe stay silent.", "exclude_file": ["takeUntil", "takeUntilDestroyed", "\\|\\s*async", "unsubscribe\\(", "\\bfirst\\(\\)|\\btake\\(1\\)"], "require_file": ["@angular/core"]}]},
+      "verify": {"method": "test", "how": "Component destroy test asserts no active subscription remains."},
+      "limits": [],
+      "priority": "high",
+      "applies": ["ts", "frontend"],
+      "origin": ["INR", "RGESN 6.x"],
+      "rgesn": "6.x"
+    },
+    {
+      "id": "NR-LANG-NG-004",
+      "title": "Lazy routes, lean production bundle",
+      "what": "Lazy-load feature routes and remove unused polyfills, modules and locale data from production builds.",
+      "why": "Eager modules and blanket polyfills ship code most visitors never run.",
+      "how": "loadComponent/loadChildren in routes; budgets in angular.json; only the locales you serve.",
+      "detect": {"automation": "none"},
+      "verify": {"method": "measure", "how": "Production build budgets pass; per-route chunks visible in the stats."},
+      "limits": [],
+      "priority": "medium",
+      "applies": ["ts", "frontend"],
+      "origin": ["INR", "RGESN 6.x"],
+      "rgesn": "6.x",
+      "see": ["NR-FRONT-002"]
+    }
+  ]
+}

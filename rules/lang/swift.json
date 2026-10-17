@@ -1,0 +1,77 @@
+{
+  "family": "lang-swift",
+  "title": "Swift",
+  "version": "1.0",
+  "rules": [
+    {
+      "id": "NR-LANG-SWIFT-001",
+      "title": "Stop sensors when the need ends",
+      "what": "Stop location, motion and Bluetooth updates when the screen or task that needed them goes away; request the coarsest accuracy that works.",
+      "why": "Sensors keep power-hungry hardware awake; started and never stopped, they drain the battery in the background.",
+      "how": "Pair start/stop in onAppear/onDisappear (or viewWillDisappear); desiredAccuracy as low as acceptable; significant-change monitoring over continuous updates.",
+      "detect": {"automation": "partial", "patterns": [{"re": "startUpdatingLocation\\(|startUpdatingHeading\\(|startDeviceMotionUpdates|scanForPeripherals", "scope": ["swift"], "note": "Sensor started in a file with no matching stop call.", "exclude_file": ["stopUpdatingLocation|stopUpdatingHeading|stopDeviceMotionUpdates|stopScan"]}]},
+      "verify": {"method": "test", "how": "Instruments Energy Log shows the sensor off after leaving the screen."},
+      "limits": [],
+      "priority": "high",
+      "applies": ["swift", "ux"],
+      "origin": ["INR", "RGESN 4.x"],
+      "rgesn": "4.x"
+    },
+    {
+      "id": "NR-LANG-SWIFT-002",
+      "title": "Refresh on events, invalidate timers",
+      "what": "Refresh from push, WebSocket or delegate callbacks rather than repeating timers; invalidate any timer when its view disappears.",
+      "why": "A polling timer wakes the radio whether or not anything changed and keeps the device out of low-power states.",
+      "how": "Push notifications or URLSessionWebSocketTask; Timer with tolerance set, invalidated in deinit/onDisappear.",
+      "detect": {"automation": "partial", "patterns": [{"re": "Timer\\.scheduledTimer|DispatchSource\\.makeTimerSource", "scope": ["swift"], "note": "Timer in a file that never invalidates one.", "exclude_file": ["\\.invalidate\\(\\)|\\.cancel\\(\\)"]}]},
+      "verify": {"method": "review", "how": "Each repeating timer is invalidated and its interval justified."},
+      "limits": [],
+      "priority": "medium",
+      "applies": ["swift"],
+      "origin": ["INR", "RGESN 7.x"],
+      "rgesn": "7.x"
+    },
+    {
+      "id": "NR-LANG-SWIFT-003",
+      "title": "Keep the main thread free",
+      "what": "Do not wait synchronously on the main thread (DispatchQueue.main.sync, semaphores, waitUntilFinished); move work to a background task.",
+      "why": "A blocked main thread freezes the interface; users tap again and queue more work for the same result.",
+      "how": "Task { await ... } or a background queue, then update the UI on the main actor.",
+      "detect": {"automation": "partial", "patterns": [{"re": "DispatchQueue\\.main\\.sync|\\.waitUntilFinished\\(\\)|semaphore\\.wait\\(\\)", "scope": ["swift"], "note": "Synchronous wait; harmful on the main thread."}]},
+      "verify": {"method": "test", "how": "Main Thread Checker and hang detection report no hang on the journey."},
+      "limits": [],
+      "priority": "high",
+      "applies": ["swift", "ux"],
+      "origin": ["INR", "RGESN 6.x"],
+      "rgesn": "6.x"
+    },
+    {
+      "id": "NR-LANG-SWIFT-004",
+      "title": "Stream downloads, share one session",
+      "what": "Download large payloads as streams or download tasks rather than Data(contentsOf:); share one configured URLSession instead of one per request.",
+      "why": "Data(contentsOf:) loads everything before use and blocks; a session per request loses its connection pool and cache, keeping the radio awake longer.",
+      "how": "URLSession.shared or a static session with cache policy and timeouts; bytes(for:) or downloadTask for large bodies.",
+      "detect": {"automation": "partial", "patterns": [{"re": "(Data|String)\\(contentsOf:", "scope": ["swift"], "note": "Whole-content read; synchronous and unbounded for remote URLs."}, {"re": "URLSession\\(configuration:", "scope": ["swift"], "note": "Session built here; a static let or lazy var is the recommendation.", "exclude_file": ["static\\s+let|lazy\\s+var"]}]},
+      "verify": {"method": "review", "how": "Large downloads streamed; one session reused."},
+      "limits": [],
+      "priority": "medium",
+      "applies": ["swift"],
+      "origin": ["INR", "RGESN 9.1"],
+      "rgesn": "9.1"
+    },
+    {
+      "id": "NR-LANG-SWIFT-005",
+      "title": "Batch sync under good conditions",
+      "what": "Batch synchronisation and background refresh, schedule them under suitable power and network conditions, and make uploads resumable.",
+      "why": "Frequent small syncs wake the radio each time; failed uploads that restart from zero resend the same data.",
+      "how": "BGTaskScheduler with requiresExternalPower/requiresNetworkConnectivity where acceptable; background URLSession for resumable transfers.",
+      "detect": {"automation": "none"},
+      "verify": {"method": "review", "how": "Sync frequency and conditions documented; retries resume."},
+      "limits": [],
+      "priority": "medium",
+      "applies": ["swift"],
+      "origin": ["INR", "RGESN 4.x"],
+      "rgesn": "4.x"
+    }
+  ]
+}

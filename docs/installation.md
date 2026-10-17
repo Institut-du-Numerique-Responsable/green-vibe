@@ -1,76 +1,113 @@
-# Installation et configuration
+# Installation and configuration
 
-## Prérequis
+**English** · [Français](fr/installation.md)
 
-- Mistral Vibe (le plugin est au format Agent Plugins 1.0, supporté nativement).
-- `python3 >= 3.10` (stdlib uniquement, aucune dépendance à installer) —
-  l'installeur le vérifie.
+This page explains how to install, configure, update, and remove Green Vibe.
+
+## Prerequisites
+
+To install Green Vibe, you need:
+
+- Mistral Vibe (the plugin uses the Agent Plugins 1.0 format, which Vibe loads as is)
+- `python3 >= 3.10` (standard library only, nothing to install); the
+  installer checks the version
 
 ## Installation
 
-### Portée utilisateur (recommandée)
+Two installation scopes are available.
+
+### User scope (recommended)
+
+Run the installer with no argument:
 
 ```bash
-./scripts/install.sh            # copie vers ~/.vibe/plugins/green-vibe
+./scripts/install.sh            # copies to ~/.vibe/plugins/green-vibe
 ```
 
-### Portée projet (dossier de confiance requis)
+### Project scope (trusted folder required)
+
+Pass `project` to the installer:
 
 ```bash
-./scripts/install.sh project    # copie vers ./.vibe/plugins/green-vibe
+./scripts/install.sh project    # copies to ./.vibe/plugins/green-vibe
 ```
 
-Puis dans Vibe : `/reload-plugins` (ou redémarrage), et `/plugins` pour
-vérifier que `green-vibe` apparaît avec ses composants (skill, hooks,
-knowledge).
+Then, in Vibe, run `/reload-plugins` (or restart), and `/plugins` to check
+that `green-vibe` appears with its components (skill, hooks, and knowledge).
 
-Le skill devient utilisable :
+You can then use the skill in two ways:
 
-- explicitement : `/green-vibe` (user-invocable) ;
-- automatiquement : le modèle le charge quand une tâche concerne l'écoconception,
-  la sobriété ou une revue de code (voir la `description` du SKILL.md).
+- type `/green-vibe` (user-invocable)
+- let the model load it when a task involves eco-design, accessibility,
+  sobriety, or code review (see the `description` in SKILL.md)
 
-### Installation skill seule (sans plugin)
+### Skill-only installation (no plugin)
 
-Copier `skills/green-vibe/` dans `~/.vibe/skills/` ou `.vibe/skills/`, et le
-reste du dépôt (règles, validateurs) à côté, puis pointer `GV` dans la session
-vers la racine. Le plugin est la voie canonique : il seul apporte hooks et
+Copy `skills/green-vibe/` to `~/.vibe/skills/` or `.vibe/skills/`, and the
+rest of the repository (`rules/`, `references/`, `validators/`) next to it.
+SKILL.md calls the validators through the `GV` variable, which points to the
+Green Vibe root. Set it in the session:
+
+```bash
+export GV="$HOME/.vibe/skills/green-vibe-root"   # example: wherever you copied the repository
+python3 "$GV/validators/green-vibe" stats
+```
+
+The plugin stays the canonical route: only the plugin brings hooks and
 knowledge.
 
 ## Configuration
 
-Le plugin fonctionne sans configuration. Options disponibles :
+The plugin works without configuration. The following options are available.
 
-| Option | Effet |
+| Option | Effect |
 |---|---|
-| Désactiver le hook d'audit | Supprimer `ai.mistral.vibe/hooks.toml` de la copie installée (le hook est fail-open, il ne bloque jamais) |
-| Réduire le bruit | Ajouter un fichier `.green-vibe/decisions.md` à la racine du projet audité (`NR-XXX  fichier  ACCEPTED  raison`) |
-| Forcer des familles | `select --family ai --family infra` pour une tâche hors détection de contexte |
+| Turn off the audit hook | Remove `ai.mistral.vibe/hooks.toml` from the installed copy (the hook is fail-open and never blocks) |
+| Reduce noise | Add a `.green-vibe/decisions.md` file at the root of the audited project (`NR-XXX  file  ACCEPTED/TODO  reason`). The model reads it before relaying a finding the team already settled; the CLI audit doesn't read it and keeps reporting the finding |
+| Force families | `select --family ai --family infra` for a task the context detection doesn't cover |
 
-## Vérification de l'installation
+## Check the installation
+
+Run the `stats` command from the installed copy:
 
 ```bash
 python3 ~/.vibe/plugins/green-vibe/validators/green-vibe stats
-# doit afficher 149 règles et les familles
+# should print 286 rules and the families
 ```
 
-Dans Vibe, `/plugins` doit lister `green-vibe` ; `/green-vibe` doit charger le
-skill.
+In Vibe, `/plugins` should list `green-vibe`, and `/green-vibe` should load
+the skill.
 
-## Mise à jour
+## Update
+
+Fetch the new version, then run the installer again:
 
 ```bash
-git -C <dépôt green-vibe> pull        # ou nouvelle version téléchargée
-./scripts/install.sh                  # recopie par-dessus (idempotent)
-# puis dans Vibe : /reload-plugins
+git -C <green-vibe repository> pull   # or a newly downloaded release
+./scripts/install.sh                  # copies over the old version (idempotent)
+# then, in Vibe: /reload-plugins
 ```
 
-Les sessions en cours gardent le snapshot du plugin au moment de leur
-ouverture : `/reload-plugins` resynchronise.
+Running sessions keep the plugin snapshot from when they started:
+`/reload-plugins` syncs them.
 
-## Désinstallation
+## Troubleshooting
+
+The following table lists common symptoms and how to fix them.
+
+| Symptom | Likely cause | Action |
+|---|---|---|
+| `install.sh` refuses to continue | `python3` missing or older than 3.10 | Install Python 3.10+ and check `python3 --version` |
+| `green-vibe` missing from `/plugins` | Session started before the installation | Run `/reload-plugins` or restart Vibe |
+| Project scope ignored | Folder not trusted in Vibe | Trust the folder, then run `/reload-plugins` |
+| No hook output after a write | Normal when there's nothing to report; otherwise a swallowed error (fail-open) | Run the audit on the file by hand: `python3 <root>/validators/green-vibe audit <file>` |
+| `select` keeps no rule | No known language in the given paths | Force a family: `select <paths> --family <family>` |
+
+## Uninstall
+
+Delete the installed copy, then reload plugins:
 
 ```bash
 rm -rf ~/.vibe/plugins/green-vibe
-# puis /reload-plugins
+# then /reload-plugins
 ```

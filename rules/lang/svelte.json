@@ -1,0 +1,50 @@
+{
+  "family": "lang-svelte",
+  "title": "Svelte",
+  "version": "1.0",
+  "rules": [
+    {
+      "id": "NR-LANG-SVELTE-001",
+      "title": "Narrow reactive statements",
+      "what": "Keep reactive statements and derived values scoped to the data they need; split wide ones into narrow ones.",
+      "why": "A broad reactive block re-runs whenever any dependency moves, including those that do not affect its result.",
+      "how": "One $: (or $derived) per derived value; derived stores for shared state.",
+      "detect": {"automation": "partial", "patterns": [{"re": "^[ \\t]*\\$:\\s*\\{", "scope": ["svelte"], "note": "Reactive block; check that it depends only on what it computes."}]},
+      "verify": {"method": "review", "how": "Each reactive statement depends only on its own inputs."},
+      "limits": [],
+      "priority": "medium",
+      "applies": ["svelte", "frontend"],
+      "origin": ["INR", "RGESN 6.x"],
+      "rgesn": "6.x"
+    },
+    {
+      "id": "NR-LANG-SVELTE-002",
+      "title": "Tear down manual subscriptions",
+      "what": "Prefer $store auto-subscription; a manual subscribe keeps its unsubscribe and calls it on destroy.",
+      "why": "A manual store subscription outlives the component unless something unsubscribes.",
+      "how": "$store in markup; const unsub = store.subscribe(...); onDestroy(unsub).",
+      "detect": {"automation": "partial", "patterns": [{"re": "\\.subscribe\\s*\\(", "scope": ["svelte"], "note": "Manual subscription in a file with no onDestroy/unsubscribe.", "exclude_file": ["onDestroy", "unsubscribe"]}]},
+      "verify": {"method": "test", "how": "Mount/unmount cycles leave no subscriber behind."},
+      "limits": [],
+      "priority": "medium",
+      "applies": ["svelte", "frontend"],
+      "origin": ["INR", "RGESN 6.x"],
+      "rgesn": "6.x"
+    },
+    {
+      "id": "NR-LANG-SVELTE-003",
+      "title": "Static by default, measure the output",
+      "what": "Render non-interactive content statically and measure the generated JavaScript rather than assuming compiled output is small.",
+      "why": "Compile-time frameworks still ship runtime code per component; hydration of static content is pure overhead.",
+      "how": "SvelteKit prerender for content pages; csr = false where no interaction; check the build report per route.",
+      "detect": {"automation": "none"},
+      "verify": {"method": "measure", "how": "Build report shows JS per route within budget."},
+      "limits": [],
+      "priority": "medium",
+      "applies": ["svelte", "frontend"],
+      "origin": ["INR", "RGESN 6.x"],
+      "rgesn": "6.x",
+      "see": ["NR-FRONT-002"]
+    }
+  ]
+}

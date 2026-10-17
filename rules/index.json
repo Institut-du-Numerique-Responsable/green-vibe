@@ -14,9 +14,8 @@
    "scopes": [],
    "rgesn": "9.x",
    "origin": [
-    "green-claude:ECO-ALGO-08",
-    "green-claude:ECO-ALGO-19",
-    "green-codex:AI-EFF-002"
+    "INR",
+    "RGESN 9.x"
    ]
   },
   {
@@ -31,9 +30,8 @@
    "scopes": [],
    "rgesn": "9.x",
    "origin": [
-    "green-claude:ECO-ALGO-02",
-    "green-claude:ECO-ALGO-17",
-    "green-claude:ECO-ALGO-04"
+    "INR",
+    "RGESN 9.x"
    ]
   },
   {
@@ -49,9 +47,8 @@
    "scopes": [],
    "rgesn": "9.x",
    "origin": [
-    "green-claude:ECO-ALGO-06",
-    "green-claude:ECO-ALGO-16",
-    "green-codex:AI-EFF-003"
+    "INR",
+    "RGESN 9.x"
    ]
   },
   {
@@ -66,8 +63,8 @@
    "scopes": [],
    "rgesn": "9.x",
    "origin": [
-    "green-claude:ECO-ALGO-15",
-    "green-codex:AI-EFF-004"
+    "INR",
+    "RGESN 9.x"
    ]
   },
   {
@@ -86,8 +83,8 @@
    ],
    "rgesn": "9.x",
    "origin": [
-    "green-claude:ECO-ALGO-13",
-    "green-codex:AI-EFF-005"
+    "INR",
+    "RGESN 9.x"
    ]
   },
   {
@@ -107,8 +104,8 @@
    ],
    "rgesn": "9.x",
    "origin": [
-    "green-claude:ECO-ALGO-07",
-    "green-claude:ECO-ALGO-05"
+    "INR",
+    "RGESN 9.x"
    ]
   },
   {
@@ -124,8 +121,8 @@
    "scopes": [],
    "rgesn": "9.x",
    "origin": [
-    "green-claude:ECO-ALGO-05",
-    "green-codex:AI-EFF-001"
+    "INR",
+    "RGESN 9.x"
    ]
   },
   {
@@ -140,8 +137,8 @@
    "scopes": [],
    "rgesn": "9.x, 3.1",
    "origin": [
-    "green-claude:ECO-ALGO-25",
-    "green-claude:ECO-ALGO-27"
+    "INR",
+    "RGESN 9.x, 3.1"
    ]
   },
   {
@@ -156,8 +153,95 @@
    "scopes": [],
    "rgesn": null,
    "origin": [
-    "green-codex:responsible-ai-charter.md",
-    "green-codex:AI-EFF-006"
+    "INR"
+   ]
+  },
+  {
+   "id": "NR-AI-010",
+   "title": "Deterministic first, LLM for the ambiguous part",
+   "family": "ai",
+   "priority": "high",
+   "applies": [
+    "ai"
+   ],
+   "automation": "none",
+   "scopes": [],
+   "rgesn": "9.x",
+   "origin": [
+    "INR",
+    "RGESN 9.x"
+   ]
+  },
+  {
+   "id": "NR-AI-011",
+   "title": "Measure AI consumption, do not estimate it",
+   "family": "ai",
+   "priority": "high",
+   "applies": [
+    "ai",
+    "measure"
+   ],
+   "automation": "none",
+   "scopes": [],
+   "rgesn": "9.x",
+   "origin": [
+    "INR",
+    "RGESN 9.x"
+   ]
+  },
+  {
+   "id": "NR-AI-012",
+   "title": "Size self-hosted inference to the workload",
+   "family": "ai",
+   "priority": "medium",
+   "applies": [
+    "ai",
+    "infra"
+   ],
+   "automation": "none",
+   "scopes": [],
+   "rgesn": "9.x",
+   "origin": [
+    "INR",
+    "RGESN 9.x"
+   ]
+  },
+  {
+   "id": "NR-AI-013",
+   "title": "Stream long outputs",
+   "family": "ai",
+   "priority": "medium",
+   "applies": [
+    "ai",
+    "ux"
+   ],
+   "automation": "partial",
+   "scopes": [
+    "js",
+    "py",
+    "ts"
+   ],
+   "rgesn": "9.x",
+   "origin": [
+    "INR",
+    "RGESN 9.x"
+   ]
+  },
+  {
+   "id": "NR-AI-014",
+   "title": "Train and fine-tune on filtered data",
+   "family": "ai",
+   "priority": "medium",
+   "applies": [
+    "ai",
+    "data"
+   ],
+   "automation": "none",
+   "scopes": [],
+   "rgesn": "9.x",
+   "origin": [
+    "INR",
+    "RGESN 9.x"
    ]
   },
   {
@@ -172,8 +256,8 @@
    "scopes": [],
    "rgesn": "1.4, 1.5",
    "origin": [
-    "green-claude:ECO-STRAT-01 area",
-    "green-codex:LANG-PYTHON-002"
+    "INR",
+    "RGESN 1.4, 1.5"
    ]
   },
   {
@@ -194,8 +278,8 @@
    ],
    "rgesn": "7.x, 9.1",
    "origin": [
-    "green-claude:ECO-BACK-03",
-    "green-codex:CODE-EFF-009"
+    "INR",
+    "RGESN 7.x, 9.1"
    ]
   },
   {
@@ -216,8 +300,8 @@
    ],
    "rgesn": "7.x, 9.1",
    "origin": [
-    "green-codex:LANG-PYTHON-001",
-    "green-claude:ECO-BACK-04 area"
+    "INR",
+    "RGESN 7.x, 9.1"
    ]
   },
   {
@@ -236,7 +320,8 @@
    ],
    "rgesn": "7.x",
    "origin": [
-    "green-codex:CODE-EFF-004"
+    "INR",
+    "RGESN 7.x"
    ]
   },
   {
@@ -252,8 +337,8 @@
    "scopes": [],
    "rgesn": "7.x",
    "origin": [
-    "green-codex:CODE-EFF-003",
-    "green-claude:ECO-BACK-04"
+    "INR",
+    "RGESN 7.x"
    ]
   },
   {
@@ -274,8 +359,8 @@
    ],
    "rgesn": "3.2, 9.1",
    "origin": [
-    "green-claude:ECO-ARCH-11",
-    "green-codex:CODE-EFF-006"
+    "INR",
+    "RGESN 3.2, 9.1"
    ]
   },
   {
@@ -292,8 +377,8 @@
    "scopes": [],
    "rgesn": "9.1",
    "origin": [
-    "green-codex:CODE-EFF-007",
-    "green-claude:ECO-BACK-07 area"
+    "INR",
+    "RGESN 9.1"
    ]
   },
   {
@@ -315,8 +400,8 @@
    ],
    "rgesn": "7.x",
    "origin": [
-    "green-claude:ECO-FRONT-07 area",
-    "green-codex:CODE-EFF-008"
+    "INR",
+    "RGESN 7.x"
    ]
   },
   {
@@ -332,14 +417,32 @@
    "automation": "partial",
    "scopes": [
     "js",
+    "jsx",
     "py",
-    "ts"
+    "ts",
+    "tsx"
    ],
    "rgesn": "8.x, 9.x",
    "origin": [
-    "green-claude:ECO-ALGO-22",
-    "green-claude:ECO-ALGO-24",
-    "green-codex:CODE-EFF-010"
+    "INR",
+    "RGESN 8.x, 9.x"
+   ]
+  },
+  {
+   "id": "NR-ALGO-010",
+   "title": "Choose the runtime on measured constraints",
+   "family": "algo",
+   "priority": "low",
+   "applies": [
+    "algo",
+    "architecture"
+   ],
+   "automation": "none",
+   "scopes": [],
+   "rgesn": "9.1",
+   "origin": [
+    "INR",
+    "RGESN 9.1"
    ]
   },
   {
@@ -355,8 +458,8 @@
    "scopes": [],
    "rgesn": "7.1",
    "origin": [
-    "green-claude:ECO-BACK-09 area",
-    "green-codex:API-EFF-001"
+    "INR",
+    "RGESN 7.1"
    ]
   },
   {
@@ -372,9 +475,8 @@
    "scopes": [],
    "rgesn": "8.x",
    "origin": [
-    "green-claude:ECO-HEB-03",
-    "green-claude:ECO-HEB-02",
-    "green-codex:API-EFF-003"
+    "INR",
+    "RGESN 8.x"
    ]
   },
   {
@@ -397,8 +499,8 @@
    ],
    "rgesn": "7.x",
    "origin": [
-    "green-claude:ECO-ALGO area",
-    "green-codex:API-EFF-001"
+    "INR",
+    "RGESN 7.x"
    ]
   },
   {
@@ -415,8 +517,8 @@
    "scopes": [],
    "rgesn": "8.x",
    "origin": [
-    "green-codex:API-EFF-002 area",
-    "green-claude:ECO-HEB area"
+    "INR",
+    "RGESN 8.x"
    ]
   },
   {
@@ -432,8 +534,8 @@
    "scopes": [],
    "rgesn": "3.4",
    "origin": [
-    "green-claude:ECO-ARCH-03 area",
-    "green-codex:SERVICE-EFF-005"
+    "INR",
+    "RGESN 3.4"
    ]
   },
   {
@@ -449,8 +551,27 @@
    "scopes": [],
    "rgesn": "4.4, 7.x",
    "origin": [
-    "green-codex criteria: Opquast",
+    "INR",
+    "RGESN 4.4, 7.x",
+    "Opquast",
     "NR-UX-006"
+   ]
+  },
+  {
+   "id": "NR-API-007",
+   "title": "Choose protocols on measurement",
+   "family": "api",
+   "priority": "low",
+   "applies": [
+    "api",
+    "infra"
+   ],
+   "automation": "none",
+   "scopes": [],
+   "rgesn": "8.x",
+   "origin": [
+    "INR",
+    "RGESN 8.x"
    ]
   },
   {
@@ -465,8 +586,8 @@
    "scopes": [],
    "rgesn": "3.1",
    "origin": [
-    "green-claude:ECO-ARCH-07",
-    "green-codex universal rules"
+    "INR",
+    "RGESN 3.1"
    ]
   },
   {
@@ -481,8 +602,8 @@
    "scopes": [],
    "rgesn": "3.1",
    "origin": [
-    "green-claude:ECO-ARCH-01",
-    "green-codex:ARCH-DIST-001"
+    "INR",
+    "RGESN 3.1"
    ]
   },
   {
@@ -498,8 +619,8 @@
    "scopes": [],
    "rgesn": "3.2",
    "origin": [
-    "green-claude:ECO-ARCH-02",
-    "green-codex:INFRA-EFF-001"
+    "INR",
+    "RGESN 3.2"
    ]
   },
   {
@@ -516,8 +637,8 @@
    "scopes": [],
    "rgesn": "3.2, 9.1",
    "origin": [
-    "green-claude:ECO-ARCH-08",
-    "green-codex:CODE-EFF-001"
+    "INR",
+    "RGESN 3.2, 9.1"
    ]
   },
   {
@@ -533,8 +654,8 @@
    "scopes": [],
    "rgesn": "3.1",
    "origin": [
-    "green-claude:ECO-ARCH-09",
-    "green-codex:ARCH-SERVERLESS-001"
+    "INR",
+    "RGESN 3.1"
    ]
   },
   {
@@ -557,8 +678,8 @@
    ],
    "rgesn": "8.x, 3.2",
    "origin": [
-    "green-claude:ECO-ARCH-10",
-    "green-codex:CODE-EFF-003"
+    "INR",
+    "RGESN 8.x, 3.2"
    ]
   },
   {
@@ -574,8 +695,8 @@
    "scopes": [],
    "rgesn": "3.7",
    "origin": [
-    "green-claude:ECO-ARCH-04",
-    "green-claude:ECO-ARCH-06"
+    "INR",
+    "RGESN 3.7"
    ]
   },
   {
@@ -594,9 +715,8 @@
    ],
    "rgesn": "6.x",
    "origin": [
-    "green-claude:ECO-FRONT-01",
-    "green-claude:ECO-FRONT-04",
-    "green-codex universal rules"
+    "INR",
+    "RGESN 6.x"
    ]
   },
   {
@@ -612,8 +732,41 @@
    "scopes": [],
    "rgesn": "3.4, 3.5, 3.6",
    "origin": [
-    "green-claude:ECO-ARCH-03",
-    "green-claude:ECO-ARCH-05"
+    "INR",
+    "RGESN 3.4, 3.5, 3.6"
+   ]
+  },
+  {
+   "id": "NR-ARCH-010",
+   "title": "Code a newcomer can follow",
+   "family": "architecture",
+   "priority": "medium",
+   "applies": [
+    "architecture"
+   ],
+   "automation": "none",
+   "scopes": [],
+   "rgesn": "3.x",
+   "origin": [
+    "INR",
+    "RGESN 3.x"
+   ]
+  },
+  {
+   "id": "NR-ARCH-011",
+   "title": "Bound fan-out and coordination in distributed systems",
+   "family": "architecture",
+   "priority": "high",
+   "applies": [
+    "architecture",
+    "backend"
+   ],
+   "automation": "none",
+   "scopes": [],
+   "rgesn": "3.2",
+   "origin": [
+    "INR",
+    "RGESN 3.2"
    ]
   },
   {
@@ -635,8 +788,8 @@
    ],
    "rgesn": "7.2, 9.1",
    "origin": [
-    "green-claude:ECO-BACK-06",
-    "green-codex:CODE-EFF-002"
+    "INR",
+    "RGESN 7.2, 9.1"
    ]
   },
   {
@@ -658,8 +811,8 @@
    ],
    "rgesn": "9.1",
    "origin": [
-    "green-claude:ECO-BACK-05",
-    "green-codex:CODE-EFF-001"
+    "INR",
+    "RGESN 9.1"
    ]
   },
   {
@@ -676,8 +829,8 @@
    "scopes": [],
    "rgesn": "7.x",
    "origin": [
-    "green-codex:CODE-EFF-003",
-    "green-claude:ECO-BACK-04"
+    "INR",
+    "RGESN 7.x"
    ]
   },
   {
@@ -698,8 +851,8 @@
    ],
    "rgesn": "7.1",
    "origin": [
-    "green-claude:ECO-BACK-09",
-    "green-codex:API-EFF-002"
+    "INR",
+    "RGESN 7.1"
    ]
   },
   {
@@ -721,8 +874,8 @@
    ],
    "rgesn": "7.x, 8.x",
    "origin": [
-    "green-claude:ECO-BACK-08",
-    "green-claude:ECO-HEB-12"
+    "INR",
+    "RGESN 7.x, 8.x"
    ]
   },
   {
@@ -741,8 +894,8 @@
    ],
    "rgesn": "9.1",
    "origin": [
-    "green-claude:ECO-BACK-07",
-    "green-codex:CODE-EFF-005"
+    "INR",
+    "RGESN 9.1"
    ]
   },
   {
@@ -762,8 +915,8 @@
    ],
    "rgesn": "7.x",
    "origin": [
-    "green-codex universal rules",
-    "green-codex:NET-EFF-002"
+    "INR",
+    "RGESN 7.x"
    ]
   },
   {
@@ -779,7 +932,8 @@
    "scopes": [],
    "rgesn": "7.x",
    "origin": [
-    "green-claude:ECO-BACK-13"
+    "INR",
+    "RGESN 7.x"
    ]
   },
   {
@@ -798,8 +952,8 @@
    ],
    "rgesn": "7.x",
    "origin": [
-    "green-claude:ECO-BACK-02",
-    "green-codex:DB-EFF-006"
+    "INR",
+    "RGESN 7.x"
    ]
   },
   {
@@ -815,8 +969,8 @@
    "scopes": [],
    "rgesn": "3.1, 7.x",
    "origin": [
-    "green-claude:ECO-BACK-12",
-    "green-codex:OPS-EFF-003"
+    "INR",
+    "RGESN 3.1, 7.x"
    ]
   },
   {
@@ -834,8 +988,8 @@
    ],
    "rgesn": "5.x",
    "origin": [
-    "green-claude:ECO-CONT-01",
-    "green-codex:WEB-EFF-001"
+    "INR",
+    "RGESN 5.x"
    ]
   },
   {
@@ -860,8 +1014,8 @@
    ],
    "rgesn": "5.x",
    "origin": [
-    "green-claude:ECO-CONT-02",
-    "green-codex:WEB-EFF-004"
+    "INR",
+    "RGESN 5.x"
    ]
   },
   {
@@ -881,7 +1035,8 @@
    ],
    "rgesn": "5.x",
    "origin": [
-    "green-claude:ECO-CONT-03"
+    "INR",
+    "RGESN 5.x"
    ]
   },
   {
@@ -901,7 +1056,8 @@
    ],
    "rgesn": "4.5",
    "origin": [
-    "green-claude:ECO-UX-05"
+    "INR",
+    "RGESN 4.5"
    ]
   },
   {
@@ -917,8 +1073,8 @@
    "scopes": [],
    "rgesn": "2.7",
    "origin": [
-    "green-codex:SERVICE-EFF-005",
-    "green-claude:ECO-STRAT-07"
+    "INR",
+    "RGESN 2.7"
    ]
   },
   {
@@ -936,7 +1092,7 @@
    ],
    "rgesn": "5.5",
    "origin": [
-    "green-claude:ECO-STRAT-03",
+    "INR",
     "RGESN 5.5"
    ]
   },
@@ -960,8 +1116,8 @@
    ],
    "rgesn": "5.5, 8.x",
    "origin": [
-    "green-codex universal rules",
-    "green-claude:ECO-HEB-12"
+    "INR",
+    "RGESN 5.5, 8.x"
    ]
   },
   {
@@ -983,8 +1139,8 @@
    ],
    "rgesn": "7.x",
    "origin": [
-    "green-claude:ECO-BACK-01",
-    "green-codex:DB-EFF-001"
+    "INR",
+    "RGESN 7.x"
    ]
   },
   {
@@ -1004,8 +1160,8 @@
    ],
    "rgesn": "7.x",
    "origin": [
-    "green-claude:ECO-BACK-01",
-    "green-codex:DB-EFF-002"
+    "INR",
+    "RGESN 7.x"
    ]
   },
   {
@@ -1021,8 +1177,8 @@
    "scopes": [],
    "rgesn": "7.x",
    "origin": [
-    "green-claude:ECO-BACK-01",
-    "green-codex:DB-EFF-003"
+    "INR",
+    "RGESN 7.x"
    ]
   },
   {
@@ -1044,8 +1200,8 @@
    ],
    "rgesn": "7.1",
    "origin": [
-    "green-claude:ECO-BACK-09",
-    "green-codex:DB-EFF-004"
+    "INR",
+    "RGESN 7.1"
    ]
   },
   {
@@ -1062,8 +1218,8 @@
    "scopes": [],
    "rgesn": "8.x",
    "origin": [
-    "green-claude:ECO-HEB-12",
-    "green-codex:DB-EFF-005"
+    "INR",
+    "RGESN 8.x"
    ]
   },
   {
@@ -1081,8 +1237,8 @@
    ],
    "rgesn": "3.x",
    "origin": [
-    "green-codex:ARCH-NOSQL-001",
-    "green-codex:ARCH-DATA-001"
+    "INR",
+    "RGESN 3.x"
    ]
   },
   {
@@ -1104,7 +1260,8 @@
    ],
    "rgesn": "7.1",
    "origin": [
-    "green-claude:ECO-BACK-10"
+    "INR",
+    "RGESN 7.1"
    ]
   },
   {
@@ -1120,7 +1277,46 @@
    "scopes": [],
    "rgesn": "8.x",
    "origin": [
-    "green-claude:ECO-HEB-11"
+    "INR",
+    "RGESN 8.x"
+   ]
+  },
+  {
+   "id": "NR-DATA-009",
+   "title": "One copy, one consistency boundary",
+   "family": "data",
+   "priority": "medium",
+   "applies": [
+    "data"
+   ],
+   "automation": "none",
+   "scopes": [],
+   "rgesn": "7.3",
+   "origin": [
+    "INR",
+    "RGESN 7.3"
+   ]
+  },
+  {
+   "id": "NR-DATA-010",
+   "title": "Bound NoSQL scans, indexes and item growth",
+   "family": "data",
+   "priority": "medium",
+   "applies": [
+    "data"
+   ],
+   "automation": "partial",
+   "scopes": [
+    "go",
+    "java",
+    "js",
+    "py",
+    "ts"
+   ],
+   "rgesn": "7.1",
+   "origin": [
+    "INR",
+    "RGESN 7.1"
    ]
   },
   {
@@ -1140,7 +1336,8 @@
    ],
    "rgesn": "6.x",
    "origin": [
-    "green-claude:ECO-FRONT-01"
+    "INR",
+    "RGESN 6.x"
    ]
   },
   {
@@ -1155,7 +1352,8 @@
    "scopes": [],
    "rgesn": "6.x",
    "origin": [
-    "green-claude:ECO-FRONT-02"
+    "INR",
+    "RGESN 6.x"
    ]
   },
   {
@@ -1176,8 +1374,8 @@
    ],
    "rgesn": "6.x",
    "origin": [
-    "green-claude:ECO-FRONT-07",
-    "green-claude:ECO-FRONT-13"
+    "INR",
+    "RGESN 6.x"
    ]
   },
   {
@@ -1196,7 +1394,8 @@
    ],
    "rgesn": "6.x",
    "origin": [
-    "green-claude:ECO-FRONT-08"
+    "INR",
+    "RGESN 6.x"
    ]
   },
   {
@@ -1214,8 +1413,8 @@
    ],
    "rgesn": "6.x",
    "origin": [
-    "green-claude:ECO-FRONT-05",
-    "green-claude:ECO-FRONT-12"
+    "INR",
+    "RGESN 6.x"
    ]
   },
   {
@@ -1234,9 +1433,8 @@
    ],
    "rgesn": "6.x",
    "origin": [
-    "green-claude:ECO-FRONT-10",
-    "green-claude:ECO-FRONT-11",
-    "green-claude:ECO-FRONT-09"
+    "INR",
+    "RGESN 6.x"
    ]
   },
   {
@@ -1257,8 +1455,8 @@
    ],
    "rgesn": "6.x",
    "origin": [
-    "green-claude:ECO-FRONT-06 area",
-    "green-codex:LANG-JS-*"
+    "INR",
+    "RGESN 6.x"
    ]
   },
   {
@@ -1279,8 +1477,8 @@
    ],
    "rgesn": "6.x, 9.1",
    "origin": [
-    "green-claude:ECO-ALGO area",
-    "green-codex:WEB-EFF-003"
+    "INR",
+    "RGESN 6.x, 9.1"
    ]
   },
   {
@@ -1295,8 +1493,8 @@
    "scopes": [],
    "rgesn": "6.x",
    "origin": [
-    "green-claude:ECO-FRONT-13",
-    "green-claude:ECO-FRONT-14"
+    "INR",
+    "RGESN 6.x"
    ]
   },
   {
@@ -1312,8 +1510,25 @@
    "scopes": [],
    "rgesn": "6.x, 8.x",
    "origin": [
-    "green-claude:ECO-FRONT-03",
-    "green-claude:ECO-HEB-02"
+    "INR",
+    "RGESN 6.x, 8.x"
+   ]
+  },
+  {
+   "id": "NR-FRONT-011",
+   "title": "No avoidable requests",
+   "family": "frontend",
+   "priority": "high",
+   "applies": [
+    "frontend",
+    "api"
+   ],
+   "automation": "none",
+   "scopes": [],
+   "rgesn": "6.x",
+   "origin": [
+    "INR",
+    "RGESN 6.x"
    ]
   },
   {
@@ -1333,9 +1548,8 @@
    ],
    "rgesn": "8.x",
    "origin": [
-    "green-claude:ECO-HEB-04",
-    "green-claude:ECO-HEB-05",
-    "green-claude:ECO-HEB-06"
+    "INR",
+    "RGESN 8.x"
    ]
   },
   {
@@ -1352,8 +1566,8 @@
    ],
    "rgesn": "8.x",
    "origin": [
-    "green-claude:ECO-HEB-07",
-    "green-codex:INFRA-EFF-004"
+    "INR",
+    "RGESN 8.x"
    ]
   },
   {
@@ -1368,8 +1582,8 @@
    "scopes": [],
    "rgesn": "8.x",
    "origin": [
-    "green-claude:ECO-HEB-09",
-    "green-codex:INFRA-EFF-003"
+    "INR",
+    "RGESN 8.x"
    ]
   },
   {
@@ -1385,8 +1599,8 @@
    "scopes": [],
    "rgesn": "8.x",
    "origin": [
-    "green-claude:ECO-HEB-08",
-    "green-codex:OPS-EFF-001"
+    "INR",
+    "RGESN 8.x"
    ]
   },
   {
@@ -1402,8 +1616,8 @@
    "scopes": [],
    "rgesn": "3.7",
    "origin": [
-    "green-claude:ECO-ARCH-04",
-    "green-codex:OPS-EFF-001"
+    "INR",
+    "RGESN 3.7"
    ]
   },
   {
@@ -1419,9 +1633,8 @@
    "scopes": [],
    "rgesn": "2.1, 2.2",
    "origin": [
-    "green-codex:HW-EFF-001",
-    "green-codex:HW-EFF-002",
-    "green-claude:ECO-SPEC-02"
+    "INR",
+    "RGESN 2.1, 2.2"
    ]
   },
   {
@@ -1439,8 +1652,8 @@
    ],
    "rgesn": "3.7",
    "origin": [
-    "green-claude:ECO-ARCH-06",
-    "green-claude:ECO-ARCH-04"
+    "INR",
+    "RGESN 3.7"
    ]
   },
   {
@@ -1456,8 +1669,74 @@
    "scopes": [],
    "rgesn": "3.2, 8.x",
    "origin": [
-    "green-codex:ARCH-SERVERLESS-001",
-    "green-claude:ECO-ARCH-02"
+    "INR",
+    "RGESN 3.2, 8.x"
+   ]
+  },
+  {
+   "id": "NR-INFRA-009",
+   "title": "Interruptible capacity only for interruptible work",
+   "family": "infra",
+   "priority": "low",
+   "applies": [
+    "infra"
+   ],
+   "automation": "none",
+   "scopes": [],
+   "rgesn": "8.x",
+   "origin": [
+    "INR",
+    "RGESN 8.x"
+   ]
+  },
+  {
+   "id": "NR-INFRA-010",
+   "title": "Choose hosting on evidence",
+   "family": "infra",
+   "priority": "medium",
+   "applies": [
+    "infra"
+   ],
+   "automation": "none",
+   "scopes": [],
+   "rgesn": "8.x",
+   "origin": [
+    "INR",
+    "RGESN 8.x"
+   ]
+  },
+  {
+   "id": "NR-INFRA-011",
+   "title": "Edge execution only when it pays",
+   "family": "infra",
+   "priority": "low",
+   "applies": [
+    "infra",
+    "api"
+   ],
+   "automation": "none",
+   "scopes": [],
+   "rgesn": "8.x",
+   "origin": [
+    "INR",
+    "RGESN 8.x"
+   ]
+  },
+  {
+   "id": "NR-INFRA-012",
+   "title": "IoT and embedded: budget sampling, radio and sleep",
+   "family": "infra",
+   "priority": "medium",
+   "applies": [
+    "infra",
+    "embedded"
+   ],
+   "automation": "none",
+   "scopes": [],
+   "rgesn": "8.x",
+   "origin": [
+    "INR",
+    "RGESN 8.x"
    ]
   },
   {
@@ -1473,8 +1752,8 @@
    "scopes": [],
    "rgesn": "1.4, 1.5",
    "origin": [
-    "green-codex:MEASURE-EFF-001",
-    "green-claude:ECO-STRAT-08"
+    "INR",
+    "RGESN 1.4, 1.5"
    ]
   },
   {
@@ -1491,8 +1770,7 @@
    "scopes": [],
    "rgesn": null,
    "origin": [
-    "green-codex:MEASURE-EFF-002",
-    "green-codex criteria discipline"
+    "INR"
    ]
   },
   {
@@ -1510,8 +1788,8 @@
    "scopes": [],
    "rgesn": "9.x",
    "origin": [
-    "green-codex:MEASURE-EFF-003",
-    "green-claude:ECO-ALGO-09"
+    "INR",
+    "RGESN 9.x"
    ]
   },
   {
@@ -1527,7 +1805,7 @@
    "scopes": [],
    "rgesn": null,
    "origin": [
-    "green-codex measurement discipline"
+    "INR"
    ]
   },
   {
@@ -1544,8 +1822,24 @@
    "scopes": [],
    "rgesn": "8.x",
    "origin": [
-    "green-claude:ECO-HEB-10",
-    "green-codex:OPS-EFF-002"
+    "INR",
+    "RGESN 8.x"
+   ]
+  },
+  {
+   "id": "NR-MEASURE-006",
+   "title": "State the method when you measure energy",
+   "family": "measure",
+   "priority": "high",
+   "applies": [
+    "measure"
+   ],
+   "automation": "none",
+   "scopes": [],
+   "rgesn": "1.x",
+   "origin": [
+    "INR",
+    "RGESN 1.x"
    ]
   },
   {
@@ -1561,8 +1855,8 @@
    "scopes": [],
    "rgesn": "2.6",
    "origin": [
-    "green-codex:SERVICE-EFF-001",
-    "green-claude:ECO-SPEC-05"
+    "INR",
+    "RGESN 2.6"
    ]
   },
   {
@@ -1578,7 +1872,8 @@
    "scopes": [],
    "rgesn": "1.1, 2.9",
    "origin": [
-    "green-codex:three-u.md"
+    "INR",
+    "RGESN 1.1, 2.9"
    ]
   },
   {
@@ -1594,8 +1889,8 @@
    "scopes": [],
    "rgesn": "1.1, 2.9",
    "origin": [
-    "green-claude:ECO-SPEC-05",
-    "green-codex universal rules"
+    "INR",
+    "RGESN 1.1, 2.9"
    ]
   },
   {
@@ -1614,9 +1909,8 @@
    ],
    "rgesn": "2.1, 2.2, 2.3, 2.4",
    "origin": [
-    "green-codex:SERVICE-EFF-002",
-    "green-claude:ECO-SPEC-02",
-    "green-claude:ECO-SPEC-03"
+    "INR",
+    "RGESN 2.1, 2.2, 2.3, 2.4"
    ]
   },
   {
@@ -1638,9 +1932,8 @@
    ],
    "rgesn": "4.1, 4.2",
    "origin": [
-    "green-codex:SERVICE-EFF-003",
-    "green-claude:ECO-UX-01",
-    "green-claude:ECO-UX-02"
+    "INR",
+    "RGESN 4.1, 4.2"
    ]
   },
   {
@@ -1656,7 +1949,8 @@
    "scopes": [],
    "rgesn": "2.6",
    "origin": [
-    "green-claude:ECO-SPEC-01"
+    "INR",
+    "RGESN 2.6"
    ]
   },
   {
@@ -1672,8 +1966,8 @@
    "scopes": [],
    "rgesn": "2.7",
    "origin": [
-    "green-codex:SERVICE-EFF-005",
-    "green-claude:ECO-STRAT-07"
+    "INR",
+    "RGESN 2.7"
    ]
   },
   {
@@ -1691,8 +1985,44 @@
    ],
    "rgesn": "2.10",
    "origin": [
-    "green-claude:ECO-SPEC-04",
-    "green-claude:ECO-UX-04"
+    "INR",
+    "RGESN 2.10"
+   ]
+  },
+  {
+   "id": "NR-SERVICE-009",
+   "title": "Mobile: few wakeups, lean installs, resumable sync",
+   "family": "service",
+   "priority": "high",
+   "applies": [
+    "service",
+    "ux",
+    "kt",
+    "swift"
+   ],
+   "automation": "none",
+   "scopes": [],
+   "rgesn": "4.x",
+   "origin": [
+    "INR",
+    "RGESN 4.x"
+   ]
+  },
+  {
+   "id": "NR-SERVICE-010",
+   "title": "The essential task works for everyone",
+   "family": "service",
+   "priority": "high",
+   "applies": [
+    "service",
+    "ux"
+   ],
+   "automation": "none",
+   "scopes": [],
+   "rgesn": "2.x",
+   "origin": [
+    "INR",
+    "RGESN 2.x"
    ]
   },
   {
@@ -1708,8 +2038,8 @@
    "scopes": [],
    "rgesn": "1.4, 1.5",
    "origin": [
-    "green-claude:ECO-STRAT-01",
-    "green-codex:MEASURE-EFF-001"
+    "INR",
+    "RGESN 1.4, 1.5"
    ]
   },
   {
@@ -1724,7 +2054,8 @@
    "scopes": [],
    "rgesn": "1.4, 1.5",
    "origin": [
-    "green-claude:ECO-STRAT-01"
+    "INR",
+    "RGESN 1.4, 1.5"
    ]
   },
   {
@@ -1739,7 +2070,8 @@
    "scopes": [],
    "rgesn": "1.8, 1.9",
    "origin": [
-    "green-claude:ECO-STRAT-01"
+    "INR",
+    "RGESN 1.8, 1.9"
    ]
   },
   {
@@ -1758,7 +2090,8 @@
    ],
    "rgesn": "1.x",
    "origin": [
-    "green-claude:ECO-STRAT-03"
+    "INR",
+    "RGESN 1.x"
    ]
   },
   {
@@ -1774,7 +2107,8 @@
    "scopes": [],
    "rgesn": "1.4, 1.5",
    "origin": [
-    "green-claude:ECO-STRAT-08"
+    "INR",
+    "RGESN 1.4, 1.5"
    ]
   },
   {
@@ -1790,7 +2124,41 @@
    "scopes": [],
    "rgesn": "1.4, 1.5",
    "origin": [
-    "green-claude:ECO-STRAT-09"
+    "INR",
+    "RGESN 1.4, 1.5"
+   ]
+  },
+  {
+   "id": "NR-STRAT-007",
+   "title": "An owner and a trained team",
+   "family": "strategy",
+   "priority": "medium",
+   "applies": [
+    "strategy"
+   ],
+   "automation": "none",
+   "scopes": [],
+   "rgesn": "1.x",
+   "origin": [
+    "INR",
+    "RGESN 1.x"
+   ]
+  },
+  {
+   "id": "NR-STRAT-008",
+   "title": "Accountable evidence, no self-certification",
+   "family": "strategy",
+   "priority": "high",
+   "applies": [
+    "strategy",
+    "measure"
+   ],
+   "automation": "none",
+   "scopes": [],
+   "rgesn": "1.x",
+   "origin": [
+    "INR",
+    "RGESN 1.x"
    ]
   },
   {
@@ -1808,8 +2176,9 @@
    ],
    "rgesn": "4.8",
    "origin": [
-    "green-claude:ECO-UX-08",
-    "green-codex criteria: RGAA"
+    "INR",
+    "RGESN 4.8",
+    "RGAA"
    ]
   },
   {
@@ -1826,7 +2195,8 @@
    "scopes": [],
    "rgesn": "4.6, 4.7",
    "origin": [
-    "green-claude:ECO-UX-06"
+    "INR",
+    "RGESN 4.6, 4.7"
    ]
   },
   {
@@ -1842,7 +2212,8 @@
    "scopes": [],
    "rgesn": "4.5",
    "origin": [
-    "green-claude:ECO-UX-03"
+    "INR",
+    "RGESN 4.5"
    ]
   },
   {
@@ -1861,7 +2232,8 @@
    ],
    "rgesn": "4.x",
    "origin": [
-    "green-claude:ECO-UX-07"
+    "INR",
+    "RGESN 4.x"
    ]
   },
   {
@@ -1877,7 +2249,7 @@
    "scopes": [],
    "rgesn": "4.3",
    "origin": [
-    "green-claude:ECO-UX-06",
+    "INR",
     "RGESN 4.3"
    ]
   },
@@ -1895,8 +2267,10 @@
    "scopes": [],
    "rgesn": "4.4",
    "origin": [
+    "INR",
+    "RGESN 4.4",
     "RGESN 4.4, Opquast",
-    "green-codex criteria: Opquast"
+    "Opquast"
    ]
   },
   {
@@ -1917,8 +2291,626 @@
    ],
    "rgesn": "4.4",
    "origin": [
-    "green-claude:ECO-UX-04",
-    "green-codex:WEB-EFF-002"
+    "INR",
+    "RGESN 4.4"
+   ]
+  },
+  {
+   "id": "NR-UX-008",
+   "title": "Show users the impact of their choices",
+   "family": "ux",
+   "priority": "medium",
+   "applies": [
+    "ux",
+    "service"
+   ],
+   "automation": "none",
+   "scopes": [],
+   "rgesn": "2.x",
+   "origin": [
+    "INR",
+    "RGESN 2.x"
+   ]
+  },
+  {
+   "id": "NR-UX-009",
+   "title": "Captions and transcripts for media",
+   "family": "ux",
+   "priority": "high",
+   "applies": [
+    "ux",
+    "content",
+    "html"
+   ],
+   "automation": "partial",
+   "scopes": [
+    "html",
+    "jsx",
+    "svelte",
+    "tsx",
+    "vue"
+   ],
+   "rgesn": "4.8",
+   "origin": [
+    "INR",
+    "RGESN 4.8",
+    "RGAA 4.1 theme 4 (multimedia)",
+    "WCAG 2.2 SC 1.2.2, 1.2.3"
+   ]
+  },
+  {
+   "id": "NR-UX-010",
+   "title": "Never block zoom",
+   "family": "ux",
+   "priority": "high",
+   "applies": [
+    "ux",
+    "html",
+    "frontend"
+   ],
+   "automation": "full",
+   "scopes": [
+    "html",
+    "jsx",
+    "svelte",
+    "tsx",
+    "vue"
+   ],
+   "rgesn": "4.8",
+   "origin": [
+    "INR",
+    "RGESN 4.8",
+    "RGAA 4.1 criteria 10.4, 10.11",
+    "WCAG 2.2 SC 1.4.4, 1.4.10"
+   ]
+  },
+  {
+   "id": "NR-UX-011",
+   "title": "Visible keyboard focus",
+   "family": "ux",
+   "priority": "high",
+   "applies": [
+    "ux",
+    "css",
+    "frontend"
+   ],
+   "automation": "partial",
+   "scopes": [
+    "astro",
+    "css",
+    "html",
+    "scss",
+    "svelte",
+    "vue"
+   ],
+   "rgesn": "4.8",
+   "origin": [
+    "INR",
+    "RGESN 4.8",
+    "RGAA 4.1 criterion 10.7",
+    "WCAG 2.2 SC 2.4.7"
+   ]
+  },
+  {
+   "id": "NR-UX-012",
+   "title": "Plain language",
+   "family": "ux",
+   "priority": "medium",
+   "applies": [
+    "ux",
+    "content"
+   ],
+   "automation": "none",
+   "scopes": [],
+   "rgesn": "2.x",
+   "origin": [
+    "INR",
+    "RGESN 2.x",
+    "WCAG 2.2 SC 3.1.5",
+    "FALC (facile à lire et à comprendre)"
+   ]
+  },
+  {
+   "id": "NR-LANG-NG-001",
+   "title": "OnPush or signals for change detection",
+   "family": "lang-angular",
+   "priority": "medium",
+   "applies": [
+    "ts",
+    "frontend"
+   ],
+   "automation": "partial",
+   "scopes": [
+    "ts"
+   ],
+   "rgesn": "6.x",
+   "origin": [
+    "INR",
+    "RGESN 6.x"
+   ]
+  },
+  {
+   "id": "NR-LANG-NG-002",
+   "title": "No method calls in templates",
+   "family": "lang-angular",
+   "priority": "medium",
+   "applies": [
+    "ts",
+    "html",
+    "frontend"
+   ],
+   "automation": "partial",
+   "scopes": [
+    "html"
+   ],
+   "rgesn": "6.x",
+   "origin": [
+    "INR",
+    "RGESN 6.x"
+   ]
+  },
+  {
+   "id": "NR-LANG-NG-003",
+   "title": "Tear down subscriptions",
+   "family": "lang-angular",
+   "priority": "high",
+   "applies": [
+    "ts",
+    "frontend"
+   ],
+   "automation": "partial",
+   "scopes": [
+    "ts"
+   ],
+   "rgesn": "6.x",
+   "origin": [
+    "INR",
+    "RGESN 6.x"
+   ]
+  },
+  {
+   "id": "NR-LANG-NG-004",
+   "title": "Lazy routes, lean production bundle",
+   "family": "lang-angular",
+   "priority": "medium",
+   "applies": [
+    "ts",
+    "frontend"
+   ],
+   "automation": "none",
+   "scopes": [],
+   "rgesn": "6.x",
+   "origin": [
+    "INR",
+    "RGESN 6.x"
+   ]
+  },
+  {
+   "id": "NR-LANG-ASTRO-001",
+   "title": "Static by default, smallest client directive",
+   "family": "lang-astro",
+   "priority": "high",
+   "applies": [
+    "astro",
+    "frontend"
+   ],
+   "automation": "partial",
+   "scopes": [
+    "astro"
+   ],
+   "rgesn": "6.x",
+   "origin": [
+    "INR",
+    "RGESN 6.x"
+   ]
+  },
+  {
+   "id": "NR-LANG-ASTRO-002",
+   "title": "Images through the build pipeline, accessible fallbacks",
+   "family": "lang-astro",
+   "priority": "medium",
+   "applies": [
+    "astro",
+    "content"
+   ],
+   "automation": "partial",
+   "scopes": [
+    "astro"
+   ],
+   "rgesn": "5.x",
+   "origin": [
+    "INR",
+    "RGESN 5.x"
+   ]
+  },
+  {
+   "id": "NR-LANG-C-001",
+   "title": "Release every allocation on every path",
+   "family": "lang-c",
+   "priority": "high",
+   "applies": [
+    "c"
+   ],
+   "automation": "partial",
+   "scopes": [
+    "c",
+    "cpp"
+   ],
+   "rgesn": "9.2",
+   "origin": [
+    "INR",
+    "RGESN 9.2"
+   ]
+  },
+  {
+   "id": "NR-LANG-C-002",
+   "title": "Hoist strlen, avoid repeated strcat",
+   "family": "lang-c",
+   "priority": "high",
+   "applies": [
+    "c"
+   ],
+   "automation": "partial",
+   "scopes": [
+    "c",
+    "cpp"
+   ],
+   "rgesn": "9.1",
+   "origin": [
+    "INR",
+    "RGESN 9.1"
+   ]
+  },
+  {
+   "id": "NR-LANG-C-003",
+   "title": "Buffered I/O, blocking waits",
+   "family": "lang-c",
+   "priority": "high",
+   "applies": [
+    "c",
+    "cpp"
+   ],
+   "automation": "partial",
+   "scopes": [
+    "c",
+    "cpp"
+   ],
+   "rgesn": "9.1",
+   "origin": [
+    "INR",
+    "RGESN 9.1"
+   ]
+  },
+  {
+   "id": "NR-LANG-C-004",
+   "title": "Standard optimisation, warnings kept",
+   "family": "lang-c",
+   "priority": "medium",
+   "applies": [
+    "c",
+    "cpp"
+   ],
+   "automation": "none",
+   "scopes": [],
+   "rgesn": "9.1",
+   "origin": [
+    "INR",
+    "RGESN 9.1"
+   ]
+  },
+  {
+   "id": "NR-LANG-CPP-001",
+   "title": "Pass by reference or view",
+   "family": "lang-cpp",
+   "priority": "medium",
+   "applies": [
+    "cpp"
+   ],
+   "automation": "partial",
+   "scopes": [
+    "cpp"
+   ],
+   "rgesn": "9.1",
+   "origin": [
+    "INR",
+    "RGESN 9.1"
+   ]
+  },
+  {
+   "id": "NR-LANG-CPP-002",
+   "title": "Reserve from known bounds, find with hashes",
+   "family": "lang-cpp",
+   "priority": "low",
+   "applies": [
+    "cpp"
+   ],
+   "automation": "partial",
+   "scopes": [
+    "cpp"
+   ],
+   "rgesn": "9.1",
+   "origin": [
+    "INR",
+    "RGESN 9.1"
+   ]
+  },
+  {
+   "id": "NR-LANG-CPP-003",
+   "title": "unique_ptr by default, RAII throughout",
+   "family": "lang-cpp",
+   "priority": "low",
+   "applies": [
+    "cpp"
+   ],
+   "automation": "partial",
+   "scopes": [
+    "cpp"
+   ],
+   "rgesn": "9.1",
+   "origin": [
+    "INR",
+    "RGESN 9.1"
+   ]
+  },
+  {
+   "id": "NR-LANG-CPP-004",
+   "title": "Stream large files, bound threads",
+   "family": "lang-cpp",
+   "priority": "medium",
+   "applies": [
+    "cpp"
+   ],
+   "automation": "partial",
+   "scopes": [
+    "cpp"
+   ],
+   "rgesn": "9.2",
+   "origin": [
+    "INR",
+    "RGESN 9.2"
+   ]
+  },
+  {
+   "id": "NR-LANG-CS-001",
+   "title": "Query on IQueryable, materialise last",
+   "family": "lang-csharp",
+   "priority": "high",
+   "applies": [
+    "cs",
+    "data"
+   ],
+   "automation": "partial",
+   "scopes": [
+    "cs"
+   ],
+   "rgesn": "7.1",
+   "origin": [
+    "INR",
+    "RGESN 7.1"
+   ]
+  },
+  {
+   "id": "NR-LANG-CS-002",
+   "title": "Read-only queries untracked and projected",
+   "family": "lang-csharp",
+   "priority": "medium",
+   "applies": [
+    "cs",
+    "data"
+   ],
+   "automation": "partial",
+   "scopes": [
+    "cs"
+   ],
+   "rgesn": "7.1",
+   "origin": [
+    "INR",
+    "RGESN 7.1"
+   ]
+  },
+  {
+   "id": "NR-LANG-CS-003",
+   "title": "Any() for existence",
+   "family": "lang-csharp",
+   "priority": "low",
+   "applies": [
+    "cs"
+   ],
+   "automation": "partial",
+   "scopes": [
+    "cs"
+   ],
+   "rgesn": "9.1",
+   "origin": [
+    "INR",
+    "RGESN 9.1"
+   ]
+  },
+  {
+   "id": "NR-LANG-CS-004",
+   "title": "async all the way",
+   "family": "lang-csharp",
+   "priority": "high",
+   "applies": [
+    "cs",
+    "backend"
+   ],
+   "automation": "partial",
+   "scopes": [
+    "cs"
+   ],
+   "rgesn": "9.1",
+   "origin": [
+    "INR",
+    "RGESN 9.1"
+   ]
+  },
+  {
+   "id": "NR-LANG-CS-005",
+   "title": "IHttpClientFactory, not new HttpClient",
+   "family": "lang-csharp",
+   "priority": "medium",
+   "applies": [
+    "cs",
+    "backend"
+   ],
+   "automation": "partial",
+   "scopes": [
+    "cs"
+   ],
+   "rgesn": "7.2",
+   "origin": [
+    "INR",
+    "RGESN 7.2"
+   ]
+  },
+  {
+   "id": "NR-LANG-CS-006",
+   "title": "Background services driven by events",
+   "family": "lang-csharp",
+   "priority": "medium",
+   "applies": [
+    "cs",
+    "backend"
+   ],
+   "automation": "partial",
+   "scopes": [
+    "cs"
+   ],
+   "rgesn": "7.2",
+   "origin": [
+    "INR",
+    "RGESN 7.2"
+   ]
+  },
+  {
+   "id": "NR-LANG-CS-007",
+   "title": "Bounded caches, cheap strings and logs",
+   "family": "lang-csharp",
+   "priority": "medium",
+   "applies": [
+    "cs",
+    "backend"
+   ],
+   "automation": "partial",
+   "scopes": [
+    "cs"
+   ],
+   "rgesn": "7.3",
+   "origin": [
+    "INR",
+    "RGESN 7.3"
+   ]
+  },
+  {
+   "id": "NR-LANG-GO-001",
+   "title": "Every goroutine has a way to end",
+   "family": "lang-go",
+   "priority": "high",
+   "applies": [
+    "go",
+    "backend"
+   ],
+   "automation": "partial",
+   "scopes": [
+    "go"
+   ],
+   "rgesn": "9.1",
+   "origin": [
+    "INR",
+    "RGESN 9.1"
+   ]
+  },
+  {
+   "id": "NR-LANG-GO-002",
+   "title": "Events, not sleep loops",
+   "family": "lang-go",
+   "priority": "medium",
+   "applies": [
+    "go",
+    "backend"
+   ],
+   "automation": "partial",
+   "scopes": [
+    "go"
+   ],
+   "rgesn": "7.x",
+   "origin": [
+    "INR",
+    "RGESN 7.x"
+   ]
+  },
+  {
+   "id": "NR-LANG-GO-003",
+   "title": "Close every response body",
+   "family": "lang-go",
+   "priority": "high",
+   "applies": [
+    "go",
+    "backend"
+   ],
+   "automation": "partial",
+   "scopes": [
+    "go"
+   ],
+   "rgesn": "7.2",
+   "origin": [
+    "INR",
+    "RGESN 7.2"
+   ]
+  },
+  {
+   "id": "NR-LANG-GO-004",
+   "title": "Stream bodies, bound reads",
+   "family": "lang-go",
+   "priority": "medium",
+   "applies": [
+    "go",
+    "backend"
+   ],
+   "automation": "partial",
+   "scopes": [
+    "go"
+   ],
+   "rgesn": "9.1",
+   "origin": [
+    "INR",
+    "RGESN 9.1"
+   ]
+  },
+  {
+   "id": "NR-LANG-GO-005",
+   "title": "One shared HTTP client with timeouts",
+   "family": "lang-go",
+   "priority": "medium",
+   "applies": [
+    "go",
+    "backend"
+   ],
+   "automation": "partial",
+   "scopes": [
+    "go"
+   ],
+   "rgesn": "7.2",
+   "origin": [
+    "INR",
+    "RGESN 7.2"
+   ]
+  },
+  {
+   "id": "NR-LANG-GO-006",
+   "title": "Profile before tuning",
+   "family": "lang-go",
+   "priority": "medium",
+   "applies": [
+    "go"
+   ],
+   "automation": "none",
+   "scopes": [],
+   "rgesn": "9.1",
+   "origin": [
+    "INR",
+    "RGESN 9.1"
    ]
   },
   {
@@ -1936,8 +2928,7 @@
    ],
    "rgesn": null,
    "origin": [
-    "green-codex:LANG-HTML-001",
-    "green-claude:ECO-UX-03",
+    "INR",
     "NR-UX-001"
    ]
   },
@@ -1956,8 +2947,7 @@
    ],
    "rgesn": null,
    "origin": [
-    "green-claude:ECO-CONT-01",
-    "green-codex:LANG-HTML-002"
+    "INR"
    ]
   },
   {
@@ -1975,7 +2965,8 @@
    ],
    "rgesn": null,
    "origin": [
-    "green-codex criteria: Opquast/RGAA",
+    "INR",
+    "Opquast/RGAA",
     "NR-UX-006"
    ]
   },
@@ -1994,8 +2985,7 @@
    ],
    "rgesn": null,
    "origin": [
-    "green-codex:LANG-CSS-001",
-    "green-claude:ECO-FRONT-12"
+    "INR"
    ]
   },
   {
@@ -2014,8 +3004,70 @@
    ],
    "rgesn": null,
    "origin": [
-    "green-claude:ECO-UX-05",
+    "INR",
     "NR-CONTENT-004"
+   ]
+  },
+  {
+   "id": "NR-LANG-HTML-004",
+   "title": "Declare the page language, work without optional JavaScript",
+   "family": "lang-html-css",
+   "priority": "high",
+   "applies": [
+    "html",
+    "ux",
+    "frontend"
+   ],
+   "automation": "full",
+   "scopes": [
+    "html"
+   ],
+   "rgesn": "4.8",
+   "origin": [
+    "INR",
+    "RGESN 4.8"
+   ]
+  },
+  {
+   "id": "NR-LANG-CSS-003",
+   "title": "Cheap animations, honoured preferences",
+   "family": "lang-html-css",
+   "priority": "medium",
+   "applies": [
+    "css",
+    "ux",
+    "frontend"
+   ],
+   "automation": "partial",
+   "scopes": [
+    "astro",
+    "css",
+    "html",
+    "scss",
+    "svelte",
+    "vue"
+   ],
+   "rgesn": "6.x",
+   "origin": [
+    "INR",
+    "RGESN 6.x"
+   ]
+  },
+  {
+   "id": "NR-LANG-CSS-004",
+   "title": "Media and container queries before layout scripts",
+   "family": "lang-html-css",
+   "priority": "low",
+   "applies": [
+    "css",
+    "frontend"
+   ],
+   "automation": "none",
+   "scopes": [],
+   "rgesn": "6.x",
+   "origin": [
+    "INR",
+    "RGESN 6.x"
    ]
   },
   {
@@ -2032,8 +3084,7 @@
    ],
    "rgesn": null,
    "origin": [
-    "green-claude:java.json",
-    "green-codex:LANG-JAVA-001"
+    "INR"
    ]
   },
   {
@@ -2050,8 +3101,7 @@
    ],
    "rgesn": null,
    "origin": [
-    "green-claude:java.json",
-    "green-codex:DB-EFF-006"
+    "INR"
    ]
   },
   {
@@ -2068,8 +3118,7 @@
    ],
    "rgesn": null,
    "origin": [
-    "green-claude:java.json",
-    "green-codex:DB-EFF-002"
+    "INR"
    ]
   },
   {
@@ -2088,8 +3137,7 @@
    ],
    "rgesn": null,
    "origin": [
-    "green-codex:INFRA-EFF-004",
-    "green-claude:java.json"
+    "INR"
    ]
   },
   {
@@ -2106,8 +3154,82 @@
    ],
    "rgesn": null,
    "origin": [
-    "green-claude:java.json",
-    "green-codex:LANG-JAVA-003"
+    "INR"
+   ]
+  },
+  {
+   "id": "NR-LANG-JAVA-006",
+   "title": "Batch writes in bounded transactions",
+   "family": "lang-java",
+   "priority": "medium",
+   "applies": [
+    "java",
+    "data"
+   ],
+   "automation": "partial",
+   "scopes": [
+    "java"
+   ],
+   "rgesn": "7.1",
+   "origin": [
+    "INR",
+    "RGESN 7.1"
+   ]
+  },
+  {
+   "id": "NR-LANG-JAVA-007",
+   "title": "StringBuilder in loops, parameterised logs",
+   "family": "lang-java",
+   "priority": "low",
+   "applies": [
+    "java"
+   ],
+   "automation": "partial",
+   "scopes": [
+    "java"
+   ],
+   "rgesn": "9.1",
+   "origin": [
+    "INR",
+    "RGESN 9.1"
+   ]
+  },
+  {
+   "id": "NR-LANG-JAVA-008",
+   "title": "Bounded caches, not static maps",
+   "family": "lang-java",
+   "priority": "medium",
+   "applies": [
+    "java",
+    "backend"
+   ],
+   "automation": "partial",
+   "scopes": [
+    "java"
+   ],
+   "rgesn": "7.3",
+   "origin": [
+    "INR",
+    "RGESN 7.3"
+   ]
+  },
+  {
+   "id": "NR-LANG-JAVA-009",
+   "title": "Scheduled tasks justified, not polling",
+   "family": "lang-java",
+   "priority": "medium",
+   "applies": [
+    "java",
+    "backend"
+   ],
+   "automation": "partial",
+   "scopes": [
+    "java"
+   ],
+   "rgesn": "7.2",
+   "origin": [
+    "INR",
+    "RGESN 7.2"
    ]
   },
   {
@@ -2128,8 +3250,7 @@
    ],
    "rgesn": null,
    "origin": [
-    "green-claude:javascript.json",
-    "green-codex:LANG-JS-001"
+    "INR"
    ]
   },
   {
@@ -2150,8 +3271,7 @@
    ],
    "rgesn": null,
    "origin": [
-    "green-claude:javascript.json",
-    "green-codex:CODE-EFF-008"
+    "INR"
    ]
   },
   {
@@ -2172,8 +3292,7 @@
    ],
    "rgesn": null,
    "origin": [
-    "green-claude:javascript.json",
-    "green-codex:CODE-EFF-006"
+    "INR"
    ]
   },
   {
@@ -2192,8 +3311,7 @@
    ],
    "rgesn": null,
    "origin": [
-    "green-claude:javascript.json",
-    "green-codex:API-EFF-001"
+    "INR"
    ]
   },
   {
@@ -2210,7 +3328,7 @@
    "scopes": [],
    "rgesn": null,
    "origin": [
-    "green-claude:javascript.json"
+    "INR"
    ]
   },
   {
@@ -2229,8 +3347,377 @@
    ],
    "rgesn": null,
    "origin": [
-    "green-codex:CODE-EFF-010",
-    "green-claude:javascript.json"
+    "INR"
+   ]
+  },
+  {
+   "id": "NR-LANG-JS-007",
+   "title": "Maps and Sets for lookups in loops",
+   "family": "lang-javascript",
+   "priority": "medium",
+   "applies": [
+    "js",
+    "ts",
+    "jsx",
+    "tsx"
+   ],
+   "automation": "partial",
+   "scopes": [
+    "js",
+    "jsx",
+    "ts",
+    "tsx"
+   ],
+   "rgesn": "9.1",
+   "origin": [
+    "INR",
+    "RGESN 9.1"
+   ]
+  },
+  {
+   "id": "NR-LANG-JS-008",
+   "title": "Reuse clients, abort what is no longer needed",
+   "family": "lang-javascript",
+   "priority": "medium",
+   "applies": [
+    "js",
+    "ts",
+    "jsx",
+    "tsx",
+    "frontend",
+    "backend"
+   ],
+   "automation": "partial",
+   "scopes": [
+    "js",
+    "jsx",
+    "ts",
+    "tsx"
+   ],
+   "rgesn": "7.2",
+   "origin": [
+    "INR",
+    "RGESN 7.2"
+   ]
+  },
+  {
+   "id": "NR-LANG-JS-009",
+   "title": "Pause polling when nobody looks",
+   "family": "lang-javascript",
+   "priority": "medium",
+   "applies": [
+    "js",
+    "ts",
+    "jsx",
+    "tsx",
+    "frontend"
+   ],
+   "automation": "partial",
+   "scopes": [
+    "js",
+    "jsx",
+    "ts",
+    "tsx"
+   ],
+   "rgesn": "6.3",
+   "origin": [
+    "INR",
+    "RGESN 6.3"
+   ]
+  },
+  {
+   "id": "NR-LANG-JS-010",
+   "title": "No implicit globals",
+   "family": "lang-javascript",
+   "priority": "low",
+   "applies": [
+    "js",
+    "ts",
+    "jsx",
+    "tsx"
+   ],
+   "automation": "none",
+   "scopes": [],
+   "rgesn": "6.x",
+   "origin": [
+    "INR",
+    "RGESN 6.x"
+   ]
+  },
+  {
+   "id": "NR-LANG-JL-001",
+   "title": "Type-stable hot functions",
+   "family": "lang-julia",
+   "priority": "medium",
+   "applies": [
+    "jl"
+   ],
+   "automation": "partial",
+   "scopes": [
+    "jl"
+   ],
+   "rgesn": "9.1",
+   "origin": [
+    "INR",
+    "RGESN 9.1"
+   ]
+  },
+  {
+   "id": "NR-LANG-JL-002",
+   "title": "Preallocate and reuse buffers",
+   "family": "lang-julia",
+   "priority": "low",
+   "applies": [
+    "jl"
+   ],
+   "automation": "partial",
+   "scopes": [
+    "jl"
+   ],
+   "rgesn": "9.1",
+   "origin": [
+    "INR",
+    "RGESN 9.1"
+   ]
+  },
+  {
+   "id": "NR-LANG-JL-003",
+   "title": "Bounded threads, measured after warm-up",
+   "family": "lang-julia",
+   "priority": "medium",
+   "applies": [
+    "jl"
+   ],
+   "automation": "partial",
+   "scopes": [
+    "jl"
+   ],
+   "rgesn": "9.1",
+   "origin": [
+    "INR",
+    "RGESN 9.1"
+   ]
+  },
+  {
+   "id": "NR-LANG-KT-001",
+   "title": "Coroutines live in a scope",
+   "family": "lang-kotlin",
+   "priority": "high",
+   "applies": [
+    "kt"
+   ],
+   "automation": "full",
+   "scopes": [
+    "kt"
+   ],
+   "rgesn": "9.1",
+   "origin": [
+    "INR",
+    "RGESN 9.1"
+   ]
+  },
+  {
+   "id": "NR-LANG-KT-002",
+   "title": "No blocking inside coroutines",
+   "family": "lang-kotlin",
+   "priority": "high",
+   "applies": [
+    "kt"
+   ],
+   "automation": "partial",
+   "scopes": [
+    "kt"
+   ],
+   "rgesn": "9.1",
+   "origin": [
+    "INR",
+    "RGESN 9.1"
+   ]
+  },
+  {
+   "id": "NR-LANG-KT-003",
+   "title": "Bounded channels",
+   "family": "lang-kotlin",
+   "priority": "medium",
+   "applies": [
+    "kt"
+   ],
+   "automation": "full",
+   "scopes": [
+    "kt"
+   ],
+   "rgesn": "9.1",
+   "origin": [
+    "INR",
+    "RGESN 9.1"
+   ]
+  },
+  {
+   "id": "NR-LANG-KT-004",
+   "title": "Sequences for long chains, sets for lookups",
+   "family": "lang-kotlin",
+   "priority": "medium",
+   "applies": [
+    "kt"
+   ],
+   "automation": "partial",
+   "scopes": [
+    "kt"
+   ],
+   "rgesn": "9.1",
+   "origin": [
+    "INR",
+    "RGESN 9.1"
+   ]
+  },
+  {
+   "id": "NR-LANG-NIM-001",
+   "title": "Borrow sequences, bound generated code",
+   "family": "lang-nim",
+   "priority": "low",
+   "applies": [
+    "nim"
+   ],
+   "automation": "partial",
+   "scopes": [
+    "nim"
+   ],
+   "rgesn": "9.1",
+   "origin": [
+    "INR",
+    "RGESN 9.1"
+   ]
+  },
+  {
+   "id": "NR-LANG-NIM-002",
+   "title": "Deterministic cleanup, chosen memory strategy",
+   "family": "lang-nim",
+   "priority": "medium",
+   "applies": [
+    "nim"
+   ],
+   "automation": "partial",
+   "scopes": [
+    "nim"
+   ],
+   "rgesn": "9.1",
+   "origin": [
+    "INR",
+    "RGESN 9.1"
+   ]
+  },
+  {
+   "id": "NR-LANG-PHP-001",
+   "title": "Bounded collections, batched walks",
+   "family": "lang-php",
+   "priority": "high",
+   "applies": [
+    "php",
+    "backend",
+    "data"
+   ],
+   "automation": "partial",
+   "scopes": [
+    "php"
+   ],
+   "rgesn": "7.1",
+   "origin": [
+    "INR",
+    "RGESN 7.1"
+   ]
+  },
+  {
+   "id": "NR-LANG-PHP-002",
+   "title": "Eager-load what you walk",
+   "family": "lang-php",
+   "priority": "high",
+   "applies": [
+    "php",
+    "backend",
+    "data"
+   ],
+   "automation": "partial",
+   "scopes": [
+    "php"
+   ],
+   "rgesn": "7.1",
+   "origin": [
+    "INR",
+    "RGESN 7.1"
+   ]
+  },
+  {
+   "id": "NR-LANG-PHP-003",
+   "title": "Bulk writes, existence tests",
+   "family": "lang-php",
+   "priority": "medium",
+   "applies": [
+    "php",
+    "data"
+   ],
+   "automation": "partial",
+   "scopes": [
+    "php"
+   ],
+   "rgesn": "7.1",
+   "origin": [
+    "INR",
+    "RGESN 7.1"
+   ]
+  },
+  {
+   "id": "NR-LANG-PHP-004",
+   "title": "Stream files and exports",
+   "family": "lang-php",
+   "priority": "medium",
+   "applies": [
+    "php"
+   ],
+   "automation": "partial",
+   "scopes": [
+    "php"
+   ],
+   "rgesn": "9.2",
+   "origin": [
+    "INR",
+    "RGESN 9.2"
+   ]
+  },
+  {
+   "id": "NR-LANG-PHP-005",
+   "title": "Index lookups instead of linear search",
+   "family": "lang-php",
+   "priority": "medium",
+   "applies": [
+    "php"
+   ],
+   "automation": "partial",
+   "scopes": [
+    "php"
+   ],
+   "rgesn": "9.1",
+   "origin": [
+    "INR",
+    "RGESN 9.1"
+   ]
+  },
+  {
+   "id": "NR-LANG-PHP-006",
+   "title": "Shared HTTP client, bounded caches",
+   "family": "lang-php",
+   "priority": "medium",
+   "applies": [
+    "php",
+    "backend"
+   ],
+   "automation": "partial",
+   "scopes": [
+    "php"
+   ],
+   "rgesn": "7.2",
+   "origin": [
+    "INR",
+    "RGESN 7.2"
    ]
   },
   {
@@ -2247,8 +3734,7 @@
    ],
    "rgesn": null,
    "origin": [
-    "green-codex:LANG-PYTHON-001",
-    "green-claude:python.json"
+    "INR"
    ]
   },
   {
@@ -2263,8 +3749,7 @@
    "scopes": [],
    "rgesn": null,
    "origin": [
-    "green-codex:LANG-PYTHON-002",
-    "green-codex:LANG-PYTHON-005"
+    "INR"
    ]
   },
   {
@@ -2281,8 +3766,7 @@
    ],
    "rgesn": null,
    "origin": [
-    "green-claude:python.json",
-    "green-codex:DB-EFF-002"
+    "INR"
    ]
   },
   {
@@ -2299,8 +3783,7 @@
    ],
    "rgesn": null,
    "origin": [
-    "green-codex:LANG-PYTHON-003",
-    "green-claude:python.json"
+    "INR"
    ]
   },
   {
@@ -2315,7 +3798,7 @@
    "scopes": [],
    "rgesn": null,
    "origin": [
-    "green-claude:python.json",
+    "INR",
     "NR-ARCH-008"
    ]
   },
@@ -2333,8 +3816,458 @@
    ],
    "rgesn": null,
    "origin": [
-    "green-codex:CODE-EFF-008",
-    "green-claude:python.json"
+    "INR"
+   ]
+  },
+  {
+   "id": "NR-LANG-PY-007",
+   "title": "Vectorise pandas instead of iterating rows",
+   "family": "lang-python",
+   "priority": "medium",
+   "applies": [
+    "py",
+    "data"
+   ],
+   "automation": "partial",
+   "scopes": [
+    "py"
+   ],
+   "rgesn": "9.1",
+   "origin": [
+    "INR",
+    "RGESN 9.1"
+   ]
+  },
+  {
+   "id": "NR-LANG-PY-008",
+   "title": "Sets for membership, join for strings",
+   "family": "lang-python",
+   "priority": "medium",
+   "applies": [
+    "py"
+   ],
+   "automation": "partial",
+   "scopes": [
+    "py"
+   ],
+   "rgesn": "9.1",
+   "origin": [
+    "INR",
+    "RGESN 9.1"
+   ]
+  },
+  {
+   "id": "NR-LANG-PY-009",
+   "title": "Reuse HTTP sessions, stream large bodies",
+   "family": "lang-python",
+   "priority": "medium",
+   "applies": [
+    "py",
+    "backend"
+   ],
+   "automation": "partial",
+   "scopes": [
+    "py"
+   ],
+   "rgesn": "7.2",
+   "origin": [
+    "INR",
+    "RGESN 7.2"
+   ]
+  },
+  {
+   "id": "NR-LANG-PY-010",
+   "title": "Bounded memoisation",
+   "family": "lang-python",
+   "priority": "medium",
+   "applies": [
+    "py",
+    "backend"
+   ],
+   "automation": "partial",
+   "scopes": [
+    "py"
+   ],
+   "rgesn": "7.3",
+   "origin": [
+    "INR",
+    "RGESN 7.3"
+   ]
+  },
+  {
+   "id": "NR-LANG-PY-011",
+   "title": "No sleep-and-poll loops",
+   "family": "lang-python",
+   "priority": "medium",
+   "applies": [
+    "py",
+    "backend"
+   ],
+   "automation": "partial",
+   "scopes": [
+    "py"
+   ],
+   "rgesn": "7.2",
+   "origin": [
+    "INR",
+    "RGESN 7.2"
+   ]
+  },
+  {
+   "id": "NR-LANG-REACT-001",
+   "title": "Effects declare dependencies and clean up",
+   "family": "lang-react",
+   "priority": "high",
+   "applies": [
+    "jsx",
+    "tsx",
+    "frontend"
+   ],
+   "automation": "partial",
+   "scopes": [
+    "jsx",
+    "tsx"
+   ],
+   "rgesn": "6.x",
+   "origin": [
+    "INR",
+    "RGESN 6.x"
+   ]
+  },
+  {
+   "id": "NR-LANG-REACT-002",
+   "title": "Virtualise or paginate long lists",
+   "family": "lang-react",
+   "priority": "high",
+   "applies": [
+    "jsx",
+    "tsx",
+    "frontend"
+   ],
+   "automation": "partial",
+   "scopes": [
+    "jsx",
+    "tsx"
+   ],
+   "rgesn": "6.x",
+   "origin": [
+    "INR",
+    "RGESN 6.x"
+   ]
+  },
+  {
+   "id": "NR-LANG-REACT-003",
+   "title": "Memoise what profiling proves hot",
+   "family": "lang-react",
+   "priority": "medium",
+   "applies": [
+    "jsx",
+    "tsx",
+    "frontend"
+   ],
+   "automation": "partial",
+   "scopes": [
+    "jsx",
+    "tsx"
+   ],
+   "rgesn": "6.x",
+   "origin": [
+    "INR",
+    "RGESN 6.x"
+   ]
+  },
+  {
+   "id": "NR-LANG-REACT-004",
+   "title": "Do not ship a client runtime for static content",
+   "family": "lang-react",
+   "priority": "high",
+   "applies": [
+    "jsx",
+    "tsx",
+    "frontend"
+   ],
+   "automation": "none",
+   "scopes": [],
+   "rgesn": "6.1",
+   "origin": [
+    "INR",
+    "RGESN 6.1"
+   ]
+  },
+  {
+   "id": "NR-LANG-REACT-005",
+   "title": "Evaluate a lighter runtime against a baseline",
+   "family": "lang-react",
+   "priority": "low",
+   "applies": [
+    "jsx",
+    "tsx",
+    "frontend"
+   ],
+   "automation": "none",
+   "scopes": [],
+   "rgesn": "6.1",
+   "origin": [
+    "INR",
+    "RGESN 6.1"
+   ]
+  },
+  {
+   "id": "NR-LANG-RB-001",
+   "title": "Batch the walk, paginate the list",
+   "family": "lang-ruby",
+   "priority": "high",
+   "applies": [
+    "rb",
+    "backend",
+    "data"
+   ],
+   "automation": "partial",
+   "scopes": [
+    "rb"
+   ],
+   "rgesn": "7.1",
+   "origin": [
+    "INR",
+    "RGESN 7.1"
+   ]
+  },
+  {
+   "id": "NR-LANG-RB-002",
+   "title": "Load columns, not objects; preload what you walk",
+   "family": "lang-ruby",
+   "priority": "medium",
+   "applies": [
+    "rb",
+    "data"
+   ],
+   "automation": "partial",
+   "scopes": [
+    "rb"
+   ],
+   "rgesn": "7.1",
+   "origin": [
+    "INR",
+    "RGESN 7.1"
+   ]
+  },
+  {
+   "id": "NR-LANG-RB-003",
+   "title": "Existence tests and bulk writes",
+   "family": "lang-ruby",
+   "priority": "low",
+   "applies": [
+    "rb",
+    "data"
+   ],
+   "automation": "partial",
+   "scopes": [
+    "rb"
+   ],
+   "rgesn": "9.1",
+   "origin": [
+    "INR",
+    "RGESN 9.1"
+   ]
+  },
+  {
+   "id": "NR-LANG-RB-004",
+   "title": "Sets and hashes for lookups, << for strings",
+   "family": "lang-ruby",
+   "priority": "medium",
+   "applies": [
+    "rb"
+   ],
+   "automation": "partial",
+   "scopes": [
+    "rb"
+   ],
+   "rgesn": "9.1",
+   "origin": [
+    "INR",
+    "RGESN 9.1"
+   ]
+  },
+  {
+   "id": "NR-LANG-RB-005",
+   "title": "Cache entries expire",
+   "family": "lang-ruby",
+   "priority": "medium",
+   "applies": [
+    "rb",
+    "backend"
+   ],
+   "automation": "partial",
+   "scopes": [
+    "rb"
+   ],
+   "rgesn": "7.3",
+   "origin": [
+    "INR",
+    "RGESN 7.3"
+   ]
+  },
+  {
+   "id": "NR-LANG-RB-006",
+   "title": "Jobs bounded and event-driven",
+   "family": "lang-ruby",
+   "priority": "medium",
+   "applies": [
+    "rb",
+    "backend"
+   ],
+   "automation": "none",
+   "scopes": [],
+   "rgesn": "7.2",
+   "origin": [
+    "INR",
+    "RGESN 7.2"
+   ]
+  },
+  {
+   "id": "NR-LANG-RS-001",
+   "title": "Borrow before you clone",
+   "family": "lang-rust",
+   "priority": "medium",
+   "applies": [
+    "rs"
+   ],
+   "automation": "partial",
+   "scopes": [
+    "rs"
+   ],
+   "rgesn": "9.1",
+   "origin": [
+    "INR",
+    "RGESN 9.1"
+   ]
+  },
+  {
+   "id": "NR-LANG-RS-002",
+   "title": "No intermediate collect()",
+   "family": "lang-rust",
+   "priority": "medium",
+   "applies": [
+    "rs"
+   ],
+   "automation": "partial",
+   "scopes": [
+    "rs"
+   ],
+   "rgesn": "9.1",
+   "origin": [
+    "INR",
+    "RGESN 9.1"
+   ]
+  },
+  {
+   "id": "NR-LANG-RS-003",
+   "title": "Never block the async executor",
+   "family": "lang-rust",
+   "priority": "high",
+   "applies": [
+    "rs",
+    "backend"
+   ],
+   "automation": "partial",
+   "scopes": [
+    "rs"
+   ],
+   "rgesn": "9.1",
+   "origin": [
+    "INR",
+    "RGESN 9.1"
+   ]
+  },
+  {
+   "id": "NR-LANG-RS-004",
+   "title": "Reuse network clients",
+   "family": "lang-rust",
+   "priority": "medium",
+   "applies": [
+    "rs",
+    "backend"
+   ],
+   "automation": "partial",
+   "scopes": [
+    "rs"
+   ],
+   "rgesn": "7.2",
+   "origin": [
+    "INR",
+    "RGESN 7.2"
+   ]
+  },
+  {
+   "id": "NR-LANG-RS-005",
+   "title": "Handle expected errors without panicking",
+   "family": "lang-rust",
+   "priority": "medium",
+   "applies": [
+    "rs",
+    "backend"
+   ],
+   "automation": "partial",
+   "scopes": [
+    "rs"
+   ],
+   "rgesn": "7.2",
+   "origin": [
+    "INR",
+    "RGESN 7.2"
+   ]
+  },
+  {
+   "id": "NR-LANG-RS-006",
+   "title": "Lean crate graph, release builds",
+   "family": "lang-rust",
+   "priority": "low",
+   "applies": [
+    "rs"
+   ],
+   "automation": "none",
+   "scopes": [],
+   "rgesn": "3.1",
+   "origin": [
+    "INR",
+    "RGESN 3.1"
+   ]
+  },
+  {
+   "id": "NR-LANG-SCALA-001",
+   "title": "Views and iterators for long chains",
+   "family": "lang-scala",
+   "priority": "medium",
+   "applies": [
+    "scala"
+   ],
+   "automation": "partial",
+   "scopes": [
+    "scala"
+   ],
+   "rgesn": "9.1",
+   "origin": [
+    "INR",
+    "RGESN 9.1"
+   ]
+  },
+  {
+   "id": "NR-LANG-SCALA-002",
+   "title": "Bounded parallelism, measured first",
+   "family": "lang-scala",
+   "priority": "high",
+   "applies": [
+    "scala",
+    "backend"
+   ],
+   "automation": "partial",
+   "scopes": [
+    "scala"
+   ],
+   "rgesn": "9.1",
+   "origin": [
+    "INR",
+    "RGESN 9.1"
    ]
   },
   {
@@ -2353,8 +4286,7 @@
    ],
    "rgesn": null,
    "origin": [
-    "green-codex:LANG-SHELL-001",
-    "green-claude:shell.json"
+    "INR"
    ]
   },
   {
@@ -2370,8 +4302,7 @@
    "scopes": [],
    "rgesn": null,
    "origin": [
-    "green-codex:LANG-SHELL-002",
-    "green-claude:shell.json"
+    "INR"
    ]
   },
   {
@@ -2390,8 +4321,7 @@
    ],
    "rgesn": null,
    "origin": [
-    "green-codex:LANG-SHELL-003",
-    "green-claude:shell.json"
+    "INR"
    ]
   },
   {
@@ -2410,8 +4340,68 @@
    ],
    "rgesn": null,
    "origin": [
-    "green-codex:LANG-SHELL-004",
-    "green-claude:shell.json"
+    "INR"
+   ]
+  },
+  {
+   "id": "NR-LANG-SH-005",
+   "title": "Bounded logs, streamed data",
+   "family": "lang-shell",
+   "priority": "low",
+   "applies": [
+    "sh",
+    "infra"
+   ],
+   "automation": "partial",
+   "scopes": [
+    "bash",
+    "sh"
+   ],
+   "rgesn": "8.x",
+   "origin": [
+    "INR",
+    "RGESN 8.x"
+   ]
+  },
+  {
+   "id": "NR-LANG-SOLID-001",
+   "title": "Narrow effects and keyed lists",
+   "family": "lang-solid",
+   "priority": "medium",
+   "applies": [
+    "jsx",
+    "tsx",
+    "frontend"
+   ],
+   "automation": "partial",
+   "scopes": [
+    "js",
+    "jsx",
+    "ts",
+    "tsx"
+   ],
+   "rgesn": "6.x",
+   "origin": [
+    "INR",
+    "RGESN 6.x"
+   ]
+  },
+  {
+   "id": "NR-LANG-SOLID-002",
+   "title": "Lazy routes, hydration budget",
+   "family": "lang-solid",
+   "priority": "medium",
+   "applies": [
+    "jsx",
+    "tsx",
+    "frontend"
+   ],
+   "automation": "none",
+   "scopes": [],
+   "rgesn": "6.x",
+   "origin": [
+    "INR",
+    "RGESN 6.x"
    ]
   },
   {
@@ -2428,9 +4418,7 @@
    ],
    "rgesn": null,
    "origin": [
-    "green-claude:sql.json",
-    "green-codex:DB-EFF-001",
-    "green-codex:LANG-SQL-001"
+    "INR"
    ]
   },
   {
@@ -2447,8 +4435,7 @@
    ],
    "rgesn": null,
    "origin": [
-    "green-claude:sql.json",
-    "green-codex:LANG-SQL-002"
+    "INR"
    ]
   },
   {
@@ -2465,8 +4452,7 @@
    ],
    "rgesn": null,
    "origin": [
-    "green-claude:sql.json",
-    "green-codex:DB-EFF-004"
+    "INR"
    ]
   },
   {
@@ -2483,7 +4469,7 @@
    ],
    "rgesn": null,
    "origin": [
-    "green-claude:sql.json"
+    "INR"
    ]
   },
   {
@@ -2499,8 +4485,343 @@
    "scopes": [],
    "rgesn": null,
    "origin": [
-    "green-claude:sql.json",
-    "green-codex:CODE-EFF-002"
+    "INR"
+   ]
+  },
+  {
+   "id": "NR-LANG-SQL-006",
+   "title": "Keyset pagination instead of deep OFFSET",
+   "family": "lang-sql",
+   "priority": "medium",
+   "applies": [
+    "sql",
+    "data"
+   ],
+   "automation": "partial",
+   "scopes": [
+    "sql"
+   ],
+   "rgesn": "7.1",
+   "origin": [
+    "INR",
+    "RGESN 7.1"
+   ]
+  },
+  {
+   "id": "NR-LANG-SQL-007",
+   "title": "No DISTINCT to hide a bad join",
+   "family": "lang-sql",
+   "priority": "low",
+   "applies": [
+    "sql",
+    "data"
+   ],
+   "automation": "partial",
+   "scopes": [
+    "sql"
+   ],
+   "rgesn": "9.1",
+   "origin": [
+    "INR",
+    "RGESN 9.1"
+   ]
+  },
+  {
+   "id": "NR-LANG-SQL-008",
+   "title": "Commit and purge in bounded batches",
+   "family": "lang-sql",
+   "priority": "medium",
+   "applies": [
+    "sql",
+    "data"
+   ],
+   "automation": "partial",
+   "scopes": [
+    "sql"
+   ],
+   "rgesn": "7.1",
+   "origin": [
+    "INR",
+    "RGESN 7.1"
+   ]
+  },
+  {
+   "id": "NR-LANG-SQL-009",
+   "title": "Types sized to the data",
+   "family": "lang-sql",
+   "priority": "low",
+   "applies": [
+    "sql",
+    "data"
+   ],
+   "automation": "partial",
+   "scopes": [
+    "sql"
+   ],
+   "rgesn": "7.3",
+   "origin": [
+    "INR",
+    "RGESN 7.3"
+   ]
+  },
+  {
+   "id": "NR-LANG-SQL-010",
+   "title": "No row-by-row logging in production code",
+   "family": "lang-sql",
+   "priority": "low",
+   "applies": [
+    "sql"
+   ],
+   "automation": "partial",
+   "scopes": [
+    "sql"
+   ],
+   "rgesn": "7.3",
+   "origin": [
+    "INR",
+    "RGESN 7.3"
+   ]
+  },
+  {
+   "id": "NR-LANG-SVELTE-001",
+   "title": "Narrow reactive statements",
+   "family": "lang-svelte",
+   "priority": "medium",
+   "applies": [
+    "svelte",
+    "frontend"
+   ],
+   "automation": "partial",
+   "scopes": [
+    "svelte"
+   ],
+   "rgesn": "6.x",
+   "origin": [
+    "INR",
+    "RGESN 6.x"
+   ]
+  },
+  {
+   "id": "NR-LANG-SVELTE-002",
+   "title": "Tear down manual subscriptions",
+   "family": "lang-svelte",
+   "priority": "medium",
+   "applies": [
+    "svelte",
+    "frontend"
+   ],
+   "automation": "partial",
+   "scopes": [
+    "svelte"
+   ],
+   "rgesn": "6.x",
+   "origin": [
+    "INR",
+    "RGESN 6.x"
+   ]
+  },
+  {
+   "id": "NR-LANG-SVELTE-003",
+   "title": "Static by default, measure the output",
+   "family": "lang-svelte",
+   "priority": "medium",
+   "applies": [
+    "svelte",
+    "frontend"
+   ],
+   "automation": "none",
+   "scopes": [],
+   "rgesn": "6.x",
+   "origin": [
+    "INR",
+    "RGESN 6.x"
+   ]
+  },
+  {
+   "id": "NR-LANG-SWIFT-001",
+   "title": "Stop sensors when the need ends",
+   "family": "lang-swift",
+   "priority": "high",
+   "applies": [
+    "swift",
+    "ux"
+   ],
+   "automation": "partial",
+   "scopes": [
+    "swift"
+   ],
+   "rgesn": "4.x",
+   "origin": [
+    "INR",
+    "RGESN 4.x"
+   ]
+  },
+  {
+   "id": "NR-LANG-SWIFT-002",
+   "title": "Refresh on events, invalidate timers",
+   "family": "lang-swift",
+   "priority": "medium",
+   "applies": [
+    "swift"
+   ],
+   "automation": "partial",
+   "scopes": [
+    "swift"
+   ],
+   "rgesn": "7.x",
+   "origin": [
+    "INR",
+    "RGESN 7.x"
+   ]
+  },
+  {
+   "id": "NR-LANG-SWIFT-003",
+   "title": "Keep the main thread free",
+   "family": "lang-swift",
+   "priority": "high",
+   "applies": [
+    "swift",
+    "ux"
+   ],
+   "automation": "partial",
+   "scopes": [
+    "swift"
+   ],
+   "rgesn": "6.x",
+   "origin": [
+    "INR",
+    "RGESN 6.x"
+   ]
+  },
+  {
+   "id": "NR-LANG-SWIFT-004",
+   "title": "Stream downloads, share one session",
+   "family": "lang-swift",
+   "priority": "medium",
+   "applies": [
+    "swift"
+   ],
+   "automation": "partial",
+   "scopes": [
+    "swift"
+   ],
+   "rgesn": "9.1",
+   "origin": [
+    "INR",
+    "RGESN 9.1"
+   ]
+  },
+  {
+   "id": "NR-LANG-SWIFT-005",
+   "title": "Batch sync under good conditions",
+   "family": "lang-swift",
+   "priority": "medium",
+   "applies": [
+    "swift"
+   ],
+   "automation": "none",
+   "scopes": [],
+   "rgesn": "4.x",
+   "origin": [
+    "INR",
+    "RGESN 4.x"
+   ]
+  },
+  {
+   "id": "NR-LANG-VUE-001",
+   "title": "Watch precisely, derive with computed",
+   "family": "lang-vue",
+   "priority": "medium",
+   "applies": [
+    "vue",
+    "frontend"
+   ],
+   "automation": "partial",
+   "scopes": [
+    "js",
+    "ts",
+    "vue"
+   ],
+   "rgesn": "6.x",
+   "origin": [
+    "INR",
+    "RGESN 6.x"
+   ]
+  },
+  {
+   "id": "NR-LANG-VUE-002",
+   "title": "Lazy-load routes and optional components",
+   "family": "lang-vue",
+   "priority": "high",
+   "applies": [
+    "vue",
+    "frontend"
+   ],
+   "automation": "partial",
+   "scopes": [
+    "js",
+    "ts",
+    "vue"
+   ],
+   "rgesn": "6.x",
+   "origin": [
+    "INR",
+    "RGESN 6.x"
+   ]
+  },
+  {
+   "id": "NR-LANG-VUE-003",
+   "title": "Stable keys and cleaned watchers",
+   "family": "lang-vue",
+   "priority": "medium",
+   "applies": [
+    "vue",
+    "frontend"
+   ],
+   "automation": "partial",
+   "scopes": [
+    "vue"
+   ],
+   "rgesn": "6.x",
+   "origin": [
+    "INR",
+    "RGESN 6.x"
+   ]
+  },
+  {
+   "id": "NR-LANG-ZIG-001",
+   "title": "Every allocation has its defer",
+   "family": "lang-zig",
+   "priority": "high",
+   "applies": [
+    "zig"
+   ],
+   "automation": "partial",
+   "scopes": [
+    "zig"
+   ],
+   "rgesn": "9.1",
+   "origin": [
+    "INR",
+    "RGESN 9.1"
+   ]
+  },
+  {
+   "id": "NR-LANG-ZIG-002",
+   "title": "Bounded reads and fixed buffers",
+   "family": "lang-zig",
+   "priority": "medium",
+   "applies": [
+    "zig"
+   ],
+   "automation": "partial",
+   "scopes": [
+    "zig"
+   ],
+   "rgesn": "9.1",
+   "origin": [
+    "INR",
+    "RGESN 9.1"
    ]
   },
   {
@@ -2515,7 +4836,7 @@
    "scopes": [],
    "rgesn": null,
    "origin": [
-    "green-claude:USAGE-CTX-01"
+    "INR"
    ]
   },
   {
@@ -2530,7 +4851,7 @@
    "scopes": [],
    "rgesn": null,
    "origin": [
-    "green-claude:USAGE-BRIEF-03"
+    "INR"
    ]
   },
   {
@@ -2545,7 +4866,7 @@
    "scopes": [],
    "rgesn": null,
    "origin": [
-    "green-claude:USAGE-CTX-01"
+    "INR"
    ]
   },
   {
@@ -2560,7 +4881,7 @@
    "scopes": [],
    "rgesn": null,
    "origin": [
-    "green-codex:usage-practices.md"
+    "INR"
    ]
   },
   {
@@ -2575,8 +4896,7 @@
    "scopes": [],
    "rgesn": null,
    "origin": [
-    "green-claude:USAGE-COMPUTE-*",
-    "green-codex:usage-practices.md"
+    "INR"
    ]
   },
   {
@@ -2591,8 +4911,7 @@
    "scopes": [],
    "rgesn": null,
    "origin": [
-    "green-claude:USAGE-VERIF-*",
-    "green-codex:usage-practices.md"
+    "INR"
    ]
   },
   {
@@ -2607,7 +4926,7 @@
    "scopes": [],
    "rgesn": null,
    "origin": [
-    "green-claude:USAGE-BRIEF-*"
+    "INR"
    ]
   },
   {
@@ -2622,7 +4941,7 @@
    "scopes": [],
    "rgesn": null,
    "origin": [
-    "green-codex:usage-practices.md"
+    "INR"
    ]
   },
   {
@@ -2637,7 +4956,7 @@
    "scopes": [],
    "rgesn": null,
    "origin": [
-    "green-codex:usage-practices.md"
+    "INR"
    ]
   },
   {
@@ -2652,7 +4971,7 @@
    "scopes": [],
    "rgesn": null,
    "origin": [
-    "green-codex:usage-practices.md"
+    "INR"
    ]
   },
   {
@@ -2667,8 +4986,7 @@
    "scopes": [],
    "rgesn": null,
    "origin": [
-    "green-claude:USAGE-CTX-*",
-    "green-codex:usage-practices.md"
+    "INR"
    ]
   },
   {
@@ -2683,12 +5001,12 @@
    "scopes": [],
    "rgesn": null,
    "origin": [
-    "green-claude:USAGE-COMPUTE-*"
+    "INR"
    ]
   },
   {
    "id": "NR-USAGE-013",
-   "title": "Batch related work in the queue",
+   "title": "Group related corrections",
    "family": "usage",
    "priority": "low",
    "applies": [
@@ -2698,7 +5016,7 @@
    "scopes": [],
    "rgesn": null,
    "origin": [
-    "green-codex:usage-practices.md"
+    "INR"
    ]
   },
   {
@@ -2713,7 +5031,7 @@
    "scopes": [],
    "rgesn": null,
    "origin": [
-    "green-claude:USAGE-VERIF-*"
+    "INR"
    ]
   },
   {
@@ -2728,8 +5046,7 @@
    "scopes": [],
    "rgesn": null,
    "origin": [
-    "green-claude:hooks discipline",
-    "green-codex:usage-practices.md"
+    "INR"
    ]
   },
   {
@@ -2746,8 +5063,206 @@
    "scopes": [],
    "rgesn": "9.x",
    "origin": [
-    "green-claude:SKILL.md token-energy discipline",
-    "green-claude:ECO-ALGO-09"
+    "INR",
+    "RGESN 9.x"
+   ]
+  },
+  {
+   "id": "NR-USAGE-017",
+   "title": "A complete brief up front",
+   "family": "usage",
+   "priority": "high",
+   "applies": [
+    "usage"
+   ],
+   "automation": "none",
+   "scopes": [],
+   "rgesn": null,
+   "origin": [
+    "INR"
+   ]
+  },
+  {
+   "id": "NR-USAGE-018",
+   "title": "Delegate bounded work",
+   "family": "usage",
+   "priority": "medium",
+   "applies": [
+    "usage"
+   ],
+   "automation": "none",
+   "scopes": [],
+   "rgesn": null,
+   "origin": [
+    "INR"
+   ]
+  },
+  {
+   "id": "NR-USAGE-019",
+   "title": "No panel of agents for a small task",
+   "family": "usage",
+   "priority": "medium",
+   "applies": [
+    "usage"
+   ],
+   "automation": "none",
+   "scopes": [],
+   "rgesn": null,
+   "origin": [
+    "INR"
+   ]
+  },
+  {
+   "id": "NR-USAGE-020",
+   "title": "Bounded, least-privilege headless runs",
+   "family": "usage",
+   "priority": "high",
+   "applies": [
+    "usage"
+   ],
+   "automation": "none",
+   "scopes": [],
+   "rgesn": null,
+   "origin": [
+    "INR"
+   ]
+  },
+  {
+   "id": "NR-USAGE-021",
+   "title": "Branch before a risky exploration",
+   "family": "usage",
+   "priority": "medium",
+   "applies": [
+    "usage"
+   ],
+   "automation": "none",
+   "scopes": [],
+   "rgesn": null,
+   "origin": [
+    "INR"
+   ]
+  },
+  {
+   "id": "NR-USAGE-022",
+   "title": "Map the code instead of re-reading it",
+   "family": "usage",
+   "priority": "medium",
+   "applies": [
+    "usage"
+   ],
+   "automation": "none",
+   "scopes": [],
+   "rgesn": null,
+   "origin": [
+    "INR"
+   ]
+  },
+  {
+   "id": "NR-USAGE-023",
+   "title": "Dense answers, no padding",
+   "family": "usage",
+   "priority": "low",
+   "applies": [
+    "usage"
+   ],
+   "automation": "none",
+   "scopes": [],
+   "rgesn": null,
+   "origin": [
+    "INR"
+   ]
+  },
+  {
+   "id": "NR-USAGE-024",
+   "title": "Write the rule once in AGENTS.md",
+   "family": "usage",
+   "priority": "medium",
+   "applies": [
+    "usage"
+   ],
+   "automation": "none",
+   "scopes": [],
+   "rgesn": null,
+   "origin": [
+    "INR"
+   ]
+  },
+  {
+   "id": "NR-USAGE-025",
+   "title": "A skill for what genuinely repeats",
+   "family": "usage",
+   "priority": "low",
+   "applies": [
+    "usage"
+   ],
+   "automation": "none",
+   "scopes": [],
+   "rgesn": null,
+   "origin": [
+    "INR"
+   ]
+  },
+  {
+   "id": "NR-USAGE-026",
+   "title": "Commit messages and PRs for the next reader",
+   "family": "usage",
+   "priority": "low",
+   "applies": [
+    "usage"
+   ],
+   "automation": "none",
+   "scopes": [],
+   "rgesn": null,
+   "origin": [
+    "INR"
+   ]
+  },
+  {
+   "id": "NR-USAGE-027",
+   "title": "Give the agent a way to check its work",
+   "family": "usage",
+   "priority": "high",
+   "applies": [
+    "usage"
+   ],
+   "automation": "none",
+   "scopes": [],
+   "rgesn": null,
+   "origin": [
+    "INR"
+   ]
+  },
+  {
+   "id": "NR-USAGE-028",
+   "title": "Least privilege for the agent",
+   "family": "usage",
+   "priority": "high",
+   "applies": [
+    "usage"
+   ],
+   "automation": "none",
+   "scopes": [],
+   "rgesn": null,
+   "origin": [
+    "INR",
+    "vibe-docs:safety-approvals-permissions"
+   ]
+  },
+  {
+   "id": "NR-USAGE-029",
+   "title": "Inclusive, accessible generated content",
+   "family": "usage",
+   "priority": "medium",
+   "applies": [
+    "usage"
+   ],
+   "automation": "none",
+   "scopes": [],
+   "rgesn": null,
+   "origin": [
+    "INR",
+    "mistral-cookbook:skills/cookbook-review/inclusive-language.md",
+    "WCAG 2.2 SC 1.1.1"
    ]
   }
  ]

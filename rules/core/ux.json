@@ -1,7 +1,7 @@
 {
   "family": "ux",
   "title": "UX, UI and accessibility",
-  "version": "1.0",
+  "version": "1.1",
   "rules": [
     {
       "id": "NR-UX-001",
@@ -14,7 +14,7 @@
       "limits": ["Automated checks cover a minority of RGAA criteria; observation of real users with assistive tech is the evidence that counts."],
       "priority": "high",
       "applies": ["frontend", "ux"],
-      "origin": ["green-claude:ECO-UX-08", "green-codex criteria: RGAA"],
+      "origin": ["INR", "RGESN 4.8", "RGAA"],
       "rgesn": "4.8"
     },
     {
@@ -28,7 +28,7 @@
       "limits": [],
       "priority": "medium",
       "applies": ["content", "ux", "frontend"],
-      "origin": ["green-claude:ECO-UX-06"],
+      "origin": ["INR", "RGESN 4.6, 4.7"],
       "rgesn": "4.6, 4.7"
     },
     {
@@ -42,7 +42,7 @@
       "limits": ["Browser support gaps are legitimate; cite them explicitly."],
       "priority": "medium",
       "applies": ["frontend", "ux"],
-      "origin": ["green-claude:ECO-UX-03"],
+      "origin": ["INR", "RGESN 4.5"],
       "rgesn": "4.5"
     },
     {
@@ -56,7 +56,7 @@
       "limits": ["Functional transitions (progress, state change) may be kept short; the gate targets decorative motion."],
       "priority": "low",
       "applies": ["frontend", "ux"],
-      "origin": ["green-claude:ECO-UX-07"],
+      "origin": ["INR", "RGESN 4.x"],
       "rgesn": "4.x"
     },
     {
@@ -70,7 +70,7 @@
       "limits": ["Regulatory or consent steps are not waste; they are marked as such."],
       "priority": "medium",
       "applies": ["ux", "frontend"],
-      "origin": ["green-claude:ECO-UX-06", "RGESN 4.3"],
+      "origin": ["INR", "RGESN 4.3"],
       "rgesn": "4.3"
     },
     {
@@ -84,7 +84,7 @@
       "limits": [],
       "priority": "medium",
       "applies": ["ux", "frontend", "backend"],
-      "origin": ["RGESN 4.4, Opquast", "green-codex criteria: Opquast"],
+      "origin": ["INR", "RGESN 4.4", "RGESN 4.4, Opquast", "Opquast"],
       "rgesn": "4.4"
     },
     {
@@ -98,8 +98,83 @@
       "limits": [],
       "priority": "high",
       "applies": ["frontend", "ux", "content"],
-      "origin": ["green-claude:ECO-UX-04", "green-codex:WEB-EFF-002"],
+      "origin": ["INR", "RGESN 4.4"],
       "rgesn": "4.4"
+    },
+    {
+      "id": "NR-UX-008",
+      "title": "Show users the impact of their choices",
+      "what": "Where users choose options with a material resource difference (video quality, sync frequency, storage, AI generation), show the difference plainly and default to the sober option.",
+      "why": "Users cannot choose sobriety they cannot see; an honest default and a clear choice turn the interface into a lever for lower impact (IT for Green).",
+      "how": "Default to standard definition or on-demand loading; label heavier options with their measured relative cost; never use guilt or dark patterns.",
+      "detect": {"automation": "none"},
+      "verify": {"method": "review", "how": "Options with material resource difference are labelled and the default is the sober one."},
+      "limits": ["Displayed figures must come from measurement (see NR-MEASURE-003); otherwise show a relative, qualitative difference."],
+      "priority": "medium",
+      "applies": ["ux", "service"],
+      "origin": ["INR", "RGESN 2.x"],
+      "rgesn": "2.x",
+      "see": ["NR-SERVICE-005"]
+    },
+    {
+      "id": "NR-UX-009",
+      "title": "Captions and transcripts for media",
+      "what": "Provide captions for video with speech, transcripts for audio, and audio description where the image carries information.",
+      "why": "Media without text alternatives excludes people who are deaf, hard of hearing, blind or in a noisy or silent environment; a transcript also lets everyone skim instead of streaming.",
+      "how": "<track kind=\"captions\" srclang=\"fr\"> on <video>; a text transcript link next to audio; describe visual-only information.",
+      "detect": {"automation": "partial", "patterns": [{"re": "<video\\b(?![\\s\\S]{0,1500}?<track\\b)[^>]*>", "scope": ["html", "vue", "svelte", "jsx", "tsx"], "note": "Video without a track element nearby; captions may be burned in or provided elsewhere."}]},
+      "verify": {"method": "test", "how": "Each media item with speech has captions or a transcript; checked against RGAA theme 4 / WCAG 1.2."},
+      "limits": [],
+      "priority": "high",
+      "applies": ["ux", "content", "html"],
+      "origin": ["INR", "RGESN 4.8", "RGAA 4.1 theme 4 (multimedia)", "WCAG 2.2 SC 1.2.2, 1.2.3"],
+      "rgesn": "4.8",
+      "see": ["NR-CONTENT-002", "NR-UX-001"]
+    },
+    {
+      "id": "NR-UX-010",
+      "title": "Never block zoom",
+      "what": "Let users zoom and resize text: no user-scalable=no or maximum-scale=1 in the viewport, and layouts that reflow at 200% and 400%.",
+      "why": "Blocking zoom excludes people with low vision, who then cannot read the page at all.",
+      "how": "<meta name=\"viewport\" content=\"width=device-width, initial-scale=1\">; relative units; test at 200% text size and 320px width.",
+      "detect": {"automation": "full", "patterns": [{"re": "<meta[^>]*name=[\\\"']viewport[\\\"'][^>]*(user-scalable\\s*=\\s*(no|0)|maximum-scale\\s*=\\s*1(\\.0)?\\b)", "scope": ["html", "vue", "svelte", "jsx", "tsx"], "note": "Viewport blocks zoom."}]},
+      "verify": {"method": "test", "how": "Page usable at 200% zoom and 320 CSS px width (RGAA 10.4, 10.11 / WCAG 1.4.4, 1.4.10)."},
+      "limits": [],
+      "priority": "high",
+      "applies": ["ux", "html", "frontend"],
+      "origin": ["INR", "RGESN 4.8", "RGAA 4.1 criteria 10.4, 10.11", "WCAG 2.2 SC 1.4.4, 1.4.10"],
+      "rgesn": "4.8",
+      "see": ["NR-UX-001"]
+    },
+    {
+      "id": "NR-UX-011",
+      "title": "Visible keyboard focus",
+      "what": "Keep a visible focus indicator on every interactive element; never remove outlines without a replacement.",
+      "why": "Without a visible focus, people who navigate by keyboard or switch devices cannot tell where they are.",
+      "how": ":focus-visible { outline: 2px solid currentColor; outline-offset: 2px; } instead of outline: none.",
+      "detect": {"automation": "partial", "patterns": [{"re": "outline\\s*:\\s*(none|0)\\b", "scope": ["css", "scss", "html", "vue", "svelte", "astro"], "note": "Outline removed; check a :focus-visible replacement exists.", "exclude_file": [":focus-visible"]}]},
+      "verify": {"method": "test", "how": "Keyboard-only walk of the journey shows focus at every step (RGAA 10.7 / WCAG 2.4.7)."},
+      "limits": [],
+      "priority": "high",
+      "applies": ["ux", "css", "frontend"],
+      "origin": ["INR", "RGESN 4.8", "RGAA 4.1 criterion 10.7", "WCAG 2.2 SC 2.4.7"],
+      "rgesn": "4.8",
+      "see": ["NR-UX-001"]
+    },
+    {
+      "id": "NR-UX-012",
+      "title": "Plain language",
+      "what": "Write interface text and content in plain language: short sentences, common words, one idea per sentence, explained jargon.",
+      "why": "Complex wording excludes people with cognitive disabilities, low literacy or a different first language, and makes everyone take longer and make more errors.",
+      "how": "Front-load the key information; explain terms on first use; offer an easy-to-read (FALC) version for essential public information.",
+      "detect": {"automation": "none"},
+      "verify": {"method": "review", "how": "Essential texts reviewed against plain-language guidelines (WCAG 3.1.5, FALC)."},
+      "limits": [],
+      "priority": "medium",
+      "applies": ["ux", "content"],
+      "origin": ["INR", "RGESN 2.x", "WCAG 2.2 SC 3.1.5", "FALC (facile à lire et à comprendre)"],
+      "rgesn": "2.x",
+      "see": ["NR-UX-005"]
     }
   ]
 }

@@ -1,7 +1,7 @@
 {
   "family": "strategy",
   "title": "Strategy and governance",
-  "version": "1.0",
+  "version": "1.1",
   "rules": [
     {
       "id": "NR-STRAT-001",
@@ -14,7 +14,7 @@
       "limits": ["A measured technical gain is not, by itself, a measured environmental gain."],
       "priority": "high",
       "applies": ["strategy", "any"],
-      "origin": ["green-claude:ECO-STRAT-01", "green-codex:MEASURE-EFF-001"],
+      "origin": ["INR", "RGESN 1.4, 1.5"],
       "rgesn": "1.4, 1.5",
       "see": ["NR-MEASURE-001"]
     },
@@ -29,7 +29,7 @@
       "limits": ["Targets are project decisions; the rule cannot set their values."],
       "priority": "medium",
       "applies": ["strategy"],
-      "origin": ["green-claude:ECO-STRAT-01"],
+      "origin": ["INR", "RGESN 1.4, 1.5"],
       "rgesn": "1.4, 1.5"
     },
     {
@@ -43,7 +43,7 @@
       "limits": [],
       "priority": "medium",
       "applies": ["strategy"],
-      "origin": ["green-claude:ECO-STRAT-01"],
+      "origin": ["INR", "RGESN 1.8, 1.9"],
       "rgesn": "1.8, 1.9"
     },
     {
@@ -57,7 +57,7 @@
       "limits": ["Interop has a runtime cost of its own; this rule is about lifecycle, not bytes."],
       "priority": "medium",
       "applies": ["strategy", "architecture", "docs"],
-      "origin": ["green-claude:ECO-STRAT-03"],
+      "origin": ["INR", "RGESN 1.x"],
       "rgesn": "1.x"
     },
     {
@@ -71,7 +71,7 @@
       "limits": [],
       "priority": "medium",
       "applies": ["strategy", "measure"],
-      "origin": ["green-claude:ECO-STRAT-08"],
+      "origin": ["INR", "RGESN 1.4, 1.5"],
       "rgesn": "1.4, 1.5",
       "see": ["NR-MEASURE-001", "NR-MEASURE-003"]
     },
@@ -86,9 +86,39 @@
       "limits": ["Rebound analysis needs a usage period; not available for new features."],
       "priority": "medium",
       "applies": ["strategy", "measure"],
-      "origin": ["green-claude:ECO-STRAT-09"],
+      "origin": ["INR", "RGESN 1.4, 1.5"],
       "rgesn": "1.4, 1.5",
       "see": ["NR-MEASURE-004"]
+    },
+    {
+      "id": "NR-STRAT-007",
+      "title": "An owner and a trained team",
+      "what": "Name a person accountable for responsible-digital practices in the team, and train the team in sobriety, accessibility and ethics as part of normal onboarding.",
+      "why": "Practices nobody owns erode at the first deadline; a trained team spots issues in design, where they cost least to fix.",
+      "how": "Name an owner in the project charter; include NR topics in onboarding and reviews; share findings in retrospectives.",
+      "detect": {"automation": "none"},
+      "verify": {"method": "review", "how": "Owner named in the project documents; onboarding material covers NR practices."},
+      "limits": [],
+      "priority": "medium",
+      "applies": ["strategy"],
+      "origin": ["INR", "RGESN 1.x"],
+      "rgesn": "1.x",
+      "see": ["NR-STRAT-003"]
+    },
+    {
+      "id": "NR-STRAT-008",
+      "title": "Accountable evidence, no self-certification",
+      "what": "For a service audit, record an owner, dated evidence, justified exclusions, priorities and a review date; propose a declaration from verified evidence, never publish one or claim certification on the team's behalf.",
+      "why": "Claims without dated evidence cannot be checked and expose the organisation; an honest declaration with its gaps builds trust and a path to improve.",
+      "how": "Keep an evidence log per criterion; state exclusions and their reason; schedule the next review.",
+      "detect": {"automation": "none"},
+      "verify": {"method": "review", "how": "Audit record contains owner, evidence dates, exclusions and the review date."},
+      "limits": [],
+      "priority": "high",
+      "applies": ["strategy", "measure"],
+      "origin": ["INR", "RGESN 1.x"],
+      "rgesn": "1.x",
+      "see": ["NR-MEASURE-002"]
     }
   ]
 }

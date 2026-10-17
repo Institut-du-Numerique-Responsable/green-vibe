@@ -1,7 +1,7 @@
 {
   "family": "measure",
   "title": "Measurement and honest claims",
-  "version": "1.0",
+  "version": "1.1",
   "rules": [
     {
       "id": "NR-MEASURE-001",
@@ -14,7 +14,7 @@
       "limits": ["No measurement means unknown gains, not zero impact."],
       "priority": "high",
       "applies": ["measure", "any"],
-      "origin": ["green-codex:MEASURE-EFF-001", "green-claude:ECO-STRAT-08"],
+      "origin": ["INR", "RGESN 1.4, 1.5"],
       "rgesn": "1.4, 1.5",
       "see": ["references/measurement.md"]
     },
@@ -29,7 +29,7 @@
       "limits": [],
       "priority": "high",
       "applies": ["measure", "docs", "any"],
-      "origin": ["green-codex:MEASURE-EFF-002", "green-codex criteria discipline"],
+      "origin": ["INR"],
       "rgesn": null
     },
     {
@@ -43,7 +43,7 @@
       "limits": ["Direction of improvement (fewer resources processed -> less energy) holds qualitatively; the quantitative claim does not."],
       "priority": "high",
       "applies": ["measure", "docs", "ai", "any"],
-      "origin": ["green-codex:MEASURE-EFF-003", "green-claude:ECO-ALGO-09"],
+      "origin": ["INR", "RGESN 9.x"],
       "rgesn": "9.x"
     },
     {
@@ -57,7 +57,7 @@
       "limits": [],
       "priority": "medium",
       "applies": ["measure", "any"],
-      "origin": ["green-codex measurement discipline"],
+      "origin": ["INR"],
       "rgesn": null
     },
     {
@@ -71,8 +71,23 @@
       "limits": ["Monitoring itself costs; instrument the few metrics that drive decisions."],
       "priority": "medium",
       "applies": ["measure", "infra", "backend"],
-      "origin": ["green-claude:ECO-HEB-10", "green-codex:OPS-EFF-002"],
+      "origin": ["INR", "RGESN 8.x"],
       "rgesn": "8.x"
+    },
+    {
+      "id": "NR-MEASURE-006",
+      "title": "State the method when you measure energy",
+      "what": "For material performance or energy changes, record the workload, duration, hardware or cloud context, tool, method and uncertainty, and say whether a value is metered, modelled or a proxy.",
+      "why": "Without the method, a figure cannot be reproduced or compared; a profiler or sampler alone measures one component, not the service.",
+      "how": "Follow references/measurement.md; label each number (metered / modelled / proxy); keep raw data with the result.",
+      "detect": {"automation": "none"},
+      "verify": {"method": "review", "how": "The reported figure carries its method, context and uncertainty."},
+      "limits": [],
+      "priority": "high",
+      "applies": ["measure"],
+      "origin": ["INR", "RGESN 1.x"],
+      "rgesn": "1.x",
+      "see": ["NR-MEASURE-003", "NR-AI-011"]
     }
   ]
 }

@@ -1,0 +1,36 @@
+{
+  "family": "lang-solid",
+  "title": "Solid",
+  "version": "1.0",
+  "rules": [
+    {
+      "id": "NR-LANG-SOLID-001",
+      "title": "Narrow effects and keyed lists",
+      "what": "Read only the signals an effect needs, share derived values with createMemo, and render lists with <For> (keyed) or <Index> rather than .map.",
+      "why": "createEffect tracks everything it reads; a broad effect re-runs for unrelated changes, and .map recreates every row, throwing away Solid's fine-grained updates.",
+      "how": "createMemo for shared derivations; on() or untrack() to scope tracking; <For each={items()}>{item => ...}</For>.",
+      "detect": {"automation": "partial", "patterns": [{"re": "\\bcreateEffect\\(", "scope": ["jsx", "tsx", "js", "ts"], "note": "Effect in a file with no memo or scoped tracking.", "exclude_file": ["createMemo", "\\bon\\(", "untrack\\("], "require_file": ["solid-js"]}, {"re": "\\{[\\w.()]*\\.map\\(", "scope": ["jsx", "tsx"], "note": "List rendered with map; <For> keeps unchanged rows.", "exclude_file": ["<For\\b", "<Index\\b"], "require_file": ["solid-js"]}]},
+      "verify": {"method": "measure", "how": "Devtools or a render counter shows updates touching only the intended nodes."},
+      "limits": [],
+      "priority": "medium",
+      "applies": ["jsx", "tsx", "frontend"],
+      "origin": ["INR", "RGESN 6.x"],
+      "rgesn": "6.x"
+    },
+    {
+      "id": "NR-LANG-SOLID-002",
+      "title": "Lazy routes, hydration budget",
+      "what": "Lazy-load routes and widgets and keep hydration and bundle size within a budget measured on low-power devices.",
+      "why": "Shipping every route up front costs download and parse on devices that will only visit one page.",
+      "how": "lazy(() => import('./Page')); SolidStart islands where possible; bundle budget in CI.",
+      "detect": {"automation": "none"},
+      "verify": {"method": "measure", "how": "Per-route bundle and hydration time measured on a low-end device profile."},
+      "limits": [],
+      "priority": "medium",
+      "applies": ["jsx", "tsx", "frontend"],
+      "origin": ["INR", "RGESN 6.x"],
+      "rgesn": "6.x",
+      "see": ["NR-FRONT-002"]
+    }
+  ]
+}

@@ -1,7 +1,7 @@
 {
   "family": "lang-html-css",
   "title": "HTML and CSS",
-  "version": "1.0",
+  "version": "1.1",
   "rules": [
     {
       "id": "NR-LANG-HTML-001",
@@ -14,7 +14,7 @@
       "limits": [],
       "priority": "high",
       "applies": ["html", "css"],
-      "origin": ["green-codex:LANG-HTML-001", "green-claude:ECO-UX-03", "NR-UX-001"],
+      "origin": ["INR", "NR-UX-001"],
       "rgesn": null,
       "see": ["NR-UX-001", "NR-UX-003"]
     },
@@ -29,7 +29,7 @@
       "limits": [],
       "priority": "medium",
       "applies": ["html", "css"],
-      "origin": ["green-claude:ECO-CONT-01", "green-codex:LANG-HTML-002"],
+      "origin": ["INR"],
       "rgesn": null,
       "see": ["NR-CONTENT-001"]
     },
@@ -44,7 +44,7 @@
       "limits": [],
       "priority": "medium",
       "applies": ["html", "ux"],
-      "origin": ["green-codex criteria: Opquast/RGAA", "NR-UX-006"],
+      "origin": ["INR", "Opquast/RGAA", "NR-UX-006"],
       "rgesn": null,
       "see": ["NR-UX-006"]
     },
@@ -59,7 +59,7 @@
       "limits": ["Email templates and legacy browsers constrain layout tools; document the scope."],
       "priority": "low",
       "applies": ["css"],
-      "origin": ["green-codex:LANG-CSS-001", "green-claude:ECO-FRONT-12"],
+      "origin": ["INR"],
       "rgesn": null
     },
     {
@@ -73,9 +73,54 @@
       "limits": ["Brand fonts are legitimate; the rule bounds their cost."],
       "priority": "medium",
       "applies": ["css", "html"],
-      "origin": ["green-claude:ECO-UX-05", "NR-CONTENT-004"],
+      "origin": ["INR", "NR-CONTENT-004"],
       "rgesn": null,
       "see": ["NR-CONTENT-004"]
+    },
+    {
+      "id": "NR-LANG-HTML-004",
+      "title": "Declare the page language, work without optional JavaScript",
+      "what": "Every document declares its language (<html lang>) and its essential content and controls work before, or without, non-essential JavaScript.",
+      "why": "Screen readers pick pronunciation from lang; a page that needs a large script before showing anything excludes slow devices, slow networks and assistive tools first.",
+      "how": "<html lang=\"fr\"> (and lang on passages in another language); server-rendered content and native forms; scripts deferred for enhancements only.",
+      "detect": {"automation": "full", "patterns": [{"re": "<html(?![^>]*\\blang\\s*=)[^>]*>", "scope": ["html"], "note": "Document without a lang attribute."}]},
+      "verify": {"method": "test", "how": "Page checked with JavaScript disabled for the essential task; automated check confirms lang is set."},
+      "limits": [],
+      "priority": "high",
+      "applies": ["html", "ux", "frontend"],
+      "origin": ["INR", "RGESN 4.8"],
+      "rgesn": "4.8",
+      "see": ["NR-UX-001", "NR-SERVICE-004"]
+    },
+    {
+      "id": "NR-LANG-CSS-003",
+      "title": "Cheap animations, honoured preferences",
+      "what": "Animate only transform and opacity, avoid infinite decorative animations and broad will-change, and stop motion under prefers-reduced-motion.",
+      "why": "Animating layout properties forces reflow at every frame; continuous animations keep the GPU busy and can trigger vestibular disorders.",
+      "how": "transition: transform .2s, opacity .2s; will-change set on the element just before it animates; @media (prefers-reduced-motion: reduce) { animation: none; }.",
+      "detect": {"automation": "partial", "patterns": [{"re": "transition\\s*:\\s*all\\b", "scope": ["css", "scss", "html", "vue", "svelte", "astro"], "note": "transition: all animates every property, layout included."}, {"re": "animation[^;{}]*\\binfinite\\b", "scope": ["css", "scss", "html", "vue", "svelte", "astro"], "note": "Infinite animation; check it is essential and stops under reduced motion.", "exclude_file": ["prefers-reduced-motion"]}]},
+      "verify": {"method": "test", "how": "Performance panel shows no layout per animation frame; reduced-motion setting stops the animations."},
+      "limits": [],
+      "priority": "medium",
+      "applies": ["css", "ux", "frontend"],
+      "origin": ["INR", "RGESN 6.x"],
+      "rgesn": "6.x",
+      "see": ["NR-UX-004"]
+    },
+    {
+      "id": "NR-LANG-CSS-004",
+      "title": "Media and container queries before layout scripts",
+      "what": "When JavaScript recalculates layout on resize, check whether media or container queries give the same behaviour for the supported browsers.",
+      "why": "Resize handlers that measure and restyle the DOM cost script and layout work at every event; CSS queries are resolved by the engine.",
+      "how": "@container and @media rules; ResizeObserver only for what CSS cannot express.",
+      "detect": {"automation": "none"},
+      "verify": {"method": "measure", "how": "Resize trace compared before/after; layout result identical on the supported browsers."},
+      "limits": [],
+      "priority": "low",
+      "applies": ["css", "frontend"],
+      "origin": ["INR", "RGESN 6.x"],
+      "rgesn": "6.x",
+      "see": ["NR-FRONT-008"]
     }
   ]
 }

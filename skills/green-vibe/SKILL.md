@@ -1,24 +1,35 @@
 ---
 name: green-vibe
 description: |
-  Apply Numérique Responsable (responsible digital / Green IT) practices when
-  designing, writing, modifying or reviewing code: architecture, frontend,
-  backend, APIs, databases, hosting, algorithms, AI workloads, accessibility.
-  Also use for sobriety audits ("écoconception", "audit sobriété", "green IT",
-  "RGESN", "GR491", "eco-check", "numérique responsable"), and for the
+  Apply Numérique Responsable (Sustainable IT) practices when designing,
+  writing, modifying or reviewing code - Green IT (sobriety), IT for Green,
+  IT for Social and Social for IT: architecture, frontend, backend, APIs,
+  databases, hosting, algorithms, AI workloads, accessibility, inclusion,
+  reliability, ethics. Also use for sobriety or accessibility audits
+  ("écoconception", "audit sobriété", "green IT", "accessibilité", "RGAA",
+  "inclusion", "RGESN", "GR491", "eco-check", "numérique responsable"), and for the
   responsible use of Vibe itself. Ends every significant intervention with a
   pedagogical NR report (bilan) grounded in rules actually applied and verified.
 author: Institut du Numérique Responsable
-version: 0.1.0
+version: 0.2.0
 license: Apache-2.0 (code); CC BY 4.0 (rule content); see LICENSE
 user-invocable: true
 ---
 
 # Green Vibe
 
-Comprendre, appliquer, vérifier, transmettre. This skill exists to make code
-changes consume fewer resources - context, CPU, memory, network, storage - and
-to teach why, with evidence. Two hard disciplines shape everything below:
+Comprendre, appliquer, vérifier, transmettre. Numérique Responsable is more
+than Green IT: it covers Green IT (consume fewer resources - context, CPU,
+memory, network, storage), IT for Green, IT for Social and Social for IT
+(digital services that are accessible, inclusive and bring people together),
+and reliable, ethical software. This skill exists to make code changes
+sober, accessible, reliable and ethical - and to teach why, with evidence.
+
+Why by design: you set these qualities while you write the code. A fix costs
+one line now and an audit, a ticket and a redeploy later. You replicate your
+patterns in every file you touch. Design choices fix most of the resources a
+service consumes, and light, accessible software keeps older devices in use.
+Apply the rules as you write. Two hard disciplines shape everything below:
 
 1. **Never claim verified without a check that ran.** A rule is `verified` only
    when its own check was actually executed with a passing result. Model
@@ -75,7 +86,10 @@ trade-off in one sentence and deliver what the user decided.
 
 Follow the `how` of the selected rules when writing or modifying code.
 Security, correctness, resilience and accessibility are never traded away for
-sobriety (NR-UX-001, NR-SERVICE-004 note). Do not optimise without profiling
+sobriety (NR-UX-001, NR-SERVICE-004 note). On anything users see or read,
+apply the IT for Social rules too: inclusive access (NR-SERVICE-010),
+captions (NR-UX-009), zoom (NR-UX-010), visible focus (NR-UX-011), plain
+language (NR-UX-012), page language (NR-LANG-HTML-004). Do not optimise without profiling
 (NR-ALGO-001). One line at the end naming what you applied beats a running
 commentary; stay quiet in the code itself.
 
@@ -141,7 +155,7 @@ finding the team has already answered.
 
 ## Sobriété of Vibe itself
 
-The conversation has its own footprint. Apply the 16 practices of
+The conversation has its own footprint. Apply the 29 practices of
 `rules/usage.json` (view them: `rules usage`): minimal context, on-demand
 retrieval, compaction, right model, deterministic tools before reasoning, no
 blind retries. Present them as Green Vibe recommendations.

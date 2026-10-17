@@ -1,7 +1,7 @@
 {
   "family": "architecture",
   "title": "Architecture and code volume",
-  "version": "1.0",
+  "version": "1.1",
   "rules": [
     {
       "id": "NR-ARCH-001",
@@ -14,7 +14,7 @@
       "limits": ["Applied at the margin; refactoring towards less code is encouraged, rewriting everything is not."],
       "priority": "high",
       "applies": ["any"],
-      "origin": ["green-claude:ECO-ARCH-07", "green-codex universal rules"],
+      "origin": ["INR", "RGESN 3.1"],
       "rgesn": "3.1"
     },
     {
@@ -28,7 +28,7 @@
       "limits": ["Organisational constraints (team boundaries) are legitimate reasons; state them as such."],
       "priority": "high",
       "applies": ["architecture"],
-      "origin": ["green-claude:ECO-ARCH-01", "green-codex:ARCH-DIST-001"],
+      "origin": ["INR", "RGESN 3.1"],
       "rgesn": "3.1"
     },
     {
@@ -42,7 +42,7 @@
       "limits": ["Serverless shifts sizing to the provider; the rule then applies to limits and concurrency settings."],
       "priority": "high",
       "applies": ["architecture", "infra"],
-      "origin": ["green-claude:ECO-ARCH-02", "green-codex:INFRA-EFF-001"],
+      "origin": ["INR", "RGESN 3.2"],
       "rgesn": "3.2"
     },
     {
@@ -56,7 +56,7 @@
       "limits": [],
       "priority": "high",
       "applies": ["architecture", "backend", "ai"],
-      "origin": ["green-claude:ECO-ARCH-08", "green-codex:CODE-EFF-001"],
+      "origin": ["INR", "RGESN 3.2, 9.1"],
       "rgesn": "3.2, 9.1"
     },
     {
@@ -70,7 +70,7 @@
       "limits": ["Legitimate for genuinely different scaling profiles; the rule targets fashion-driven splitting."],
       "priority": "medium",
       "applies": ["architecture", "backend"],
-      "origin": ["green-claude:ECO-ARCH-09", "green-codex:ARCH-SERVERLESS-001"],
+      "origin": ["INR", "RGESN 3.1"],
       "rgesn": "3.1"
     },
     {
@@ -84,7 +84,7 @@
       "limits": ["Cache efficiency must be measured (hit rate) to prove the trade-off; NR-MEASURE-002."],
       "priority": "high",
       "applies": ["architecture", "backend", "frontend", "api"],
-      "origin": ["green-claude:ECO-ARCH-10", "green-codex:CODE-EFF-003"],
+      "origin": ["INR", "RGESN 8.x, 3.2"],
       "rgesn": "8.x, 3.2",
       "see": ["NR-BACK-003"]
     },
@@ -99,7 +99,7 @@
       "limits": [],
       "priority": "medium",
       "applies": ["infra", "strategy"],
-      "origin": ["green-claude:ECO-ARCH-04", "green-claude:ECO-ARCH-06"],
+      "origin": ["INR", "RGESN 3.7"],
       "rgesn": "3.7"
     },
     {
@@ -113,7 +113,7 @@
       "limits": ["Well-used heavy libraries are legitimate; the rule targets one-function imports and dead weight."],
       "priority": "high",
       "applies": ["any", "frontend", "backend"],
-      "origin": ["green-claude:ECO-FRONT-01", "green-claude:ECO-FRONT-04", "green-codex universal rules"],
+      "origin": ["INR", "RGESN 6.x"],
       "rgesn": "6.x"
     },
     {
@@ -127,8 +127,38 @@
       "limits": ["Readability is not measurable; the reviewable artefact is the presence of tests and recorded decisions."],
       "priority": "medium",
       "applies": ["architecture", "any"],
-      "origin": ["green-claude:ECO-ARCH-03", "green-claude:ECO-ARCH-05"],
+      "origin": ["INR", "RGESN 3.4, 3.5, 3.6"],
       "rgesn": "3.4, 3.5, 3.6"
+    },
+    {
+      "id": "NR-ARCH-010",
+      "title": "Code a newcomer can follow",
+      "what": "Write names, comments and docs for the next person who maintains the code: explain why, not what, and keep them current.",
+      "why": "Code that only its author understands is rewritten instead of reused, and reviews cost more for everyone; maintainability is what lets software last and teams include new people.",
+      "how": "Comment intent and trade-offs; delete stale comments; keep a short README/CODEMAP; write commit messages for the next reader.",
+      "detect": {"automation": "none"},
+      "verify": {"method": "review", "how": "A reviewer unfamiliar with the module can explain what a change does from the code and its comments."},
+      "limits": [],
+      "priority": "medium",
+      "applies": ["architecture"],
+      "origin": ["INR", "RGESN 3.x"],
+      "rgesn": "3.x",
+      "see": ["NR-ARCH-009", "NR-USAGE-009"]
+    },
+    {
+      "id": "NR-ARCH-011",
+      "title": "Bound fan-out and coordination in distributed systems",
+      "what": "Bound fan-out, retries, queues, replicas and cross-service payloads; make calls idempotent with back-pressure; measure replication and coordination overhead before adding replicas, zones or consensus layers.",
+      "why": "Each extra hop serialises, transfers and retries; unbounded fan-out and retry storms multiply load during incidents exactly when capacity is short.",
+      "how": "Timeouts and retry budgets per call chain, circuit breakers, idempotency keys; justify each replica with an availability target.",
+      "detect": {"automation": "none"},
+      "verify": {"method": "test", "how": "Load or chaos test shows retries bounded and no retry storm when a dependency fails."},
+      "limits": [],
+      "priority": "high",
+      "applies": ["architecture", "backend"],
+      "origin": ["INR", "RGESN 3.2"],
+      "rgesn": "3.2",
+      "see": ["NR-BACK-001", "NR-ALGO-006"]
     }
   ]
 }

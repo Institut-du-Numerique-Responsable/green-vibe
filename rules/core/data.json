@@ -1,7 +1,7 @@
 {
   "family": "data",
   "title": "Databases and storage",
-  "version": "1.0",
+  "version": "1.1",
   "rules": [
     {
       "id": "NR-DATA-001",
@@ -14,7 +14,7 @@
       "limits": ["Column lists must stay maintainable; an explicit exception comment beats a silent *."],
       "priority": "high",
       "applies": ["data", "backend"],
-      "origin": ["green-claude:ECO-BACK-01", "green-codex:DB-EFF-001"],
+      "origin": ["INR", "RGESN 7.x"],
       "rgesn": "7.x"
     },
     {
@@ -28,7 +28,7 @@
       "limits": [],
       "priority": "high",
       "applies": ["data", "backend"],
-      "origin": ["green-claude:ECO-BACK-01", "green-codex:DB-EFF-002"],
+      "origin": ["INR", "RGESN 7.x"],
       "rgesn": "7.x"
     },
     {
@@ -42,7 +42,7 @@
       "limits": ["Each index slows writes and takes space; they are trade-offs to record, not more-is-better."],
       "priority": "high",
       "applies": ["data", "backend"],
-      "origin": ["green-claude:ECO-BACK-01", "green-codex:DB-EFF-003"],
+      "origin": ["INR", "RGESN 7.x"],
       "rgesn": "7.x"
     },
     {
@@ -56,7 +56,7 @@
       "limits": ["Small tables paginate fine with OFFSET; the rule targets collections that grow."],
       "priority": "medium",
       "applies": ["data", "api", "backend"],
-      "origin": ["green-claude:ECO-BACK-09", "green-codex:DB-EFF-004"],
+      "origin": ["INR", "RGESN 7.1"],
       "rgesn": "7.1"
     },
     {
@@ -70,7 +70,7 @@
       "limits": ["Legal retention overrides deletion and is recorded as an obligation, not an oversight."],
       "priority": "high",
       "applies": ["data", "content", "backend"],
-      "origin": ["green-claude:ECO-HEB-12", "green-codex:DB-EFF-005"],
+      "origin": ["INR", "RGESN 8.x"],
       "rgesn": "8.x"
     },
     {
@@ -84,7 +84,7 @@
       "limits": ["Small blobs (avatars under a cap) are fine in DB; the rule targets files by size and access profile."],
       "priority": "medium",
       "applies": ["data", "architecture"],
-      "origin": ["green-codex:ARCH-NOSQL-001", "green-codex:ARCH-DATA-001"],
+      "origin": ["INR", "RGESN 3.x"],
       "rgesn": "3.x"
     },
     {
@@ -98,7 +98,7 @@
       "limits": ["Security rule first; the resource argument backs it, not replaces it."],
       "priority": "high",
       "applies": ["data", "backend", "security"],
-      "origin": ["green-claude:ECO-BACK-10"],
+      "origin": ["INR", "RGESN 7.1"],
       "rgesn": "7.1"
     },
     {
@@ -112,8 +112,38 @@
       "limits": ["CPU cost of decompression on access; measure the read path, not just the write gain."],
       "priority": "medium",
       "applies": ["data", "infra"],
-      "origin": ["green-claude:ECO-HEB-11"],
+      "origin": ["INR", "RGESN 8.x"],
       "rgesn": "8.x"
+    },
+    {
+      "id": "NR-DATA-009",
+      "title": "One copy, one consistency boundary",
+      "what": "Do not persist the same derived or binary data in several places unless the trade-off is measured and documented; model data so that each fact has one owner.",
+      "why": "Every extra copy costs storage, backups and replication, and drifts out of sync; normalisation removes update anomalies, measured denormalisation removes repeated work.",
+      "how": "Normalise by default; denormalise or materialise only with a measured read benefit and an explicit refresh strategy; reference blobs instead of copying them.",
+      "detect": {"automation": "none"},
+      "verify": {"method": "review", "how": "Each duplicated field or materialised view records its reason and refresh strategy."},
+      "limits": [],
+      "priority": "medium",
+      "applies": ["data"],
+      "origin": ["INR", "RGESN 7.3"],
+      "rgesn": "7.3",
+      "see": ["NR-BACK-008"]
+    },
+    {
+      "id": "NR-DATA-010",
+      "title": "Bound NoSQL scans, indexes and item growth",
+      "what": "In NoSQL stores, model access patterns first, avoid full scans and fan-out reads on request paths, bound secondary indexes, and expire or archive items with TTLs.",
+      "why": "A scan reads every partition; an unbounded table and index set grow storage and write amplification forever.",
+      "how": "Query by partition key; paginate with continuation tokens; TTL on transient items; review each secondary index against a query.",
+      "detect": {"automation": "partial", "patterns": [{"re": "\\.scan\\s*\\(|\\bScanCommand\\b|\\.find\\(\\s*\\{\\s*\\}\\s*\\)", "scope": ["py", "js", "ts", "java", "go"], "note": "Full scan or empty-filter query; candidate on request paths."}]},
+      "verify": {"method": "test", "how": "Request-path queries use keys (no Scan); TTL configured on transient collections."},
+      "limits": [],
+      "priority": "medium",
+      "applies": ["data"],
+      "origin": ["INR", "RGESN 7.1"],
+      "rgesn": "7.1",
+      "see": ["NR-DATA-006"]
     }
   ]
 }

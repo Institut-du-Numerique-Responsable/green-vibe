@@ -1,59 +1,67 @@
-# Évaluation de démonstration : pipeline complet
+# Demo evaluation: the full pipeline
 
-Scénario rejouable sur les fixtures du dépôt : un mini-projet (module API
-Python + page HTML + SQL + script shell) passe par les quatre étapes du
-pipeline. C'est le scénario de la phase de démonstration du projet.
+**English** · [Français](README.fr.md)
+
+This scenario replays on the repository fixtures: a small project (a Python
+API module, an HTML page, SQL, and a shell script) goes through the four
+pipeline steps. It's the scenario for the project's demo phase.
+
+Run these commands from the repository root:
 
 ```bash
 GV=$(pwd)
 FIX=tests/fixtures
 
-# 1. Contexte et sélection des règles
+# 1. Context and rule selection
 python3 validators/green-vibe select $FIX > /tmp/gv-select.json
 
-# 2. Audit déterministe
+# 2. Deterministic audit
 python3 validators/green-vibe audit \
   $FIX/api_bad.py $FIX/query_bad.sql $FIX/page_bad.html \
   > /tmp/gv-audit.json
 
-# 3. Rapport normalisé + bilan pédagogique
+# 3. Normalised report and teaching report
 python3 validators/green-vibe report \
   --audit /tmp/gv-audit.json \
-  --selected "$(python3 -c "import json;print(' '.join(json.load(open('/tmp/gv-select.json'))['selected_rules']))")" \
+  --selected $(python3 -c "import json;print(' '.join(json.load(open('/tmp/gv-select.json'))['selected_rules']))") \
   --verified "NR-DATA-004=tests/integration/test_pipeline.py::fixture" \
-  --intervention "Refonte d'un module API : pagination, requêtes, requêtes SQL" \
+  --intervention "API module rework: pagination, HTTP calls, SQL queries" \
   --mode pedagogique
 ```
 
-Attendu (versions non conformes des fixtures) :
+Expected results on the non-conforming fixtures:
 
-- sélection : familles backend/data/api/frontend/content/ux + langages
-  py/sql/html/sh + familles toujours actives ;
-- audit : `FAIL` sur `SELECT *` (NR-LANG-SQL-001), `REVIEW` sur N+1
-  (NR-LANG-PY-003), autoplay vidéo (NR-CONTENT-002), script bloquant
-  (NR-FRONT-003), etc. ;
-- rapport : aucun statut `verified` sans `--verified` avec preuve ;
-- bilan : comptes cohérents avec les statuts, aucune affirmation
-  environnementale non mesurée.
+- selection: backend, data, api, frontend, content, and ux families, the py,
+  sql, html, and sh languages, and the always-on families
+- audit: `FAIL` on `SELECT *` (NR-LANG-SQL-001), `REVIEW` on N+1
+  (NR-LANG-PY-003), video autoplay (NR-CONTENT-002), a blocking script
+  (NR-FRONT-003), and more
+- report: no `verified` status without `--verified` and its evidence
+- teaching report: counts consistent with the statuses, no unmeasured
+  environmental claim
 
-La même séquence sur les fixtures `_good` ne produit aucun constat : c'est le
-test de non-régression du taux de faux positifs du catalogue.
+The same sequence on the `_good` fixtures produces no finding: it's the
+regression test for the catalog's false-positive rate.
 
-## Scénarios fonctionnels couverts par la suite de tests
+## Functional scenarios covered by the test suite
 
-| Scénario | Test |
+Each project scenario maps to an automated test.
+
+| Scenario | Test |
 |---|---|
-| API (N+1, timeout, injection SQL) | `test_audit.py::test_api_bad_flags_expected_rules` |
-| Page frontend (médias, scripts, a11y) | `test_audit.py::test_html_bad_flags_expected_rules` |
-| Requête SQL (SELECT *, sous-requêtes) | `test_audit.py::test_sql_bad_flags_expected_rules` |
-| Code déjà conforme | `test_audit.py` (`_good` fixtures) + `test_pipeline.py::test_conforming_project_reports_no_findings` |
-| Règle non applicable / non sélectionnée | `test_select.py::test_no_relevant_rules_for_plain_docs` |
-| Détecteur indisponible (outil absent) | SKILL.md fallback + fail-open du hook (`test_hook_fails_open_on_bad_input`) |
-| Bilan pédagogique | `test_report.py::test_bilan_counts` |
-| Gain non mesuré | `test_report.py::test_bilan_contains_no_unmeasured_environmental_claim` |
+| API (N+1, timeout, SQL injection) | `test_audit.py::test_api_bad_flags_expected_rules` |
+| Frontend page (media, scripts, a11y) | `test_audit.py::test_html_bad_flags_expected_rules` |
+| SQL query (SELECT *, subqueries) | `test_audit.py::test_sql_bad_flags_expected_rules` |
+| Already-conforming code | `test_audit.py` (`_good` fixtures) + `test_pipeline.py::test_conforming_project_reports_no_findings` |
+| Rule not applicable or not selected | `test_select.py::test_no_relevant_rules_for_plain_docs` |
+| Detector unavailable (missing tool) | SKILL.md fallback + fail-open hook (`test_hook_fails_open_on_bad_input`) |
+| Languages and frameworks (Go, Rust, PHP, Ruby, C#, Kotlin, Swift, C/C++, Scala, Julia, Nim, Zig, React, Vue, Angular, Svelte, Solid, Astro) | `test_lang_catalogs.py::test_bad_fixtures_flag_expected_rules` |
+| Accessibility (language, zoom, focus, captions, animations) | `test_lang_catalogs.py` (`a11y_bad.html`) |
+| Concern already handled in the file (guard) | `test_lang_catalogs.py::TestFileGuards` |
+| Teaching report | `test_report.py::test_bilan_counts` |
+| Unmeasured gain | `test_report.py::test_bilan_contains_no_unmeasured_environmental_claim` |
 
-Les scénarios « demande complexe », « règles contradictoires » et
-« ajout de dépendance » s'exercent en revue guidée : les règles correspondantes
-(NR-ARCH-008, NR-MEASURE-002, arbitrages SKILL.md) sont de processus
-(`automation: none`) ; leurs preuves sont documentées dans les fiches, pas
-automatisables en statique.
+The "complex request", "conflicting rules", and "new dependency" scenarios
+run as guided reviews: the matching rules (NR-ARCH-008, NR-MEASURE-002, and
+the SKILL.md trade-offs) are process rules (`automation: none`). Their sheets
+document the evidence, which a static check can't automate.

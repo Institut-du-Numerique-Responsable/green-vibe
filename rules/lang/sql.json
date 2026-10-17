@@ -1,7 +1,7 @@
 {
   "family": "lang-sql",
   "title": "SQL and databases",
-  "version": "1.0",
+  "version": "1.1",
   "rules": [
     {
       "id": "NR-LANG-SQL-001",
@@ -14,7 +14,7 @@
       "limits": ["EXISTS probes and interactive exploration are the documented exceptions."],
       "priority": "high",
       "applies": ["sql"],
-      "origin": ["green-claude:sql.json", "green-codex:DB-EFF-001", "green-codex:LANG-SQL-001"],
+      "origin": ["INR"],
       "rgesn": null,
       "see": ["NR-DATA-001"]
     },
@@ -29,7 +29,7 @@
       "limits": ["Small lookup tables make correlated subqueries perfectly fine; the plan decides."],
       "priority": "medium",
       "applies": ["sql"],
-      "origin": ["green-claude:sql.json", "green-codex:LANG-SQL-002"],
+      "origin": ["INR"],
       "rgesn": null
     },
     {
@@ -43,7 +43,7 @@
       "limits": [],
       "priority": "medium",
       "applies": ["sql"],
-      "origin": ["green-claude:sql.json", "green-codex:DB-EFF-004"],
+      "origin": ["INR"],
       "rgesn": null
     },
     {
@@ -57,7 +57,7 @@
       "limits": ["Expression indexes exist precisely for this; their cost is recorded like any index (NR-DATA-003)."],
       "priority": "medium",
       "applies": ["sql"],
-      "origin": ["green-claude:sql.json"],
+      "origin": ["INR"],
       "rgesn": null,
       "see": ["NR-DATA-003"]
     },
@@ -72,8 +72,82 @@
       "limits": [],
       "priority": "high",
       "applies": ["sql", "backend"],
-      "origin": ["green-claude:sql.json", "green-codex:CODE-EFF-002"],
+      "origin": ["INR"],
       "rgesn": null
+    },
+    {
+      "id": "NR-LANG-SQL-006",
+      "title": "Keyset pagination instead of deep OFFSET",
+      "what": "Paginate large result sets by key (WHERE id > :last ORDER BY id LIMIT n), not by OFFSET.",
+      "why": "OFFSET n reads and discards n rows at every page: the deeper the page, the more work for nothing.",
+      "how": "Keep the last key of the page; index the ORDER BY columns; OFFSET stays fine for small, bounded lists.",
+      "detect": {"automation": "partial", "patterns": [{"re": "\\bOFFSET\\s+(\\d{3,}|[:@$?]\\w*)", "scope": ["sql"], "note": "OFFSET with a large or variable value."}]},
+      "verify": {"method": "test", "how": "Plan of a deep page shows an index range scan, not a scan of the skipped rows."},
+      "limits": [],
+      "priority": "medium",
+      "applies": ["sql", "data"],
+      "origin": ["INR", "RGESN 7.1"],
+      "rgesn": "7.1",
+      "see": ["NR-DATA-004"]
+    },
+    {
+      "id": "NR-LANG-SQL-007",
+      "title": "No DISTINCT to hide a bad join",
+      "what": "Use DISTINCT only when duplicates are inherent to the question; fix the join (or use EXISTS) when it multiplies rows.",
+      "why": "DISTINCT over a fanned-out join sorts or hashes the whole intermediate result to remove rows that should never have been produced.",
+      "how": "Replace join + DISTINCT with WHERE EXISTS (...) or aggregate before joining.",
+      "detect": {"automation": "partial", "patterns": [{"re": "\\bSELECT\\s+DISTINCT\\b[\\s\\S]{0,300}?\\bJOIN\\b", "scope": ["sql"], "note": "DISTINCT with a join: check for row fan-out."}]},
+      "verify": {"method": "review", "how": "Each DISTINCT is justified by the data model, not by the join."},
+      "limits": [],
+      "priority": "low",
+      "applies": ["sql", "data"],
+      "origin": ["INR", "RGESN 9.1"],
+      "rgesn": "9.1"
+    },
+    {
+      "id": "NR-LANG-SQL-008",
+      "title": "Commit and purge in bounded batches",
+      "what": "Commit in batches sized to undo/redo capacity, never per row; delete or archive large volumes in bounded chunks, never one giant statement.",
+      "why": "A commit per row multiplies log flushes; one massive DELETE holds locks, bloats undo and replication, and can stall the whole database.",
+      "how": "Loop over batches of a few thousand rows with a checkpoint; partition and drop old partitions where the engine supports it.",
+      "detect": {"automation": "partial", "patterns": [{"re": "\\bLOOP\\b[\\s\\S]{0,400}?\\bCOMMIT\\b[\\s\\S]{0,100}?\\bEND\\s+LOOP\\b", "scope": ["sql"], "note": "COMMIT inside a loop."}, {"re": "^[ \\t]*DELETE\\s+FROM\\s+[\\w.\\\"]+\\s*;", "scope": ["sql"], "note": "Unfiltered DELETE of a whole table; check volume, or TRUNCATE/partition drop."}]},
+      "verify": {"method": "test", "how": "Batch job test shows commits proportional to batches; purge run on a copy stays within the lock budget."},
+      "limits": [],
+      "priority": "medium",
+      "applies": ["sql", "data"],
+      "origin": ["INR", "RGESN 7.1"],
+      "rgesn": "7.1",
+      "see": ["NR-DATA-005"]
+    },
+    {
+      "id": "NR-LANG-SQL-009",
+      "title": "Types sized to the data",
+      "what": "Choose column types from the data's real range (varchar(n), integer widths, date not timestamp-as-text); avoid VARCHAR(MAX)/CLOB by default.",
+      "why": "Oversized types inflate rows, indexes, memory grants and backups, multiplied by every row and every replica.",
+      "how": "Pick the narrowest correct type; store dates as dates; reserve LOB types for genuinely large content.",
+      "detect": {"automation": "partial", "patterns": [{"re": "n?varchar\\s*\\(\\s*max\\s*\\)|\\bclob\\b", "scope": ["sql"], "note": "Unbounded text type; check it is needed."}]},
+      "verify": {"method": "review", "how": "Schema review records the expected range of each wide column."},
+      "limits": [],
+      "priority": "low",
+      "applies": ["sql", "data"],
+      "origin": ["INR", "RGESN 7.3"],
+      "rgesn": "7.3",
+      "see": ["NR-DATA-008"]
+    },
+    {
+      "id": "NR-LANG-SQL-010",
+      "title": "No row-by-row logging in production code",
+      "what": "Do not leave per-row trace output (DBMS_OUTPUT, RAISE NOTICE, PRINT in loops) in production procedures.",
+      "why": "Per-row output costs CPU and memory buffers on every run, for messages nobody reads.",
+      "how": "Log aggregates once per batch; gate debug output behind a parameter.",
+      "detect": {"automation": "partial", "patterns": [{"re": "\\bDBMS_OUTPUT\\.PUT_LINE\\b|\\bRAISE\\s+NOTICE\\b", "scope": ["sql"], "note": "Trace output; check it is not per row in production."}]},
+      "verify": {"method": "review", "how": "Production procedures contain no per-row trace output."},
+      "limits": [],
+      "priority": "low",
+      "applies": ["sql"],
+      "origin": ["INR", "RGESN 7.3"],
+      "rgesn": "7.3",
+      "see": ["NR-BACK-005"]
     }
   ]
 }

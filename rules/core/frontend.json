@@ -1,7 +1,7 @@
 {
   "family": "frontend",
   "title": "Frontend",
-  "version": "1.0",
+  "version": "1.1",
   "rules": [
     {
       "id": "NR-FRONT-001",
@@ -14,7 +14,7 @@
       "limits": ["A library heavily used is legitimate; the rule targets one-function and duplicate-platform imports."],
       "priority": "high",
       "applies": ["frontend"],
-      "origin": ["green-claude:ECO-FRONT-01"],
+      "origin": ["INR", "RGESN 6.x"],
       "rgesn": "6.x",
       "see": ["NR-ARCH-008"]
     },
@@ -29,7 +29,7 @@
       "limits": ["Splitting adds request overhead; group chunks sensibly instead of one file per component."],
       "priority": "high",
       "applies": ["frontend"],
-      "origin": ["green-claude:ECO-FRONT-02"],
+      "origin": ["INR", "RGESN 6.x"],
       "rgesn": "6.x"
     },
     {
@@ -43,7 +43,7 @@
       "limits": [],
       "priority": "high",
       "applies": ["frontend"],
-      "origin": ["green-claude:ECO-FRONT-07", "green-claude:ECO-FRONT-13"],
+      "origin": ["INR", "RGESN 6.x"],
       "rgesn": "6.x"
     },
     {
@@ -57,7 +57,7 @@
       "limits": ["Virtualisation adds complexity; apply it to genuinely long lists, not to tens of items."],
       "priority": "medium",
       "applies": ["frontend"],
-      "origin": ["green-claude:ECO-FRONT-08"],
+      "origin": ["INR", "RGESN 6.x"],
       "rgesn": "6.x"
     },
     {
@@ -71,7 +71,7 @@
       "limits": ["Dynamic references (string-built class names) fool purge tools; review before deleting."],
       "priority": "low",
       "applies": ["frontend"],
-      "origin": ["green-claude:ECO-FRONT-05", "green-claude:ECO-FRONT-12"],
+      "origin": ["INR", "RGESN 6.x"],
       "rgesn": "6.x"
     },
     {
@@ -85,7 +85,7 @@
       "limits": [],
       "priority": "low",
       "applies": ["frontend"],
-      "origin": ["green-claude:ECO-FRONT-10", "green-claude:ECO-FRONT-11", "green-claude:ECO-FRONT-09"],
+      "origin": ["INR", "RGESN 6.x"],
       "rgesn": "6.x"
     },
     {
@@ -99,7 +99,7 @@
       "limits": ["Document-level listeners that outlive components are deliberate; document them."],
       "priority": "high",
       "applies": ["frontend"],
-      "origin": ["green-claude:ECO-FRONT-06 area", "green-codex:LANG-JS-*"],
+      "origin": ["INR", "RGESN 6.x"],
       "rgesn": "6.x"
     },
     {
@@ -113,7 +113,7 @@
       "limits": ["Immediate feedback (cursor, text) must not be debounced; target the expensive part only."],
       "priority": "medium",
       "applies": ["frontend"],
-      "origin": ["green-claude:ECO-ALGO area", "green-codex:WEB-EFF-003"],
+      "origin": ["INR", "RGESN 6.x, 9.1"],
       "rgesn": "6.x, 9.1"
     },
     {
@@ -127,7 +127,7 @@
       "limits": [],
       "priority": "medium",
       "applies": ["frontend"],
-      "origin": ["green-claude:ECO-FRONT-13", "green-claude:ECO-FRONT-14"],
+      "origin": ["INR", "RGESN 6.x"],
       "rgesn": "6.x"
     },
     {
@@ -141,8 +141,23 @@
       "limits": [],
       "priority": "medium",
       "applies": ["frontend", "infra"],
-      "origin": ["green-claude:ECO-FRONT-03", "green-claude:ECO-HEB-02"],
+      "origin": ["INR", "RGESN 6.x, 8.x"],
       "rgesn": "6.x, 8.x"
+    },
+    {
+      "id": "NR-FRONT-011",
+      "title": "No avoidable requests",
+      "what": "Remove non-essential and duplicate requests from the main user journeys and keep a request budget per page.",
+      "why": "Every request costs a round trip, server work and radio time; duplicates and trackers add cost without serving the user.",
+      "how": "Audit the journey's network trace; deduplicate fetches; drop unused third parties; set a request and weight budget in CI.",
+      "detect": {"automation": "none"},
+      "verify": {"method": "measure", "how": "Production network trace of the main journeys checked against the request budget."},
+      "limits": [],
+      "priority": "high",
+      "applies": ["frontend", "api"],
+      "origin": ["INR", "RGESN 6.x"],
+      "rgesn": "6.x",
+      "see": ["NR-SERVICE-008", "NR-UX-007"]
     }
   ]
 }

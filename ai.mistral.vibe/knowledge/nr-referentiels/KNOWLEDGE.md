@@ -12,8 +12,9 @@ applies, the related RGESN criterion (`rgesn`).
   (NR-ARCH), UX (NR-UX), content (NR-CONTENT), frontend (NR-FRONT), backend
   (NR-BACK, NR-DATA, NR-API), hosting (NR-INFRA), algorithms (NR-ALGO, NR-AI).
 - **GR491** (INR): lifecycle design decisions, cross-cutting.
-- **RGAA** (versioned): accessibility verification — NR-UX-001,
-  NR-LANG-HTML-003.
+- **RGAA 4.1 / WCAG 2.2**: accessibility and inclusion (IT for Social) —
+  NR-UX-001, NR-UX-009 to NR-UX-012, NR-SERVICE-010, NR-LANG-HTML-003,
+  NR-LANG-HTML-004. Criterion numbers are cited in each sheet's `origin`.
 - **Opquast**: web quality — NR-UX-006, NR-API-006.
 
 ## Discipline

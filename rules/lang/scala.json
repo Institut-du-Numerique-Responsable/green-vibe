@@ -1,0 +1,36 @@
+{
+  "family": "lang-scala",
+  "title": "Scala",
+  "version": "1.0",
+  "rules": [
+    {
+      "id": "NR-LANG-SCALA-001",
+      "title": "Views and iterators for long chains",
+      "what": "Chain large transformations through .iterator or .view and materialise only the final result.",
+      "why": "Every map or filter on a strict collection allocates a new one: three links over a large collection are three full copies for one result.",
+      "how": "xs.view.map(f).filter(p).toVector; LazyList for streams; benchmark lazy against strict on the real volume.",
+      "detect": {"automation": "partial", "patterns": [{"re": "\\.map\\([^)]*\\)\\s*\\.(filter|map|flatMap)\\([^)]*\\)\\s*\\.(filter|map|flatMap)\\(", "scope": ["scala"], "note": "Three chained strict transformations; candidate on large collections.", "exclude_file": ["\\.iterator\\b", "\\.view\\b", "LazyList"]}]},
+      "verify": {"method": "measure", "how": "Allocation or timing benchmark on representative volume for performance-motivated changes."},
+      "limits": ["On small collections the strict version is clearer and cheaper."],
+      "priority": "medium",
+      "applies": ["scala"],
+      "origin": ["INR", "RGESN 9.1"],
+      "rgesn": "9.1"
+    },
+    {
+      "id": "NR-LANG-SCALA-002",
+      "title": "Bounded parallelism, measured first",
+      "what": "Stay sequential by default; parallelise (.par, Futures in loops) only after a benchmark, on a pool you sized, with explicit concurrency bounds.",
+      "why": "A Future starts when built: building them in a loop launches every call at once. .par hands work to a shared pool and slows everything else using it.",
+      "how": "Throttled traverse (parTraverseN, mapAsync(n)), a Semaphore, or a dedicated ExecutionContext sized from measurement.",
+      "detect": {"automation": "partial", "patterns": [{"re": "\\.par\\b|\\bParVector\\b|\\bParArray\\b", "scope": ["scala"], "note": "Parallel collection; check a benchmark justifies it."}, {"re": "for\\s*\\([^)]*\\)\\s*\\{[^}]*Future\\s*\\{|\\.map\\s*\\([^)]*Future\\s*\\{", "scope": ["scala"], "note": "Futures built in a loop: unbounded concurrency.", "exclude_file": ["Semaphore", "parTraverseN", "mapAsync", "throttle"]}]},
+      "verify": {"method": "measure", "how": "Benchmark shows the gain; the number of tasks in flight is bounded by configuration."},
+      "limits": [],
+      "priority": "high",
+      "applies": ["scala", "backend"],
+      "origin": ["INR", "RGESN 9.1"],
+      "rgesn": "9.1",
+      "see": ["NR-ALGO-006"]
+    }
+  ]
+}

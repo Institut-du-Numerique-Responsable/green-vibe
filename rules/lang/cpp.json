@@ -1,0 +1,63 @@
+{
+  "family": "lang-cpp",
+  "title": "C++",
+  "version": "1.0",
+  "rules": [
+    {
+      "id": "NR-LANG-CPP-001",
+      "title": "Pass by reference or view",
+      "what": "Pass non-trivial objects by const&, move to transfer ownership, and read through std::string_view/std::span instead of copying.",
+      "why": "Passing a string or vector by value copies its entire content on every call.",
+      "how": "void f(const std::string& s) or f(std::string_view s); std::move for sinks.",
+      "detect": {"automation": "partial", "patterns": [{"re": "[(,]\\s*(const\\s+)?std::(string|vector<[^>]*>|map<[^>]*>)\\s+\\w+\\s*[,)]", "scope": ["cpp"], "note": "Container or string parameter by value; fine only for sink parameters that are moved."}]},
+      "verify": {"method": "review", "how": "No by-value container or string parameter that is not a deliberate sink."},
+      "limits": [],
+      "priority": "medium",
+      "applies": ["cpp"],
+      "origin": ["INR", "RGESN 9.1"],
+      "rgesn": "9.1"
+    },
+    {
+      "id": "NR-LANG-CPP-002",
+      "title": "Reserve from known bounds, find with hashes",
+      "what": "reserve() containers when the size is known, emplace instead of pushing temporaries, and use unordered_map/set instead of repeated std::find on large vectors.",
+      "why": "A growing vector copies its content at every reallocation; repeated linear search makes the work quadratic.",
+      "how": "v.reserve(n); v.emplace_back(args...); build an unordered_set once before the loop.",
+      "detect": {"automation": "partial", "patterns": [{"re": "for\\s*\\([^)]*\\)\\s*\\{[^}]*std::find\\s*\\(", "scope": ["cpp"], "note": "std::find inside a loop; candidate for a hash lookup."}]},
+      "verify": {"method": "measure", "how": "Allocation profile or benchmark on representative volume for performance-motivated changes."},
+      "limits": [],
+      "priority": "low",
+      "applies": ["cpp"],
+      "origin": ["INR", "RGESN 9.1"],
+      "rgesn": "9.1"
+    },
+    {
+      "id": "NR-LANG-CPP-003",
+      "title": "unique_ptr by default, RAII throughout",
+      "what": "Use std::unique_ptr unless ownership is genuinely shared; manage every resource with RAII.",
+      "why": "shared_ptr pays an atomic reference count on every copy, usually for ownership that is unique.",
+      "how": "std::make_unique; shared_ptr only with a documented shared owner; no raw owning new/delete.",
+      "detect": {"automation": "partial", "patterns": [{"re": "std::make_shared\\s*<", "scope": ["cpp"], "note": "Shared ownership; check that unique ownership would not do."}]},
+      "verify": {"method": "review", "how": "Each shared_ptr has a documented shared owner."},
+      "limits": [],
+      "priority": "low",
+      "applies": ["cpp"],
+      "origin": ["INR", "RGESN 9.1"],
+      "rgesn": "9.1"
+    },
+    {
+      "id": "NR-LANG-CPP-004",
+      "title": "Stream large files, bound threads",
+      "what": "Read large files in blocks rather than whole into a string; bound thread pools and futures and make sure no task survives shutdown.",
+      "why": "Whole-file reads cost memory proportional to size; unbounded threads and detached tasks keep cores and memory busy after the work is gone.",
+      "how": "std::ifstream with a fixed buffer; a fixed-size pool; std::jthread with stop_token; join on shutdown.",
+      "detect": {"automation": "partial", "patterns": [{"re": "std::istreambuf_iterator<char>\\s*\\(\\s*\\w+\\s*\\)", "scope": ["cpp"], "note": "Whole-file read into memory."}, {"re": "\\.detach\\(\\)", "scope": ["cpp"], "note": "Detached thread: no join, no bound, nothing waits for it."}]},
+      "verify": {"method": "test", "how": "Shutdown test asserts all workers joined; memory flat on a large input."},
+      "limits": [],
+      "priority": "medium",
+      "applies": ["cpp"],
+      "origin": ["INR", "RGESN 9.2"],
+      "rgesn": "9.2"
+    }
+  ]
+}

@@ -1,64 +1,59 @@
-# Maintenance et contribution
+# Maintenance and contribution
+
+**English** · [Français](fr/maintenance.md)
+
+This page describes how to test, evolve, and contribute to the catalog.
 
 ## Tests
+
+The test suite uses the standard library. Run it from the repository root:
 
 ```bash
 python3 -m unittest discover -s tests -t . -p "test_*.py"
 ```
 
-- `tests/unit/test_rules.py` : schéma complet des 149 fiches, unicité des IDs,
-  compilation de chaque pattern, familles attendues.
-- `tests/unit/test_select.py` : détection de scopes, sélection par familles,
-  exclusion des règles usage.
-- `tests/unit/test_audit.py` : fixtures non conformes -> règles attendues ;
-  fixtures conformes -> zéro constat ; statuts FAIL/REVIEW ; masquage.
-- `tests/unit/test_report.py` : statuts normalisés, `verified` exige une
-  preuve, un FAIL ne peut être surdéclaré, bilan sans affirmation
-  environnementale non mesurée.
-- `tests/integration/test_pipeline.py` : pipeline complet select -> audit ->
-  report -> bilan, CLI, et hook (entrées propres, silencieux, fail-open).
+- `tests/unit/test_rules.py`: full sheet schema, unique IDs, every pattern
+  compiles, expected families.
+- `tests/unit/test_select.py`: scope detection, selection by family, usage
+  rules excluded.
+- `tests/unit/test_audit.py`: non-conforming fixtures trigger the expected
+  rules; conforming fixtures produce no finding; FAIL/REVIEW statuses;
+  masking.
+- `tests/unit/test_lang_catalogs.py`: one non-conforming fixture per language
+  and framework triggers the expected rules; conforming Go/Rust fixtures
+  produce no finding; file guards and `in_loop`; selection by detected
+  framework (React vs Solid); linear-time checks (no `^\s` in patterns,
+  large masked blocks in every language).
+- `tests/unit/test_report.py`: normalised statuses, `verified` needs
+  evidence, a FAIL can't be overridden, no unmeasured environmental claim in
+  the report.
+- `tests/integration/test_pipeline.py`: the full select, audit, and report
+  pipeline, the CLI, and the hook (clean input, silence, fail-open).
 
-Toute modification du catalogue ou du moteur doit passer la suite complète et
-régénérer `rules/index.json` + `docs/matrice-correspondance.md`.
+Every change to the catalog or the engine must pass the full suite and
+regenerate `rules/index.json` (`python3 validators/green-vibe index`).
 
-## Garde de dérive
+## Release cycle
 
-```bash
-python3 scripts/matrix.py --check
-```
+Versions follow SemVer.
 
-Vérifie que chaque provenance en forme d'ID pointe bien vers une règle
-existante dans Green Claude / Green Codex locaux (chemin configurable via
-`--sources`). Sortie non nulle = provenance cassée.
-
-## Synchronisation avec les sources
-
-Les projets sources évoluent ; Green Vibe ne les modifie jamais et ne
-synchronise jamais automatiquement. Procédure :
-
-1. `python3 scripts/matrix.py` : régénérer la matrice et lire les changements
-   de couverture (nouvelles règles source non couvertes, changements d'IDs).
-2. Décider règle par règle : reprise, couverture par une règle existante, ou
-   non-applicable au périmètre Vibe — et le documenter.
-3. Toute reprise passe par le processus de validation (contribution),
-   avec provenance et fiche complète.
-
-## Cycle de version
-
-- `VERSION` + `plugin.json.version` au rythme SemVer : patch (corrections),
-  minor (règles ajoutées), major (changement de schéma).
-- `CHANGELOG.md` obligatoire à chaque version.
-- Pas de publication distante sans autorisation explicite de l'INR.
+- `VERSION` and `plugin.json` `version` follow SemVer: patch (fixes), minor
+  (new rules), major (schema change).
+- `CHANGELOG.md` and `CHANGELOG.fr.md` are updated for every release.
+- No remote publication without explicit INR approval.
 
 ## Contribution
 
-1. Fiche complète, tous les champs (cf. [regles.md](regles.md)) ; anglais pour
-   le contenu des règles (cohérence avec les sources), français pour la doc.
-2. Toute règle automatisable : `note` décrivant les limites du détecteur,
-   fixtures conforme/non conforme + test.
-3. Provenance obligatoire (`origin`) ; une contribution sans source vérifiable
-   reste en statut draft jusqu'à validation INR.
-4. Une affirmation environnementale dans une fiche exige la mesure qui la
-   fonde, sinon elle n'entre pas.
-5. Les contributions de code (validateurs, hook, tests) suivent les mêmes
-   exigences : stdlib uniquement, tests, fail-open pour le hook.
+Every contribution meets these requirements:
+
+1. A complete sheet with every field (see [rules.md](rules.md)). Rule content
+   and documentation are in English; keep the French translation in sync in
+   `docs/fr/`, `README.fr.md`, `evals/README.fr.md`, and `CHANGELOG.fr.md`.
+2. Every automatable rule has a `note` that describes the detector's limits,
+   plus conforming and non-conforming fixtures and a test.
+3. Provenance (`origin`) is mandatory; a contribution without a verifiable
+   reference stays a draft until the INR validates it.
+4. An environmental claim in a sheet needs the measurement behind it, or it
+   doesn't go in.
+5. Code contributions (validators, hook, tests) follow the same rules:
+   standard library only, tests, and a fail-open hook.

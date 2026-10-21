@@ -22,7 +22,7 @@ Sortie JSON : scopes détectés (langages), marqueurs projet, familles retenues,
 liste des IDs de règles. Les familles toujours actives (stratégie, service,
 architecture, mesure, algorithmie) s'ajoutent à chaque sélection ; les familles
 frontend/backend/data/api/infra ne s'activent que si le contexte les justifie ;
-les 29 règles `NR-USAGE-*` (usage de Vibe lui-même) et les 30 règles
+les 25 règles `NR-USAGE-*` (usage de Vibe lui-même) et les 30 règles
 `NR-TOK-*` de sobriété des tokens ne sont jamais auto-sélectionnées : elles
 concernent la conversation, pas les fichiers.
 

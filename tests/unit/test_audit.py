@@ -95,5 +95,49 @@ class TestAuditBadFixtures(unittest.TestCase):
                         "partial automation yields REVIEW candidates")
 
 
+class TestPhpFalsePositives(unittest.TestCase):
+    """Cases found on a WordPress theme (green-claude #56)."""
+
+    @classmethod
+    def setUpClass(cls):
+        cls.rules = rules_mod.load_rules(REPO_ROOT)
+
+    def _hits(self, name, source):
+        import tempfile
+
+        with tempfile.TemporaryDirectory() as tmp:
+            path = Path(tmp) / name
+            path.write_text(source, encoding="utf-8")
+            return {f["rule"] for f in audit_mod.audit_files([path], self.rules)}
+
+    def test_concatenated_table_name_is_not_flagged(self):
+        hits = self._hits("table.php", (
+            "<?php\n"
+            "$rows = $wpdb->get_results($wpdb->prepare(\"SELECT id FROM \" . "
+            "$GLOBALS['table_organisation'] . \" WHERE id = %d\", $id));\n"
+            "$n = $wpdb->get_var(\"SELECT COUNT(id) FROM \" . $wpdb->prefix . \"organisation\");\n"
+        ))
+        self.assertNotIn("NR-DATA-007", hits)
+
+    def test_concatenated_value_is_flagged(self):
+        hits = self._hits("value.php", (
+            "<?php\n"
+            "$rows = $wpdb->get_results(\"SELECT id FROM t WHERE nom = \" . $nom);\n"
+        ))
+        self.assertIn("NR-DATA-007", hits)
+
+    def test_multiline_return_is_not_dead_code(self):
+        hits = self._hits("ret.php", (
+            "<?php\n"
+            "function liste($id)\n{\n"
+            "    return $wpdb->get_results($wpdb->prepare(\n"
+            "        \"SELECT id, nom FROM t WHERE id = %d\",\n"
+            "        $id\n"
+            "    ));\n}\n"
+        ))
+        self.assertNotIn("NR-FRONT-005", hits)
+        self.assertNotIn("NR-DATA-007", hits)
+
+
 if __name__ == "__main__":
     unittest.main()

@@ -18,7 +18,7 @@ The catalog has three parts.
   - frameworks: react, vue, angular, svelte, solid, and astro. They share the
     JS/TS extensions, so `select` keeps them based on the detected framework
     (file name, import) rather than the extension alone.
-- **29 usage practices** (`rules/usage.json`): lean, reliable, and ethical
+- **25 usage practices** (`rules/usage.json`): lean, reliable, and ethical
   use of Vibe itself (brief, context, `/compact`, `/branch`, `/rewind`,
   model choice, subagents, bounded headless runs, least privilege, AGENTS.md,
   skills, and inclusive content).

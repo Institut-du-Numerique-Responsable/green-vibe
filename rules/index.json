@@ -1255,6 +1255,7 @@
    "scopes": [
     "java",
     "js",
+    "php",
     "py",
     "ts"
    ],
@@ -4885,36 +4886,6 @@
    ]
   },
   {
-   "id": "NR-USAGE-005",
-   "title": "Right model for the task",
-   "family": "usage",
-   "priority": "medium",
-   "applies": [
-    "usage"
-   ],
-   "automation": "none",
-   "scopes": [],
-   "rgesn": null,
-   "origin": [
-    "INR"
-   ]
-  },
-  {
-   "id": "NR-USAGE-006",
-   "title": "Deterministic tools before model reasoning",
-   "family": "usage",
-   "priority": "high",
-   "applies": [
-    "usage"
-   ],
-   "automation": "none",
-   "scopes": [],
-   "rgesn": null,
-   "origin": [
-    "INR"
-   ]
-  },
-  {
    "id": "NR-USAGE-007",
    "title": "One turn, one goal",
    "family": "usage",
@@ -5098,21 +5069,6 @@
    ]
   },
   {
-   "id": "NR-USAGE-019",
-   "title": "No panel of agents for a small task",
-   "family": "usage",
-   "priority": "medium",
-   "applies": [
-    "usage"
-   ],
-   "automation": "none",
-   "scopes": [],
-   "rgesn": null,
-   "origin": [
-    "INR"
-   ]
-  },
-  {
    "id": "NR-USAGE-020",
    "title": "Bounded, least-privilege headless runs",
    "family": "usage",
@@ -5147,21 +5103,6 @@
    "title": "Map the code instead of re-reading it",
    "family": "usage",
    "priority": "medium",
-   "applies": [
-    "usage"
-   ],
-   "automation": "none",
-   "scopes": [],
-   "rgesn": null,
-   "origin": [
-    "INR"
-   ]
-  },
-  {
-   "id": "NR-USAGE-023",
-   "title": "Dense answers, no padding",
-   "family": "usage",
-   "priority": "low",
    "applies": [
     "usage"
    ],

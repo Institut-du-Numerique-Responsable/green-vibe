@@ -57,7 +57,7 @@ class TestRuleCatalog(unittest.TestCase):
 
     def test_usage_rules_are_conversation_scoped(self):
         usage = [r for r in self.rules if r["_family"] == "usage"]
-        self.assertEqual(len(usage), 29)
+        self.assertEqual(len(usage), 25)
 
 
 class TestTokenRules(unittest.TestCase):
@@ -98,6 +98,11 @@ class TestTokenRules(unittest.TestCase):
         ctx = {"scopes": ["python", "js", "sql", "html"], "frameworks": []}
         selected = context.select_rule_ids(ctx, self.rules, ["ai"])
         self.assertFalse([s for s in selected if s.startswith("NR-TOK-")])
+
+    def test_merged_usage_duplicates_stay_out(self):
+        ids = {r["id"] for r in self.rules}
+        for gone in ("NR-USAGE-005", "NR-USAGE-006", "NR-USAGE-019", "NR-USAGE-023"):
+            self.assertNotIn(gone, ids, f"{gone} duplicates an NR-TOK rule")
 
     def test_no_invented_metric_rule(self):
         report = next(r for r in self.tokens if r["id"] == "NR-TOK-030")

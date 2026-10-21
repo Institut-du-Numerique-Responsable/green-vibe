@@ -20,7 +20,17 @@ française de [CHANGELOG.md](CHANGELOG.md).
   d'idée ni de liste annoncée, pas de pseudo-clivée, d'épanorthose,
   d'anaphore ni d'antithèse binaire). Le rendu du bilan perd ses tirets
   quadratins.
-- 316 règles. Tests : 67.
+- Doublons fusionnés : NR-USAGE-005 (bon modèle), 006 (outils
+  déterministes), 019 (panels d'agents) et 023 (réponses denses) répétaient
+  NR-TOK-023, 025, 024 et 001. NR-TOK reprend leurs nuances (exigence de
+  qualité laissée à l'utilisateur, démarrage à froid de chaque agent,
+  `[utility_models]`, format demandé) et les liens `see` pointent vers
+  NR-TOK. 25 pratiques d'usage.
+- NR-DATA-007 détecte en PHP une valeur concaténée après un opérateur SQL et
+  ignore un nom de table ou un préfixe concaténé (`$wpdb->prefix`), le faux
+  positif corrigé dans green-claude #56. Des tests de non-régression
+  couvrent ce cas et un `return` multi-lignes.
+- 312 règles. Tests : 71.
 
 ## 0.2.2 (2026-10-17)
 

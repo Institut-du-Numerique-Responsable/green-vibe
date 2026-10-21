@@ -143,7 +143,7 @@
       "applies": ["ai"],
       "origin": ["INR", "RGESN 9.x"],
       "rgesn": "9.x",
-      "see": ["NR-AI-001", "NR-USAGE-006"]
+      "see": ["NR-AI-001", "NR-TOK-025"]
     },
     {
       "id": "NR-AI-011",

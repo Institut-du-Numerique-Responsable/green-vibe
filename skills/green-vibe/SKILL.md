@@ -167,10 +167,10 @@ finding the team has already answered.
 
 ## Sobriété of Vibe itself
 
-The conversation has its own footprint. Apply the 29 practices of
+The conversation has its own footprint. Apply the 25 practices of
 `rules/usage.json` (view them: `rules usage`): minimal context, on-demand
-retrieval, compaction, right model, deterministic tools before reasoning, no
-blind retries. Present them as Green Vibe recommendations.
+retrieval, compaction, no blind retries, bounded headless runs, least
+privilege. Present them as Green Vibe recommendations.
 
 `rules/tokens.json` holds the 30 NR-TOK token sobriety rules (view them:
 `rules tokens`). Every token read or generated is computation, so saving

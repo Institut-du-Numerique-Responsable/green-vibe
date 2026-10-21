@@ -5,6 +5,23 @@
 Ce fichier consigne les évolutions de chaque version (SemVer). Traduction
 française de [CHANGELOG.md](CHANGELOG.md).
 
+## Non publié
+
+- 30 règles NR-TOK de sobriété des tokens (`rules/tokens.json`) : réponses,
+  contexte, opérations, choix du modèle, qualité et mesure. Chaque fiche
+  porte le niveau INR (7 obligatoires, 5 conditionnelles, 18 recommandées) et
+  des liens `see` vers les pratiques d'usage qu'elle recoupe. Jamais
+  sélectionnées automatiquement ; `rules tokens` les affiche, avec le niveau
+  à côté de la priorité.
+- Le bilan gagne un bloc « Sobriété des tokens » (NR-TOK-030) après toute
+  tâche qui lance des outils ou modifie des fichiers. Il n'invente aucune
+  métrique.
+- `SKILL.md` : règles d'écriture des réponses (pas de tiret quadratin, pas
+  d'idée ni de liste annoncée, pas de pseudo-clivée, d'épanorthose,
+  d'anaphore ni d'antithèse binaire). Le rendu du bilan perd ses tirets
+  quadratins.
+- 316 règles. Tests : 67.
+
 ## 0.2.2 (2026-10-17)
 
 - NR-USAGE-028 nomme l'agent intégré `ask`, comme le CLI de Vibe

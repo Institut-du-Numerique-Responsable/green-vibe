@@ -16,7 +16,8 @@ green-vibe/
 │   ├── index.json                 Index compact (1 ligne par règle, généré)
 │   ├── core/*.json                13 familles transversales (128 règles)
 │   ├── lang/*.json                19 langages + 6 frameworks (129 règles)
-│   └── usage.json                 29 pratiques d'usage de Vibe
+│   ├── usage.json                 29 pratiques d'usage de Vibe
+│   └── tokens.json                30 règles NR-TOK de sobriété des tokens
 ├── references/                    3U, mesure, critères, charte IA
 ├── validators/
 │   ├── green-vibe                 Lanceur CLI (aucune installation)
@@ -56,7 +57,7 @@ fichiers du projet ──> select ──> IDs de règles retenues ─┐
 La séparation demandée pour la mutualisation future est explicite :
 
 - **Socle commun NR** : `rules/` + `references/`. Zéro dépendance envers Vibe,
-  zéro référence à l'agent dans les fiches (sauf `rules/usage.json`, propre à
+  zéro référence à l'agent dans les fiches (sauf `rules/usage.json` et `rules/tokens.json`, propre à
   chaque assistant). Ce répertoire est extractible tel quel vers un
   référentiel NR commun à plusieurs agents de code.
 - **Adaptateur Vibe** : `skills/`, `ai.mistral.vibe/`, `validators/`. Il encode

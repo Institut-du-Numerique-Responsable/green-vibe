@@ -97,7 +97,7 @@ def bilan(results: list[dict], intervention: str, mode: str = "pedagogique") -> 
         applied = [r for r in results if r["status"] in ("verified", "not_tested")]
         lines.append("RÈGLES NR APPLIQUÉES :")
         for r in applied:
-            lines.append(f"- {r['rule_id']} — {r['title']} [{r['status']}]")
+            lines.append(f"- {r['rule_id']} : {r['title']} [{r['status']}]")
         if teachable:
             lines.append("")
             lines.append("💡 À RETENIR : " + _teach_line(teachable[0]))
@@ -106,7 +106,7 @@ def bilan(results: list[dict], intervention: str, mode: str = "pedagogique") -> 
         shown = verified + failed + review if mode == "audit" else verified + failed
         for r in shown:
             lines.append("")
-            lines.append(f"RÈGLE {r['rule_id']} — {r['title']}")
+            lines.append(f"RÈGLE {r['rule_id']} : {r['title']}")
             lines.append(f"Statut : {r['status']}")
             if r["evidence"]:
                 lines.append("Vérification/preuves : " + ", ".join(r["evidence"]))

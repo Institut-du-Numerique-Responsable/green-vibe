@@ -11,3 +11,10 @@ Rule sheets record their provenance ("origin" field: INR, and the official
 referentials they relate to, such as RGESN, RGAA or WCAG) and the RGESN
 criterion when one applies ("rgesn" field). Identifiers
 NR-* are Green Vibe project identifiers, not official criterion numbers.
+
+Some ideas of the NR-TOK token sobriety rules (rules/tokens.json) were
+inspired by Caveman (Copyright 2026 Julius Brussee, Apache License 2.0,
+https://github.com/JuliusBrussee/caveman). The Institut du Numérique
+Responsable reworked and rewrote those rules. This project is independent of
+Caveman and its author: referring to it implies no endorsement, affiliation
+or participation.

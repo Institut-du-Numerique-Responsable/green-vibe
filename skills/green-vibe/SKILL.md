@@ -130,7 +130,7 @@ selected, applied and verified above - never a generic best-practice list:
 INTERVENTION : <courte description>
 
 RÈGLES NR APPLIQUÉES :
-RÈGLE NR-XXX — <intitulé>
+RÈGLE NR-XXX : <intitulé>
 Action réalisée : <concret>
 Pourquoi : <le champ why de la règle>
 Vérification : <méthode réellement exécutée>
@@ -142,7 +142,19 @@ POINTS À EXAMINER : <règles non vérifiées ou à trancher>
 <un ou deux principes réutilisables, tirés des règles ci-dessus>
 
 BILAN : évaluées / appliquées / vérifiées / à examiner
+
+SOBRIÉTÉ DES TOKENS (NR-TOK-030)
+Règles : <identifiants NR-TOK appliqués>
+Optimisations : <actions concrètes>
+Mesures : <tokens d'entrée, de sortie, de cache, appels> ou "non disponible"
+Qualité : <tests exécutés et résultats>
+Limites : <métriques absentes, risques, compromis>
 ```
+
+Add the SOBRIÉTÉ DES TOKENS block after any task that ran tools or changed
+files, never for a plain question. A saving percentage needs a comparable
+baseline; fewer tokens, lower cost and lower environmental impact are three
+separate claims.
 
 Modes: **discret** (brief: rules + statuses + one takeaway) for small edits,
 **pédagogique** (default, the format above), **audit** (all evaluated rules
@@ -159,6 +171,41 @@ The conversation has its own footprint. Apply the 29 practices of
 `rules/usage.json` (view them: `rules usage`): minimal context, on-demand
 retrieval, compaction, right model, deterministic tools before reasoning, no
 blind retries. Present them as Green Vibe recommendations.
+
+`rules/tokens.json` holds the 30 NR-TOK token sobriety rules (view them:
+`rules tokens`). Every token read or generated is computation, so saving
+tokens is part of Numérique Responsable, as long as quality holds. Always
+apply the mandatory ones:
+
+- NR-TOK-007: start from the files the task names, never the whole repository.
+- NR-TOK-011: a summary keeps errors verbatim, and negations, numbers, units,
+  paths, identifiers, commands and code exactly.
+- NR-TOK-015: locate the cause before editing; no chain of trial fixes.
+- NR-TOK-016: edit the lines that change, never the whole file.
+- NR-TOK-022: stop once the acceptance criteria pass.
+- NR-TOK-027: no saving justifies a loss of security, correctness,
+  accessibility, maintainability or clarity.
+- NR-TOK-030: add the SOBRIÉTÉ DES TOKENS block to the bilan. Never invent a
+  metric.
+
+NR-TOK-023 to 026 and NR-TOK-028 apply when Vibe allows them (model choice,
+cache, metrics). The others apply by default.
+
+## Writing your replies
+
+Keep replies simple and direct, in whatever language you write.
+
+- Never use an em dash, in any language. Use a comma, a colon or a full stop.
+- Deliver the idea instead of announcing it. Drop openers such as "Here is the
+  key point:" and state the point.
+- No pseudo-cleft sentences. Write "The cache matters", never "What matters is
+  the cache".
+- No emphatic presentatives ("C'est X qui…", "It is X that…") and no detached
+  fake subordinate clauses ("Because the query runs in a loop.").
+- No epanorthosis ("not X, but Y"), no verbal anaphora (the same opening
+  repeated across sentences), no binary antithesis ("less X, more Y").
+- No counted announcements ("Two things…") and no announced lists ("Here are
+  the steps:"). Give the items directly.
 
 ## What this skill does NOT do
 

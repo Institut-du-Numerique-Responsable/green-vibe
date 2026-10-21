@@ -60,34 +60,6 @@
       "rgesn": null
     },
     {
-      "id": "NR-USAGE-005",
-      "title": "Right model for the task",
-      "what": "Route the task to the smallest model that meets the quality bar: /model switches; mechanical work does not need the large model.",
-      "why": "Inference cost scales with model size across every exchange; a large model on a mechanical task pays the difference for identical output.",
-      "how": "Large model for design, hard debugging and architecture; a smaller one for mechanical refactors, format conversions and doc chores: switch with /model and lower /thinking for routine work. Point [utility_models] (titles, smart-approve classifier) at a small model.",
-      "detect": {"automation": "none"},
-      "verify": {"method": "measure", "how": "Task quality equal on a sample; cost per task lower."},
-      "limits": ["The quality bar is the user's call; the rule forces the deliberate choice, not the smallest by default."],
-      "priority": "medium",
-      "applies": ["usage"],
-      "origin": ["INR"],
-      "rgesn": null
-    },
-    {
-      "id": "NR-USAGE-006",
-      "title": "Deterministic tools before model reasoning",
-      "what": "Prefer a deterministic tool (grep, a script, a linter, a validator) over model reasoning for anything a tool decides as well.",
-      "why": "A grep result is exact, cheap and reproducible; the same question answered by generation pays reasoning tokens for a possibly-wrong answer.",
-      "how": "Run the script/linter/grep and give the model the output; the model interprets results, it does not emulate tools.",
-      "detect": {"automation": "none"},
-      "verify": {"method": "review", "how": "Deterministic checks (tests, linters, this skill's audit) back the statements made about the code."},
-      "limits": [],
-      "priority": "high",
-      "applies": ["usage"],
-      "origin": ["INR"],
-      "rgesn": null
-    },
-    {
       "id": "NR-USAGE-007",
       "title": "One turn, one goal",
       "what": "Each prompt pursues one goal; sprawled mega-prompts produce half-done work that needs re-runs.",
@@ -259,21 +231,6 @@
       "see": ["NR-USAGE-027"]
     },
     {
-      "id": "NR-USAGE-019",
-      "title": "No panel of agents for a small task",
-      "what": "Use several agents or subagents only when the work is broad or parallel by nature; a small task runs in one session.",
-      "why": "Each agent starts cold and re-reads context; a panel on a small task multiplies compute for the same answer.",
-      "how": "One session for a bounded change; delegate a subagent for a wide read-only scan; parallelise only independent work.",
-      "detect": {"automation": "none"},
-      "verify": {"method": "review", "how": "Number of agents used is justified by the size or independence of the work."},
-      "limits": [],
-      "priority": "medium",
-      "applies": ["usage"],
-      "origin": ["INR"],
-      "rgesn": null,
-      "see": ["NR-USAGE-010"]
-    },
-    {
       "id": "NR-USAGE-020",
       "title": "Bounded, least-privilege headless runs",
       "what": "Bound every programmatic run (vibe --prompt) with --max-turns and minimal --enabled-tools, and pass --agent plan for read-only jobs.",
@@ -317,20 +274,6 @@
       "origin": ["INR"],
       "rgesn": null,
       "see": ["NR-USAGE-003", "NR-ARCH-010"]
-    },
-    {
-      "id": "NR-USAGE-023",
-      "title": "Dense answers, no padding",
-      "what": "Ask for, and give, answers sized to the need: the result first, no restated question, no generic closing.",
-      "why": "Every output token is generated, transferred and read; padding costs compute and the reader's attention.",
-      "how": "Request the format you need (diff, list, one paragraph); keep explanations for what is not obvious from the result.",
-      "detect": {"automation": "none"},
-      "verify": {"method": "review", "how": "Responses lead with the result and carry no boilerplate."},
-      "limits": [],
-      "priority": "low",
-      "applies": ["usage"],
-      "origin": ["INR"],
-      "rgesn": null
     },
     {
       "id": "NR-USAGE-024",
@@ -389,7 +332,7 @@
       "applies": ["usage"],
       "origin": ["INR"],
       "rgesn": null,
-      "see": ["NR-USAGE-006", "NR-USAGE-014"]
+      "see": ["NR-TOK-025", "NR-USAGE-014"]
     },
     {
       "id": "NR-USAGE-028",

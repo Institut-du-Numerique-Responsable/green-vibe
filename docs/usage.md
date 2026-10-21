@@ -22,7 +22,7 @@ The JSON output lists the detected scopes (languages), project markers,
 selected families, and rule IDs. The always-on families (strategy, service,
 architecture, measure, and algorithms) join every selection. The frontend,
 backend, data, api, and infra families turn on only when the context calls
-for them. The 29 `NR-USAGE-*` rules (use of Vibe itself) and the 30
+for them. The 25 `NR-USAGE-*` rules (use of Vibe itself) and the 30
 `NR-TOK-*` token sobriety rules are never selected automatically: they
 concern the conversation, not the files.
 

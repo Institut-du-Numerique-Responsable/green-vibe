@@ -16,7 +16,7 @@ green-vibe/
 │   ├── index.json                 Compact index (one line per rule, generated)
 │   ├── core/*.json                13 cross-cutting families (128 rules)
 │   ├── lang/*.json                19 languages + 6 frameworks (129 rules)
-│   ├── usage.json                 29 practices for using Vibe
+│   ├── usage.json                 25 practices for using Vibe
 │   └── tokens.json                30 NR-TOK token sobriety rules
 ├── references/                    3U, measurement, criteria, AI charter
 ├── validators/

@@ -16,7 +16,16 @@ This file records the changes in each version (SemVer).
 - `SKILL.md`: writing rules for replies (no em dash, no announced idea or
   list, no pseudo-cleft, epanorthosis, anaphora or binary antithesis). The
   bilan renderer drops its em dashes.
-- 316 rules. Tests: 67.
+- Duplicates merged: NR-USAGE-005 (right model), 006 (deterministic tools),
+  019 (agent panels) and 023 (dense answers) restated NR-TOK-023, 025, 024
+  and 001. NR-TOK keeps their nuances (quality bar left to the user, cold
+  start of each agent, `[utility_models]`, requested format) and the `see`
+  links point to NR-TOK. 25 usage practices.
+- NR-DATA-007 detects a PHP value concatenated after a SQL operator, and
+  ignores a concatenated table name or prefix (`$wpdb->prefix`), the false
+  positive fixed in green-claude #56. Regression tests cover that case and a
+  multi-line `return`.
+- 312 rules. Tests: 71.
 
 ## 0.2.2 (2026-10-17)
 

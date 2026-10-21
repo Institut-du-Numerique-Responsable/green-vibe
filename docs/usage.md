@@ -22,14 +22,16 @@ The JSON output lists the detected scopes (languages), project markers,
 selected families, and rule IDs. The always-on families (strategy, service,
 architecture, measure, and algorithms) join every selection. The frontend,
 backend, data, api, and infra families turn on only when the context calls
-for them. The 29 `NR-USAGE-*` rules (use of Vibe itself) are never selected
-automatically: they concern the conversation, not the files.
+for them. The 29 `NR-USAGE-*` rules (use of Vibe itself) and the 30
+`NR-TOK-*` token sobriety rules are never selected automatically: they
+concern the conversation, not the files.
 
 Show a compact view of a rule or a family:
 
 ```bash
 python3 "$GV/validators/green-vibe" rules NR-DATA-004
 python3 "$GV/validators/green-vibe" rules usage
+python3 "$GV/validators/green-vibe" rules tokens
 ```
 
 Each sheet carries `what` (the rule), `why` (the teaching rationale), `how`
@@ -98,6 +100,15 @@ The mode sets the report's level of detail.
 
 The report cites the rules selected, applied, and verified during the change.
 It reports an environmental gain only with its measurement.
+
+### Token sobriety block
+
+After any task that ran tools or changed files, the agent adds a
+"Sobriété des tokens" block to the report (NR-TOK-030): the NR-TOK rules
+applied, the optimizations, the measures Vibe reported (input, output and
+cache tokens, calls) or "non disponible", the tests run, and the limits. It
+never invents a metric and gives a saving percentage only against a
+comparable baseline. A plain question gets no block.
 
 ## Full example
 

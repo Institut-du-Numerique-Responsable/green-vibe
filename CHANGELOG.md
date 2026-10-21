@@ -4,6 +4,20 @@
 
 This file records the changes in each version (SemVer).
 
+## Unreleased
+
+- 30 NR-TOK token sobriety rules (`rules/tokens.json`): replies, context,
+  operations, model choice, quality and measurement. Each sheet carries the
+  INR level (7 mandatory, 5 conditional, 18 recommended) and `see` links to
+  the usage practices it overlaps. Never auto-selected; `rules tokens` shows
+  them, with the level next to the priority.
+- The bilan gains a "Sobriété des tokens" block (NR-TOK-030) after any task
+  that ran tools or changed files. It invents no metric.
+- `SKILL.md`: writing rules for replies (no em dash, no announced idea or
+  list, no pseudo-cleft, epanorthosis, anaphora or binary antithesis). The
+  bilan renderer drops its em dashes.
+- 316 rules. Tests: 67.
+
 ## 0.2.2 (2026-10-17)
 
 - NR-USAGE-028 names the built-in agent `ask`, as the Vibe CLI does

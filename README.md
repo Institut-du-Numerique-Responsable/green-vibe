@@ -3,7 +3,7 @@
 [![Version](https://img.shields.io/github/v/release/Institut-du-Numerique-Responsable/green-vibe?sort=semver)](https://github.com/Institut-du-Numerique-Responsable/green-vibe/releases/latest)
 [![License](https://img.shields.io/badge/license-Apache--2.0%20%2B%20CC%20BY%204.0-yellow.svg)](LICENSE)
 [![Mistral Vibe](https://img.shields.io/badge/Mistral%20Vibe-Agent%20Plugins%201.0-fa500f)](https://docs.mistral.ai/vibe/code/overview)
-[![Sustainable IT rules](https://img.shields.io/badge/rules-286-1b7a4a)](#what-green-vibe-does)
+[![Sustainable IT rules](https://img.shields.io/badge/rules-316-1b7a4a)](#what-green-vibe-does)
 [![Python](https://img.shields.io/badge/python-%E2%89%A5%203.10-3776ab?logo=python&logoColor=white)](#quickstart)
 [![RGESN](https://img.shields.io/badge/RGESN-criteria%20mapped-0b6e4f)](https://ecoresponsable.numerique.gouv.fr/publications/referentiel-general-ecoconception/)
 [![GR491](https://img.shields.io/badge/GR491-INR-0b6e4f)](https://gr491.isit-europe.org/)
@@ -60,11 +60,17 @@ you write the code; an audit six months later can only record them.
 
 Green Vibe supports the agent at each step of a code change.
 
-- **286 Sustainable IT rules** written as LLM-native sheets
+- **316 Sustainable IT rules** written as LLM-native sheets
   (`what/why/how/verify/limits`, provenance, and RGESN reference per rule):
   13 cross-cutting families (128 rules, including accessibility and
-  inclusion), 25 language and framework catalogs (129 rules), and 29
-  practices for using Vibe itself responsibly.
+  inclusion), 25 language and framework catalogs (129 rules), 29
+  practices for using Vibe itself responsibly, and 30 token sobriety rules
+  (NR-TOK).
+- **Token sobriety**: every token read or generated is computation, so saving
+  tokens is part of Sustainable IT, as long as quality holds. The NR-TOK rules
+  (`rules tokens`) cover replies, context, operations, model choice, quality
+  and measurement. Seven are mandatory (NR-TOK-007, 011, 015, 016, 022, 027,
+  030). The bilan gains a "Sobriété des tokens" block that invents no metric.
 - **Context-driven selection**: the pipeline loads only the relevant rules
   (`select`), never the whole catalog.
 - **Executable verification**: a deterministic static audit (164 rules with

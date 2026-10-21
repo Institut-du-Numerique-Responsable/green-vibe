@@ -47,7 +47,8 @@ def cmd_rules(args):
         detect = r.get("detect") or {}
         automation = detect.get("automation", "none")
         rgesn = r.get("rgesn")
-        print(f"{r['id']} [{r['priority']}] {r['title']}")
+        level = f", {r['level']}" if r.get("level") else ""
+        print(f"{r['id']} [{r['priority']}{level}] {r['title']}")
         print(f"  WHAT : {r['what']}")
         print(f"  WHY  : {r['why']}")
         print(f"  HOW  : {r['how']}")

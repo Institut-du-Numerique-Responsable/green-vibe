@@ -49,7 +49,7 @@ class TestRuleCatalog(unittest.TestCase):
         fams = {r["_family"] for r in self.rules}
         expected = {
             "strategy", "service", "architecture", "measure", "ux", "content",
-            "frontend", "backend", "data", "api", "infra", "algo", "ai", "usage",
+            "frontend", "backend", "data", "api", "infra", "algo", "ai", "usage", "tokens",
             "lang-python", "lang-javascript", "lang-java", "lang-sql",
             "lang-html-css", "lang-shell",
         }
@@ -58,6 +58,50 @@ class TestRuleCatalog(unittest.TestCase):
     def test_usage_rules_are_conversation_scoped(self):
         usage = [r for r in self.rules if r["_family"] == "usage"]
         self.assertEqual(len(usage), 29)
+
+
+class TestTokenRules(unittest.TestCase):
+    """NR-TOK: 30 token sobriety rules, with the INR priority levels."""
+
+    @classmethod
+    def setUpClass(cls):
+        cls.rules = rules_mod.load_rules(REPO_ROOT)
+        cls.tokens = [r for r in cls.rules if r["_family"] == "tokens"]
+
+    def test_thirty_rules_in_order(self):
+        ids = [r["id"] for r in self.tokens]
+        self.assertEqual(ids, [f"NR-TOK-{i:03d}" for i in range(1, 31)])
+
+    def test_levels_match_the_inr_priorities(self):
+        def level(name):
+            return [r["id"][7:] for r in self.tokens if r["level"] == name]
+
+        self.assertEqual(level("mandatory"), ["007", "011", "015", "016", "022", "027", "030"])
+        self.assertEqual(level("conditional"), ["023", "024", "025", "026", "028"])
+        for r in self.tokens:
+            self.assertIn(r["level"], ("mandatory", "recommended", "conditional"))
+
+    def test_mandatory_rules_are_high_priority(self):
+        for r in self.tokens:
+            if r["level"] == "mandatory":
+                self.assertEqual(r["priority"], "high", r["id"])
+
+    def test_see_references_exist(self):
+        ids = {r["id"] for r in self.rules}
+        for r in self.tokens:
+            for ref in r.get("see", []):
+                self.assertIn(ref, ids, f"{r['id']} cites unknown {ref}")
+
+    def test_never_auto_selected(self):
+        from green_vibe import context
+
+        ctx = {"scopes": ["python", "js", "sql", "html"], "frameworks": []}
+        selected = context.select_rule_ids(ctx, self.rules, ["ai"])
+        self.assertFalse([s for s in selected if s.startswith("NR-TOK-")])
+
+    def test_no_invented_metric_rule(self):
+        report = next(r for r in self.tokens if r["id"] == "NR-TOK-030")
+        self.assertIn("Never invent a metric", report["what"])
 
 
 class TestIndex(unittest.TestCase):

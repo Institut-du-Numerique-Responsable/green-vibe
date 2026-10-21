@@ -3,7 +3,7 @@
 [![Version](https://img.shields.io/github/v/release/Institut-du-Numerique-Responsable/green-vibe?sort=semver)](https://github.com/Institut-du-Numerique-Responsable/green-vibe/releases/latest)
 [![Licence](https://img.shields.io/badge/licence-Apache--2.0%20%2B%20CC%20BY%204.0-yellow.svg)](LICENSE)
 [![Mistral Vibe](https://img.shields.io/badge/Mistral%20Vibe-Agent%20Plugins%201.0-fa500f)](https://docs.mistral.ai/vibe/code/overview)
-[![Règles NR](https://img.shields.io/badge/r%C3%A8gles%20NR-286-1b7a4a)](#ce-que-fait-green-vibe)
+[![Règles NR](https://img.shields.io/badge/r%C3%A8gles%20NR-316-1b7a4a)](#ce-que-fait-green-vibe)
 [![Python](https://img.shields.io/badge/python-%E2%89%A5%203.10-3776ab?logo=python&logoColor=white)](#démarrage-rapide)
 [![RGESN](https://img.shields.io/badge/RGESN-crit%C3%A8res%20r%C3%A9f%C3%A9renc%C3%A9s-0b6e4f)](https://ecoresponsable.numerique.gouv.fr/publications/referentiel-general-ecoconception/)
 [![GR491](https://img.shields.io/badge/GR491-INR-0b6e4f)](https://gr491.isit-europe.org/)
@@ -63,10 +63,17 @@ fiable et maintenable pendant toute sa vie. Vous fixez ces qualités en
 
 Green Vibe accompagne l'agent à chaque étape d'une modification de code.
 
-- **286 règles NR** rédigées en fiches LLM-natives (`what/why/how/verify/limits`,
+- **316 règles NR** rédigées en fiches LLM-natives (`what/why/how/verify/limits`,
   provenance et référence RGESN par règle) : 13 familles transversales
   (128 règles, dont accessibilité et inclusion), 25 catalogues langages et
-  frameworks (129 règles), 29 pratiques d'usage responsable de Vibe lui-même.
+  frameworks (129 règles), 29 pratiques d'usage responsable de Vibe lui-même
+  et 30 règles de sobriété des tokens (NR-TOK).
+- **Sobriété des tokens** : chaque token lu ou généré est du calcul, donc
+  économiser des tokens relève aussi du Numérique Responsable, à qualité
+  préservée. Les règles NR-TOK (`rules tokens`) couvrent les réponses, le
+  contexte, les opérations, le choix du modèle, la qualité et la mesure. Sept
+  sont obligatoires (NR-TOK-007, 011, 015, 016, 022, 027, 030). Le bilan
+  gagne un bloc « Sobriété des tokens » qui n'invente aucune métrique.
 - **Sélection par le contexte** : le pipeline ne charge que les règles pertinentes
   (`select`), jamais tout le catalogue.
 - **Vérification exécutable** : audit statique déterministe (164 règles avec

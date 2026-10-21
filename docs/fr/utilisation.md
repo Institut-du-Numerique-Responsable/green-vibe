@@ -22,14 +22,16 @@ Sortie JSON : scopes détectés (langages), marqueurs projet, familles retenues,
 liste des IDs de règles. Les familles toujours actives (stratégie, service,
 architecture, mesure, algorithmie) s'ajoutent à chaque sélection ; les familles
 frontend/backend/data/api/infra ne s'activent que si le contexte les justifie ;
-les 29 règles `NR-USAGE-*` (usage de Vibe lui-même) ne sont jamais
-auto-sélectionnées : elles concernent la conversation, pas les fichiers.
+les 29 règles `NR-USAGE-*` (usage de Vibe lui-même) et les 30 règles
+`NR-TOK-*` de sobriété des tokens ne sont jamais auto-sélectionnées : elles
+concernent la conversation, pas les fichiers.
 
 Vue compacte d'une règle ou d'une famille :
 
 ```bash
 python3 "$GV/validators/green-vibe" rules NR-DATA-004
 python3 "$GV/validators/green-vibe" rules usage
+python3 "$GV/validators/green-vibe" rules tokens
 ```
 
 Chaque fiche : `what` (la règle), `why` (raison pédagogique), `how`
@@ -99,6 +101,15 @@ Le mode règle le niveau de détail du bilan.
 
 Le bilan cite les règles sélectionnées, appliquées et vérifiées pendant
 l'intervention. Il n'annonce un gain environnemental qu'avec sa mesure.
+
+### Bloc sobriété des tokens
+
+Après toute tâche qui lance des outils ou modifie des fichiers, l'agent
+ajoute au bilan un bloc « Sobriété des tokens » (NR-TOK-030) : règles NR-TOK
+appliquées, optimisations, mesures fournies par Vibe (tokens d'entrée, de
+sortie et de cache, appels) ou « non disponible », tests exécutés et limites.
+Il n'invente aucune métrique et ne donne un pourcentage d'économie que face à
+une référence comparable. Une simple question n'en reçoit pas.
 
 ## Exemple complet
 

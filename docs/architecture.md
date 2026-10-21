@@ -16,7 +16,8 @@ green-vibe/
 │   ├── index.json                 Compact index (one line per rule, generated)
 │   ├── core/*.json                13 cross-cutting families (128 rules)
 │   ├── lang/*.json                19 languages + 6 frameworks (129 rules)
-│   └── usage.json                 29 practices for using Vibe
+│   ├── usage.json                 29 practices for using Vibe
+│   └── tokens.json                30 NR-TOK token sobriety rules
 ├── references/                    3U, measurement, criteria, AI charter
 ├── validators/
 │   ├── green-vibe                 CLI launcher (no installation)
@@ -56,7 +57,7 @@ Vibe write (write_file|edit) ──> post_edit.py hook ──> additional_contex
 The split is explicit, so other agents can reuse the core later:
 
 - **Sustainable IT core**: `rules/` and `references/`. No dependency on Vibe,
-  and no reference to the agent in the sheets (except `rules/usage.json`,
+  and no reference to the agent in the sheets (except `rules/usage.json` and `rules/tokens.json`,
   which is specific to each assistant). You can extract this directory as is
   into a Sustainable IT referential shared by several coding agents.
 - **Vibe adapter**: `skills/`, `ai.mistral.vibe/`, and `validators/`. It

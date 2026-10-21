@@ -21,6 +21,10 @@ Le catalogue se répartit en trois ensembles.
   éthique de Vibe lui-même (brief, contexte, `/compact`, `/branch`,
   `/rewind`, modèle, sous-agents, exécutions headless bornées, moindre
   privilège, AGENTS.md, skills, contenus inclusifs).
+- **30 règles de sobriété des tokens** (`rules/tokens.json`, NR-TOK-001 à
+  030) : réponses, contexte, opérations, choix du modèle, qualité et mesure.
+  Comme les pratiques d'usage, elles portent sur la conversation et ne sont
+  jamais sélectionnées automatiquement ; `rules tokens` les affiche.
 
 ## Schéma d'une fiche
 
@@ -36,6 +40,7 @@ Chaque règle porte les métadonnées exigées :
 | `verify` | `method` (static/test/measure/review) + `how` : le contrôle propre à la règle |
 | `limits` | Limites connues, affichées avec les résultats |
 | `priority` | high / medium / low |
+| `level` | NR-TOK seulement : mandatory / recommended / conditional (priorité INR) |
 | `applies` | Périmètres d'application |
 | `origin` | Provenance : `INR`, puis les référentiels liés (`RGESN 7.1`, `RGAA 4.1 criterion 10.7`, `WCAG 2.2 SC 2.4.7`…) |
 | `rgesn` | Critère RGESN associé quand il s'applique (sinon null) |

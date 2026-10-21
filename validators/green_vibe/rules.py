@@ -38,7 +38,7 @@ REQUIRED_FIELDS = (
 def _rule_files(root: Path) -> list[Path]:
     files = sorted((root / "rules" / "core").glob("*.json"))
     files += sorted((root / "rules" / "lang").glob("*.json"))
-    files += [root / "rules" / "usage.json"]
+    files += [root / "rules" / "usage.json", root / "rules" / "tokens.json"]
     return [f for f in files if f.is_file()]
 
 

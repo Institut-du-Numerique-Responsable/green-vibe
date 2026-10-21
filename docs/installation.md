@@ -72,7 +72,7 @@ Run the `stats` command from the installed copy:
 
 ```bash
 python3 ~/.vibe/plugins/green-vibe/validators/green-vibe stats
-# should print 286 rules and the families
+# should print 316 rules and the families
 ```
 
 In Vibe, `/plugins` should list `green-vibe`, and `/green-vibe` should load

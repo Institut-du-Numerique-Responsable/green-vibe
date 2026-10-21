@@ -5264,6 +5264,456 @@
     "mistral-cookbook:skills/cookbook-review/inclusive-language.md",
     "WCAG 2.2 SC 1.1.1"
    ]
+  },
+  {
+   "id": "NR-TOK-001",
+   "title": "Answer first",
+   "family": "tokens",
+   "priority": "medium",
+   "applies": [
+    "usage"
+   ],
+   "automation": "none",
+   "scopes": [],
+   "rgesn": null,
+   "origin": [
+    "INR"
+   ]
+  },
+  {
+   "id": "NR-TOK-002",
+   "title": "Say it once",
+   "family": "tokens",
+   "priority": "medium",
+   "applies": [
+    "usage"
+   ],
+   "automation": "none",
+   "scopes": [],
+   "rgesn": null,
+   "origin": [
+    "INR"
+   ]
+  },
+  {
+   "id": "NR-TOK-003",
+   "title": "Short, never ambiguous",
+   "family": "tokens",
+   "priority": "medium",
+   "applies": [
+    "usage"
+   ],
+   "automation": "none",
+   "scopes": [],
+   "rgesn": null,
+   "origin": [
+    "INR"
+   ]
+  },
+  {
+   "id": "NR-TOK-004",
+   "title": "No closing recap",
+   "family": "tokens",
+   "priority": "medium",
+   "applies": [
+    "usage"
+   ],
+   "automation": "none",
+   "scopes": [],
+   "rgesn": null,
+   "origin": [
+    "INR"
+   ]
+  },
+  {
+   "id": "NR-TOK-005",
+   "title": "Length follows the question",
+   "family": "tokens",
+   "priority": "medium",
+   "applies": [
+    "usage"
+   ],
+   "automation": "none",
+   "scopes": [],
+   "rgesn": null,
+   "origin": [
+    "INR"
+   ]
+  },
+  {
+   "id": "NR-TOK-006",
+   "title": "Quiet tool runs",
+   "family": "tokens",
+   "priority": "medium",
+   "applies": [
+    "usage"
+   ],
+   "automation": "none",
+   "scopes": [],
+   "rgesn": null,
+   "origin": [
+    "INR"
+   ]
+  },
+  {
+   "id": "NR-TOK-007",
+   "title": "Load what the task needs",
+   "family": "tokens",
+   "priority": "high",
+   "applies": [
+    "usage"
+   ],
+   "automation": "none",
+   "scopes": [],
+   "rgesn": null,
+   "origin": [
+    "INR"
+   ]
+  },
+  {
+   "id": "NR-TOK-008",
+   "title": "Search before reading",
+   "family": "tokens",
+   "priority": "medium",
+   "applies": [
+    "usage"
+   ],
+   "automation": "none",
+   "scopes": [],
+   "rgesn": null,
+   "origin": [
+    "INR"
+   ]
+  },
+  {
+   "id": "NR-TOK-009",
+   "title": "Reuse the context",
+   "family": "tokens",
+   "priority": "medium",
+   "applies": [
+    "usage"
+   ],
+   "automation": "none",
+   "scopes": [],
+   "rgesn": null,
+   "origin": [
+    "INR"
+   ]
+  },
+  {
+   "id": "NR-TOK-010",
+   "title": "Shrink bulky output",
+   "family": "tokens",
+   "priority": "medium",
+   "applies": [
+    "usage"
+   ],
+   "automation": "none",
+   "scopes": [],
+   "rgesn": null,
+   "origin": [
+    "INR"
+   ]
+  },
+  {
+   "id": "NR-TOK-011",
+   "title": "Compress without loss",
+   "family": "tokens",
+   "priority": "high",
+   "applies": [
+    "usage"
+   ],
+   "automation": "none",
+   "scopes": [],
+   "rgesn": null,
+   "origin": [
+    "INR"
+   ]
+  },
+  {
+   "id": "NR-TOK-012",
+   "title": "Lean instruction files",
+   "family": "tokens",
+   "priority": "medium",
+   "applies": [
+    "usage"
+   ],
+   "automation": "none",
+   "scopes": [],
+   "rgesn": null,
+   "origin": [
+    "INR"
+   ]
+  },
+  {
+   "id": "NR-TOK-013",
+   "title": "Details in reference files",
+   "family": "tokens",
+   "priority": "medium",
+   "applies": [
+    "usage"
+   ],
+   "automation": "none",
+   "scopes": [],
+   "rgesn": null,
+   "origin": [
+    "INR"
+   ]
+  },
+  {
+   "id": "NR-TOK-014",
+   "title": "Nothing off-task in context",
+   "family": "tokens",
+   "priority": "medium",
+   "applies": [
+    "usage"
+   ],
+   "automation": "none",
+   "scopes": [],
+   "rgesn": null,
+   "origin": [
+    "INR"
+   ]
+  },
+  {
+   "id": "NR-TOK-015",
+   "title": "Cause before code",
+   "family": "tokens",
+   "priority": "high",
+   "applies": [
+    "usage"
+   ],
+   "automation": "none",
+   "scopes": [],
+   "rgesn": null,
+   "origin": [
+    "INR"
+   ]
+  },
+  {
+   "id": "NR-TOK-016",
+   "title": "Targeted edits",
+   "family": "tokens",
+   "priority": "high",
+   "applies": [
+    "usage"
+   ],
+   "automation": "none",
+   "scopes": [],
+   "rgesn": null,
+   "origin": [
+    "INR"
+   ]
+  },
+  {
+   "id": "NR-TOK-017",
+   "title": "Show only the change",
+   "family": "tokens",
+   "priority": "medium",
+   "applies": [
+    "usage"
+   ],
+   "automation": "none",
+   "scopes": [],
+   "rgesn": null,
+   "origin": [
+    "INR"
+   ]
+  },
+  {
+   "id": "NR-TOK-018",
+   "title": "Reuse existing tools",
+   "family": "tokens",
+   "priority": "medium",
+   "applies": [
+    "usage"
+   ],
+   "automation": "none",
+   "scopes": [],
+   "rgesn": null,
+   "origin": [
+    "INR"
+   ]
+  },
+  {
+   "id": "NR-TOK-019",
+   "title": "No call with a known result",
+   "family": "tokens",
+   "priority": "medium",
+   "applies": [
+    "usage"
+   ],
+   "automation": "none",
+   "scopes": [],
+   "rgesn": null,
+   "origin": [
+    "INR"
+   ]
+  },
+  {
+   "id": "NR-TOK-020",
+   "title": "Batch independent calls",
+   "family": "tokens",
+   "priority": "medium",
+   "applies": [
+    "usage"
+   ],
+   "automation": "none",
+   "scopes": [],
+   "rgesn": null,
+   "origin": [
+    "INR"
+   ]
+  },
+  {
+   "id": "NR-TOK-021",
+   "title": "Proportionate checks",
+   "family": "tokens",
+   "priority": "medium",
+   "applies": [
+    "usage"
+   ],
+   "automation": "none",
+   "scopes": [],
+   "rgesn": null,
+   "origin": [
+    "INR"
+   ]
+  },
+  {
+   "id": "NR-TOK-022",
+   "title": "Stop at done",
+   "family": "tokens",
+   "priority": "high",
+   "applies": [
+    "usage"
+   ],
+   "automation": "none",
+   "scopes": [],
+   "rgesn": null,
+   "origin": [
+    "INR"
+   ]
+  },
+  {
+   "id": "NR-TOK-023",
+   "title": "Model sized to the task",
+   "family": "tokens",
+   "priority": "low",
+   "applies": [
+    "usage"
+   ],
+   "automation": "none",
+   "scopes": [],
+   "rgesn": null,
+   "origin": [
+    "INR"
+   ]
+  },
+  {
+   "id": "NR-TOK-024",
+   "title": "No heavy call for light work",
+   "family": "tokens",
+   "priority": "low",
+   "applies": [
+    "usage"
+   ],
+   "automation": "none",
+   "scopes": [],
+   "rgesn": null,
+   "origin": [
+    "INR"
+   ]
+  },
+  {
+   "id": "NR-TOK-025",
+   "title": "Deterministic work stays local",
+   "family": "tokens",
+   "priority": "low",
+   "applies": [
+    "usage"
+   ],
+   "automation": "none",
+   "scopes": [],
+   "rgesn": null,
+   "origin": [
+    "INR"
+   ]
+  },
+  {
+   "id": "NR-TOK-026",
+   "title": "Use the cache",
+   "family": "tokens",
+   "priority": "low",
+   "applies": [
+    "usage"
+   ],
+   "automation": "none",
+   "scopes": [],
+   "rgesn": null,
+   "origin": [
+    "INR"
+   ]
+  },
+  {
+   "id": "NR-TOK-027",
+   "title": "Quality first",
+   "family": "tokens",
+   "priority": "high",
+   "applies": [
+    "usage"
+   ],
+   "automation": "none",
+   "scopes": [],
+   "rgesn": null,
+   "origin": [
+    "INR"
+   ]
+  },
+  {
+   "id": "NR-TOK-028",
+   "title": "Measure, never estimate",
+   "family": "tokens",
+   "priority": "low",
+   "applies": [
+    "usage"
+   ],
+   "automation": "none",
+   "scopes": [],
+   "rgesn": null,
+   "origin": [
+    "INR"
+   ]
+  },
+  {
+   "id": "NR-TOK-029",
+   "title": "Count the whole run",
+   "family": "tokens",
+   "priority": "medium",
+   "applies": [
+    "usage"
+   ],
+   "automation": "none",
+   "scopes": [],
+   "rgesn": null,
+   "origin": [
+    "INR"
+   ]
+  },
+  {
+   "id": "NR-TOK-030",
+   "title": "Report what was applied",
+   "family": "tokens",
+   "priority": "high",
+   "applies": [
+    "usage"
+   ],
+   "automation": "none",
+   "scopes": [],
+   "rgesn": null,
+   "origin": [
+    "INR"
+   ]
   }
  ]
 }

@@ -22,6 +22,10 @@ The catalog has three parts.
   use of Vibe itself (brief, context, `/compact`, `/branch`, `/rewind`,
   model choice, subagents, bounded headless runs, least privilege, AGENTS.md,
   skills, and inclusive content).
+- **30 token sobriety rules** (`rules/tokens.json`, NR-TOK-001 to 030):
+  replies, context, operations, model choice, quality and measurement. Like
+  usage practices, they are conversation-scoped and never auto-selected;
+  view them with `rules tokens`.
 
 ## Rule sheet schema
 
@@ -37,6 +41,7 @@ Each rule carries the required metadata.
 | `verify` | `method` (static/test/measure/review) + `how`: the rule's own check |
 | `limits` | Known limits, shown with the results |
 | `priority` | high / medium / low |
+| `level` | NR-TOK only: mandatory / recommended / conditional (INR priority) |
 | `applies` | Scopes it applies to |
 | `origin` | Provenance: `INR`, then the related referentials (`RGESN 7.1`, `RGAA 4.1 criterion 10.7`, `WCAG 2.2 SC 2.4.7`…) |
 | `rgesn` | Related RGESN criterion when one applies (otherwise null) |

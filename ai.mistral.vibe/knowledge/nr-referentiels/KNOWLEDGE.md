@@ -27,7 +27,7 @@ applies, the related RGESN criterion (`rgesn`).
 
 ## Where the full material lives
 
-- Rule catalog: `rules/core/*.json`, `rules/lang/*.json`, `rules/usage.json`,
+- Rule catalog: `rules/core/*.json`, `rules/lang/*.json`, `rules/usage.json`, `rules/tokens.json`,
   compact index at `rules/index.json`.
 - Methodology: `references/three-u.md` (3U test),
   `references/measurement.md` (measurement discipline),

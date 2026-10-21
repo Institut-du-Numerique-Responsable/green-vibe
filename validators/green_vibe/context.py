@@ -201,7 +201,8 @@ def select_rule_ids(context: dict, rules: list[dict],
 
     Core families split into always-on (process) and scope-triggered; language
     families are gated by scope overlap, framework families by the detected
-    framework; `usage` rules are conversation-scoped and never auto-selected.
+    framework; `usage` and `tokens` rules are conversation-scoped and never
+    auto-selected.
     """
     scopes = set(context.get("scopes", []))
     frameworks = set(context.get("frameworks", []))
@@ -209,7 +210,7 @@ def select_rule_ids(context: dict, rules: list[dict],
     selected = []
     for r in rules:
         family = r["_family"]
-        if family == "usage":
+        if family in ("usage", "tokens"):
             continue
         if family in FRAMEWORK_FAMILIES:
             if FRAMEWORK_FAMILIES[family] in frameworks:

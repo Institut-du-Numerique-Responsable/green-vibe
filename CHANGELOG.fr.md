@@ -7,6 +7,23 @@ française de [CHANGELOG.md](CHANGELOG.md).
 
 ## Non publié
 
+- Installeur sobre : `rsync --delete --delete-excluded` remplace la copie
+  complète, la copie installée ne porte que ce que le plugin charge et
+  supprime les fichiers retirés en amont. Les artefacts de développement
+  (`.git`, `tests/`, `evals/`, caches, `.remember`) sont exclus, et la
+  vérification post-installation tourne avec `python3 -B` : aucun bytecode
+  ne finit dans la copie installée.
+- `install.sh update` : récupère les changements du dépôt source
+  (fast-forward uniquement) et resynchronise la copie installée, en
+  affichant le changement de version.
+- Mises à jour automatiques : un hook `post_agent` fail-open
+  (`green-vibe-auto-update`) vérifie le dépôt source au plus une fois par
+  jour (tampon), ne pull que sur un arbre propre, resynchronise la copie
+  installée puis demande un `/reload-plugins`. Suspension :
+  `touch ~/.vibe/.green-vibe/no-autoupdate`. Portée utilisateur uniquement.
+- `install.sh uninstall [project]` remplace le `rm -rf` manuel ; la portée
+  projet se résout à la racine git de l'appelant.
+
 - 30 règles NR-TOK de sobriété des tokens (`rules/tokens.json`) : réponses,
   contexte, opérations, choix du modèle, qualité et mesure. Chaque fiche
   porte le niveau INR (7 obligatoires, 5 conditionnelles, 18 recommandées) et

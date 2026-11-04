@@ -6,6 +6,21 @@ This file records the changes in each version (SemVer).
 
 ## Unreleased
 
+- Sober installer: `rsync --delete --delete-excluded` replaces the full copy,
+  so the installed tree carries only what the plugin loads and prunes files
+  removed upstream. Development artifacts (`.git`, `tests/`, `evals/`,
+  caches, `.remember`) are excluded, and the post-install validator check
+  runs with `python3 -B` so no bytecode lands in the installed copy.
+- `install.sh update`: pulls the source repository (fast-forward only) and
+  re-syncs the installed copy, reporting the version change.
+- Automatic updates: a fail-open `post_agent` hook (`green-vibe-auto-update`)
+  checks the source repository at most once a day (stamp-throttled), pulls
+  only on a clean tree and re-syncs the installed copy, then asks for
+  `/reload-plugins`. Pause with `touch ~/.vibe/.green-vibe/no-autoupdate`.
+  User scope only.
+- `install.sh uninstall [project]` replaces the manual `rm -rf`; the project
+  scope resolves to the caller's git root.
+
 - 30 NR-TOK token sobriety rules (`rules/tokens.json`): replies, context,
   operations, model choice, quality and measurement. Each sheet carries the
   INR level (7 mandatory, 5 conditional, 18 recommended) and `see` links to

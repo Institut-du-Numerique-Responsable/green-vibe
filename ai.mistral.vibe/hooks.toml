@@ -10,3 +10,11 @@ match = "re:^(write_file|edit)$"
 command = "python3 \"$HOME/.vibe/plugins/green-vibe/ai.mistral.vibe/hooks/post_edit.py\" 2>/dev/null || python3 .vibe/plugins/green-vibe/ai.mistral.vibe/hooks/post_edit.py 2>/dev/null || true"
 timeout = 20.0
 description = "Audit NR candidates in what the write added (fail-open, diff-scoped)"
+
+[[hooks]]
+name = "green-vibe-auto-update"
+type = "post_agent"
+match = "main"
+command = "bash \"$HOME/.vibe/plugins/green-vibe/scripts/auto_update.sh\" 2>/dev/null || true"
+timeout = 20.0
+description = "Sync the installed plugin with its source repository, once a day (fail-open)"
